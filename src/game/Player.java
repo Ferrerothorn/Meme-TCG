@@ -21,8 +21,8 @@ public class Player {
 		lifeTotal = maxLifeTotal;
 	}
 
-	public Deck getDeck() {
-		return deck;
+	public ArrayList<Card> getDeck() {
+		return deck.cards;
 	}
 
 	public ArrayList<Card> getHand() {
@@ -122,5 +122,10 @@ public class Player {
 		this.deck.addAll(this.hand);
 		this.hand.clear();
 		this.lifeTotal = 30;
+	}
+
+	public void movePile(ArrayList<Card> targetPile, ArrayList<Card> sourcePile) {
+		targetPile.addAll(sourcePile);
+		sourcePile.clear();
 	}
 }

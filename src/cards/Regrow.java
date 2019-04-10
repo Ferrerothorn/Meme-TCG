@@ -17,7 +17,7 @@ public class Regrow extends Card {
 			Collections.shuffle(self.grave);
 			self.getDeck().add(self.grave.remove(0));
 			self.getDeck().add(self.grave.remove(0));
-			Collections.shuffle(self.getDeck().cards);
+			Collections.shuffle(self.getDeck());
 		}
 	}
 }

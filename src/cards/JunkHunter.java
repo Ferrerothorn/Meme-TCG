@@ -11,10 +11,10 @@ public class JunkHunter extends Card {
 	
 	@Override
 	public void onentry(Player self, Player opponent) {
-		for (Card c : self.getDeck().cards) {
+		for (Card c : self.getDeck()) {
 			if (c.getName().contains("Junk")) {
 				self.getHand().add(c);
-				self.getDeck().cards.remove(c);
+				self.getDeck().remove(c);
 				break;
 			}
 		}

@@ -10,8 +10,8 @@ public class Sparkwave extends Card {
 
 	@Override
 	public void onentry(Player self, Player opponent) {
-		if (self.getDeck().cards.size() > 0) {
-			if (self.getDeck().cards.get(0).getName().contains("Zap")) {
+		if (self.getDeck().size() > 0) {
+			if (self.getDeck().get(0).getName().contains("Zap")) {
 				opponent.lifeTotal -= 7;
 			} else {
 				opponent.lifeTotal -= 1;

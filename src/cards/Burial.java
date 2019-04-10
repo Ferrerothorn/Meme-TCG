@@ -30,7 +30,7 @@ public class Burial extends Card {
 					hatelist.add(cs);
 				}
 			}
-			for (Card cs: opponent.getDeck().cards) {
+			for (Card cs: opponent.getDeck()) {
 				if(cs.getName().equals(c)) {
 					hatelist.add(cs);
 				}
@@ -39,7 +39,7 @@ public class Burial extends Card {
 			opponent.rfg.addAll(hatelist);
 			opponent.getHand().removeAll(hatelist);
 			opponent.grave.removeAll(hatelist);
-			opponent.getDeck().cards.removeAll(hatelist);
+			opponent.getDeck().removeAll(hatelist);
 		}
 		else {
 			self.draw();

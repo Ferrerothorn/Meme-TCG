@@ -16,13 +16,13 @@ public class Zapstarter extends Card {
 		self.getDeck().addAll(self.getHand());
 		self.getHand().clear();
 		ArrayList<Card> zaps = new ArrayList<>();
-		for (Card c : self.getDeck().cards) {
+		for (Card c : self.getDeck()) {
 			if (c.name.contains("Zap")) {
 				zaps.add(c);
 			}
 		}
 		self.getHand().addAll(zaps);
-		self.getDeck().cards.removeAll(zaps);
+		self.getDeck().removeAll(zaps);
 		if (self.getHand().size() == 0) {
 			self.draw();
 		}

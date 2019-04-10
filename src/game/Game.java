@@ -65,13 +65,14 @@ public class Game {
 
 				if (p2.getDeck().size() + p1.getDeck().size() != 60) {
 					System.out.println("One or more decks isn't correct (@30 cards).");
-					System.out.println(p1.name + ": " + p1.getDeck().cards.size());
-					System.out.println(p2.name + ": " + p2.getDeck().cards.size());
+					System.out.println(p1.name + ": " + p1.getDeck().size());
+					System.out.println(p2.name + ": " + p2.getDeck().size());
 					break;
 				}
 
-				System.out.println(p1.getName() + " wins " + ((100 * grind25k(p1, p2)) / 25000) + "% of games against "
-						+ p2.getName() + ".");
+				System.out.println(
+						p1.getName() + " wins " + grind25k(p1, p2) + "% of games against " + p2.getName() + ".");
+				break;
 
 			case 7:
 				System.out.println(
@@ -82,13 +83,13 @@ public class Game {
 				generateDeck(boss, parsebossname[1]);
 
 				generateDecklists(1);
-				int winrate = grind25k(players.get(0), boss);
-				while (winrate < 60) {
+				int winrate = 0;
+				while (winrate < 55) {
 					players.clear();
 					generateDecklists(1);
 					winrate = grind25k(players.get(0), boss);
+					System.out.println(winrate + ": " + analyseTopCut());
 				}
-				analyseTopCut();
 				System.out.println();
 				break;
 
@@ -107,6 +108,8 @@ public class Game {
 			if (play(p1, p2).equals(p1)) {
 				p1winrate++;
 			}
+			p1.cleanup();
+			p2.cleanup();
 			if (play(p2, p1).equals(p1)) {
 				p1winrate++;
 			}
@@ -120,7 +123,7 @@ public class Game {
 			String[] cardQty = s.split("-");
 			for (int i = Integer.parseInt(cardQty[1]); i > 0; i--) {
 				Card c = findCardByName(cardQty[0]);
-				p1.getDeck().cards.add(c);
+				p1.getDeck().add(c);
 			}
 		}
 		p1.shuffle();
@@ -137,12 +140,12 @@ public class Game {
 		return null;
 	}
 
-	private static void analyseTopCut() {
+	private static String analyseTopCut() {
 		System.out.println();
 		System.out.println();
 		HashMap<String, Integer> topCut = new HashMap<>();
 		for (Player p : players) {
-			for (Card c : p.getDeck().cards) {
+			for (Card c : p.getDeck()) {
 				topCut.put(c.getName(), topCut.getOrDefault(c.getName(), 0) + 1);
 			}
 		}
@@ -153,10 +156,10 @@ public class Game {
 		Iterator it = topCut.entrySet().iterator();
 		while (it.hasNext()) {
 			Map.Entry pair = (Map.Entry) it.next();
-			System.out.println(pair.getKey() + ": " + pair.getValue());
+			// System.out.println(pair.getKey() + ": " + pair.getValue());
 			decklist += pair.getKey() + "-" + pair.getValue() + ",";
 		}
-		System.out.println(decklist);
+		return decklist;
 	}
 
 	private static HashMap sortByValues(HashMap map) {
@@ -180,6 +183,8 @@ public class Game {
 		p2.lifeTotal = 30;
 		if (p1.deck.cards.size() != 30 || p2.deck.cards.size() != 30) {
 			System.out.println("Definitely a problem.");
+			System.out.println("P1 deck: " + p1.deck.cards.size());
+			System.out.println("P2 deck: " + p2.deck.cards.size());
 		}
 		p1.drawX(5);
 		p2.drawX(5);
@@ -199,6 +204,9 @@ public class Game {
 			}
 
 			for (Card c : p1.grave) {
+				if (!p2.isAlive() || !p1.isAlive()) {
+					break;
+				}
 				c.graveAbility(p1, p2);
 			}
 
@@ -219,6 +227,9 @@ public class Game {
 			}
 
 			for (Card c : p2.grave) {
+				if (!p2.isAlive() || !p1.isAlive()) {
+					break;
+				}
 				c.graveAbility(p2, p1);
 			}
 
@@ -249,18 +260,28 @@ public class Game {
 			}
 
 			Player p = new Player(name);
-			while (p.getDeck().cards.size() < 30) {
+			while (p.getDeck().size() < 30) {
 				Collections.shuffle(cardPool);
 				Card c = cardPool.get(0);
-				if (p.getDeck().cardCount(c.getName()) < 4) {
-					p.getDeck().cards.add(c);
+				if (cardCount(p.getDeck(), c.getName()) < 4) {
+					p.getDeck().add(c);
 				}
-				if (p.getDeck().cardCount(c.getName()) < 2 && p.getDeck().cards.size() < 30) {
-					p.getDeck().cards.add(c);
+				if (cardCount(p.getDeck(), c.getName()) < 2 && p.getDeck().size() < 30) {
+					p.getDeck().add(c);
 				}
 			}
 			players.add(p);
 		}
+	}
+
+	private static int cardCount(ArrayList<Card> deck, String name) {
+		int i = 0;
+		for (Card cs : deck) {
+			if (cs.getName().equals(name)) {
+				i++;
+			}
+		}
+		return i;
 	}
 
 	private static void instantiateCardpool() {
@@ -274,6 +295,9 @@ public class Game {
 		cardPool.add(new Sycamore());
 		cardPool.add(new Lifezap());
 		cardPool.add(new HandyRobot());
+		cardPool.add(new CowardlyRobot());
+		cardPool.add(new Damnation());
+		cardPool.add(new PeaceTreaty());
 		cardPool.add(new WickedRobot());
 		cardPool.add(new AncestralRecall());
 		cardPool.add(new AccumulatedKnowledge());
@@ -286,8 +310,11 @@ public class Game {
 		cardPool.add(new Sinkhole());
 		cardPool.add(new Mend());
 		cardPool.add(new ComebackZap());
+		cardPool.add(new Timetwister());
 		cardPool.add(new Amnesia());
+		cardPool.add(new Parry());
 		cardPool.add(new BodySwap());
+		cardPool.add(new TheRack());
 		cardPool.add(new MulchMunch());
 		cardPool.add(new Sparkwave());
 		cardPool.add(new Regrow());
