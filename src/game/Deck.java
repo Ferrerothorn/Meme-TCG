@@ -1,0 +1,46 @@
+package game;
+
+import java.util.ArrayList;
+import java.util.Collections;
+
+import cards.Card;
+
+public class Deck {
+
+	public ArrayList<Card> cards = new ArrayList<>();
+
+	public void add(Card c) {
+		cards.add(c);
+	}
+
+	public int cardCount(String string) {
+		int i = 0;
+		for (Card cs : cards) {
+			if (cs.getName().equals(string)) {
+				i++;
+			}
+		}
+		return i;
+	}
+
+	public int size() {
+		return cards.size();
+	}
+
+	public void shuffle() {
+		Collections.shuffle(cards);
+	}
+
+	public Card remove(int i) {
+		return cards.remove(0);
+	}
+
+	public void addAll(ArrayList<Card> newCards) {
+		cards.addAll(newCards);
+	}
+
+	public void addCard(Card c) {
+		cards.add(c);
+	}
+
+}

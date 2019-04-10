@@ -1,0 +1,297 @@
+package game;
+
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.LinkedHashMap;
+import java.util.LinkedList;
+import java.util.Map;
+import java.util.Scanner;
+
+import cards.*;
+
+public class Game {
+
+	public static ArrayList<Player> players = new ArrayList<>();
+	public static ArrayList<Card> cardPool = new ArrayList<>();
+
+	public static void main(String[] args) {
+		instantiateCardpool();
+		Scanner input = new Scanner(System.in);
+
+		while (true) {
+			System.out.println();
+			System.out.println("===Choose a command===");
+			System.out.println("0: Run randomised tournament.");
+			System.out.println("5: Compare two decks.");
+			System.out.println("7: Generate a 'solution' to a deck.");
+			System.out.println("999: Quit.");
+			System.out.println();
+			int choice = input.nextInt();
+			input.nextLine();
+
+			switch (choice) {
+
+			case 0:
+				System.out.println("Generating 500k decklists.");
+				generateDecklists(500000);
+				Collections.shuffle(players);
+				System.out.println("Running tournament.");
+				while (players.size() > 1) {
+					Player p1 = players.remove(0);
+					Player p2 = players.remove(0);
+					Player winner = play(p1, p2);
+					players.add(winner);
+				}
+				analyseTopCut();
+				System.out.println();
+				break;
+			case 5:
+				System.out
+						.println("Enter player 1's name and decklist. (Format should be 'Name:Zap-4,Life Zap-3,...')");
+				String p1info = input.nextLine();
+				String[] parsename = p1info.split(":");
+				Player p1 = new Player(parsename[0]);
+				generateDeck(p1, parsename[1]);
+
+				System.out
+						.println("Enter player 2's name and decklist. (Format should be 'Name:Zap-4,Life Zap-3,...')");
+				String p2info = input.nextLine();
+				String[] parsename2 = p2info.split(":");
+				Player p2 = new Player(parsename2[0]);
+				generateDeck(p2, parsename2[1]);
+
+				if (p2.getDeck().size() + p1.getDeck().size() != 60) {
+					System.out.println("One or more decks isn't correct (@30 cards).");
+					System.out.println(p1.name + ": " + p1.getDeck().cards.size());
+					System.out.println(p2.name + ": " + p2.getDeck().cards.size());
+					break;
+				}
+
+				System.out.println(p1.getName() + " wins " + ((100 * grind25k(p1, p2)) / 25000) + "% of games against "
+						+ p2.getName() + ".");
+
+			case 7:
+				System.out.println(
+						"Enter the player+deck intended to beat. (Format should be 'Name:Zap-4,Life Zap-3,...')");
+				String bossDeckInfo = input.nextLine();
+				String[] parsebossname = bossDeckInfo.split(":");
+				Player boss = new Player(parsebossname[0]);
+				generateDeck(boss, parsebossname[1]);
+
+				generateDecklists(1);
+				int winrate = grind25k(players.get(0), boss);
+				while (winrate < 60) {
+					players.clear();
+					generateDecklists(1);
+					winrate = grind25k(players.get(0), boss);
+				}
+				analyseTopCut();
+				System.out.println();
+				break;
+
+			case 999:
+				input.close();
+				System.exit(0);
+				break;
+			}
+		}
+
+	}
+
+	private static int grind25k(Player p1, Player p2) {
+		int p1winrate = 0;
+		for (int i = 0; i < 12500; i++) {
+			if (play(p1, p2).equals(p1)) {
+				p1winrate++;
+			}
+			if (play(p2, p1).equals(p1)) {
+				p1winrate++;
+			}
+		}
+		return (100 * p1winrate) / 25000;
+	}
+
+	private static void generateDeck(Player p1, String p1deck) {
+		String[] cards = p1deck.split(",");
+		for (String s : cards) {
+			String[] cardQty = s.split("-");
+			for (int i = Integer.parseInt(cardQty[1]); i > 0; i--) {
+				Card c = findCardByName(cardQty[0]);
+				p1.getDeck().cards.add(c);
+			}
+		}
+		p1.shuffle();
+	}
+
+	private static Card findCardByName(String string) {
+		for (Card c : cardPool) {
+			if (c.getName().equals(string)) {
+				return c;
+			}
+		}
+		System.out.println("Can't find a card called: " + string);
+		System.exit(0);
+		return null;
+	}
+
+	private static void analyseTopCut() {
+		System.out.println();
+		System.out.println();
+		HashMap<String, Integer> topCut = new HashMap<>();
+		for (Player p : players) {
+			for (Card c : p.getDeck().cards) {
+				topCut.put(c.getName(), topCut.getOrDefault(c.getName(), 0) + 1);
+			}
+		}
+
+		topCut = sortByValues(topCut);
+
+		String decklist = "";
+		Iterator it = topCut.entrySet().iterator();
+		while (it.hasNext()) {
+			Map.Entry pair = (Map.Entry) it.next();
+			System.out.println(pair.getKey() + ": " + pair.getValue());
+			decklist += pair.getKey() + "-" + pair.getValue() + ",";
+		}
+		System.out.println(decklist);
+	}
+
+	private static HashMap sortByValues(HashMap map) {
+		LinkedList list = new LinkedList(map.entrySet());
+		Collections.sort(list, new Comparator() {
+			@Override
+			public int compare(Object o1, Object o2) {
+				return ((Comparable) ((Map.Entry) (o2)).getValue()).compareTo(((Map.Entry) (o1)).getValue());
+			}
+		});
+		HashMap sortedHashMap = new LinkedHashMap();
+		for (Iterator it = list.iterator(); it.hasNext();) {
+			Map.Entry entry = (Map.Entry) it.next();
+			sortedHashMap.put(entry.getKey(), entry.getValue());
+		}
+		return sortedHashMap;
+	}
+
+	private static Player play(Player p1, Player p2) {
+		p1.lifeTotal = 30;
+		p2.lifeTotal = 30;
+		if (p1.deck.cards.size() != 30 || p2.deck.cards.size() != 30) {
+			System.out.println("Definitely a problem.");
+		}
+		p1.drawX(5);
+		p2.drawX(5);
+		while (p1.isAlive() && p2.isAlive()) {
+			int p1playsPerTurn = p1.playsPerTurn;
+			int p2playsPerTurn = p2.playsPerTurn;
+			p1.draw();
+			if (!p1.isAlive() || !p2.isAlive()) {
+				break;
+			}
+			while (p1playsPerTurn > 0) {
+				p1.makePlay(p2);
+				p1playsPerTurn--;
+				if (!p1.isAlive() || !p2.isAlive()) {
+					break;
+				}
+			}
+
+			for (Card c : p1.grave) {
+				c.graveAbility(p1, p2);
+			}
+
+			if (!p1.isAlive() || !p2.isAlive()) {
+				break;
+			}
+
+			p2.draw();
+			if (!p1.isAlive() || !p2.isAlive()) {
+				break;
+			}
+			while (p2playsPerTurn > 0) {
+				p2.makePlay(p1);
+				p2playsPerTurn--;
+				if (!p2.isAlive() || !p1.isAlive()) {
+					break;
+				}
+			}
+
+			for (Card c : p2.grave) {
+				c.graveAbility(p2, p1);
+			}
+
+			if (!p1.isAlive() || !p2.isAlive()) {
+				break;
+			}
+		}
+		if (p1.isAlive()) {
+			p1.cleanup();
+			p2.cleanup();
+			return p1;
+		}
+
+		p1.cleanup();
+		p2.cleanup();
+		return p2;
+	}
+
+	private static void generateDecklists(int i) {
+		for (int ps = 0; ps < i; ps++) {
+			String name = null;
+			final String alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+			StringBuilder builder = new StringBuilder();
+			for (int length = 5; length > 0; length--) {
+				int character = (int) (Math.random() * alphabet.length());
+				builder.append(alphabet.charAt(character));
+				name = builder.toString();
+			}
+
+			Player p = new Player(name);
+			while (p.getDeck().cards.size() < 30) {
+				Collections.shuffle(cardPool);
+				Card c = cardPool.get(0);
+				if (p.getDeck().cardCount(c.getName()) < 4) {
+					p.getDeck().cards.add(c);
+				}
+				if (p.getDeck().cardCount(c.getName()) < 2 && p.getDeck().cards.size() < 30) {
+					p.getDeck().cards.add(c);
+				}
+			}
+			players.add(p);
+		}
+	}
+
+	private static void instantiateCardpool() {
+		cardPool.add(new Zap());
+		cardPool.add(new GigaZap());
+		cardPool.add(new Ignite());
+		cardPool.add(new Zapstarter());
+		cardPool.add(new Grindstone());
+		cardPool.add(new ColossalJunkChucker());
+		cardPool.add(new ZapAndTap());
+		cardPool.add(new Sycamore());
+		cardPool.add(new Lifezap());
+		cardPool.add(new HandyRobot());
+		cardPool.add(new WickedRobot());
+		cardPool.add(new AncestralRecall());
+		cardPool.add(new AccumulatedKnowledge());
+		cardPool.add(new Heal());
+		cardPool.add(new Burial());
+		cardPool.add(new JunkChucker());
+		cardPool.add(new JunkHunter());
+		cardPool.add(new Mill());
+		cardPool.add(new PoisonFrog());
+		cardPool.add(new Sinkhole());
+		cardPool.add(new Mend());
+		cardPool.add(new ComebackZap());
+		cardPool.add(new Amnesia());
+		cardPool.add(new BodySwap());
+		cardPool.add(new MulchMunch());
+		cardPool.add(new Sparkwave());
+		cardPool.add(new Regrow());
+		cardPool.add(new EternalHerb());
+		cardPool.add(new TempoDrain());
+	}
+}
