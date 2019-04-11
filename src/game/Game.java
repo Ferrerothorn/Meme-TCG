@@ -45,8 +45,7 @@ public class Game {
 					Player winner = play(p1, p2);
 					players.add(winner);
 				}
-				analyseTopCut();
-				System.out.println();
+				System.out.println(analyseTopCut());
 				break;
 			case 5:
 				System.out
