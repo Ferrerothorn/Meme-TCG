@@ -13,6 +13,7 @@ public class Timetwister extends Card {
 	
 	@Override
 	public void onentry(Player self, Player opponent) {
+		self.grave.remove(this);
 		self.movePile(self.getDeck(), self.grave);
 		self.movePile(self.getDeck(), self.getHand());
 		Collections.shuffle(self.getDeck());
@@ -21,5 +22,6 @@ public class Timetwister extends Card {
 		Collections.shuffle(opponent.getDeck());
 		self.drawX(3);
 		opponent.drawX(3);
+		self.rfg.add(this);
 	}	
 }
