@@ -285,16 +285,7 @@ public class Game {
 
 	private static void generateDecklists(int i) {
 		for (int ps = 0; ps < i; ps++) {
-			String name = null;
-			final String alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
-			StringBuilder builder = new StringBuilder();
-			for (int length = 5; length > 0; length--) {
-				int character = (int) (Math.random() * alphabet.length());
-				builder.append(alphabet.charAt(character));
-				name = builder.toString();
-			}
-
-			Player p = new Player(name);
+			Player p = new Player("");
 			while (p.getDeck().size() < 30) {
 				Collections.shuffle(cardPool);
 				Card c = cardPool.get(0);
