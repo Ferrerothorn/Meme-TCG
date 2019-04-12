@@ -1,6 +1,7 @@
 package cards;
 
 import java.util.ArrayList;
+import java.util.Collections;
 
 import game.Player;
 
@@ -15,6 +16,7 @@ public class Zapstarter extends Card {
 	public void onentry(Player self, Player opponent) {
 		self.getDeck().addAll(self.getHand());
 		self.getHand().clear();
+		Collections.shuffle(self.getDeck());
 		ArrayList<Card> zaps = new ArrayList<>();
 		for (Card c : self.getDeck()) {
 			if (c.name.contains("Zap")) {
