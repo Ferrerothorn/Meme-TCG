@@ -83,11 +83,14 @@ public class Game {
 
 				generateDecklists(1);
 				int winrate = 0;
-				while (winrate < 55) {
+				while (winrate < 75) {
 					players.clear();
 					generateDecklists(1);
-					winrate = grind25k(players.get(0), boss);
-					System.out.println(winrate + ": " + analyseTopCut());
+					winrate = grindGames(players.get(0), boss, 3000);
+					System.gc();
+					if (winrate > 50) {
+						System.out.println(winrate + ":" + analyseTopCut());
+					}
 				}
 				System.out.println();
 				break;
