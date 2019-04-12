@@ -122,6 +122,7 @@ public class Player {
 		this.rfg.clear();
 		this.deck.addAll(this.hand);
 		this.hand.clear();
+		this.deck.remove("Corrupted Blood");
 		this.lifeTotal = 30;
 	}
 
