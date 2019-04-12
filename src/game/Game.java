@@ -53,14 +53,14 @@ public class Game {
 				String p1info = input.nextLine();
 				String[] parsename = p1info.split(":");
 				Player p1 = new Player(parsename[0]);
-				generateDeck(p1, parsename[1]);
+				parseDeckFromLine(p1, parsename[1]);
 
 				System.out
 						.println("Enter player 2's name and decklist. (Format should be 'Name:Zap-4,Life Zap-3,...')");
 				String p2info = input.nextLine();
 				String[] parsename2 = p2info.split(":");
 				Player p2 = new Player(parsename2[0]);
-				generateDeck(p2, parsename2[1]);
+				parseDeckFromLine(p2, parsename2[1]);
 
 				if (p2.getDeck().size() + p1.getDeck().size() != 60) {
 					System.out.println("One or more decks isn't correct (@30 cards).");
@@ -79,7 +79,7 @@ public class Game {
 				String bossDeckInfo = input.nextLine();
 				String[] parsebossname = bossDeckInfo.split(":");
 				Player boss = new Player(parsebossname[0]);
-				generateDeck(boss, parsebossname[1]);
+				parseDeckFromLine(boss, parsebossname[1]);
 
 				generateDecklists(1);
 				int winrate = 0;
@@ -116,7 +116,7 @@ public class Game {
 		return (100 * p1winrate) / 25000;
 	}
 
-	private static void generateDeck(Player p1, String p1deck) {
+	private static void parseDeckFromLine(Player p1, String p1deck) {
 		String[] cards = p1deck.split(",");
 		for (String s : cards) {
 			String[] cardQty = s.split("-");
