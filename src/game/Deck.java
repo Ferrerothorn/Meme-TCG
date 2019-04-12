@@ -34,6 +34,17 @@ public class Deck {
 	public Card remove(int i) {
 		return cards.remove(0);
 	}
+	
+	public ArrayList<Card> remove(String string) {
+		ArrayList<Card> filter = new ArrayList<>();
+		for(Card c : cards) {
+			if (c.getName().equals(string)) {
+				filter.add(c);
+			}
+		}
+		cards.removeAll(filter);				
+		return filter;
+	}
 
 	public void addAll(ArrayList<Card> newCards) {
 		cards.addAll(newCards);
