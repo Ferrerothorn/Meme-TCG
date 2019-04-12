@@ -302,6 +302,7 @@ public class Game {
 		cardPool.add(new Sycamore());
 		cardPool.add(new Lifezap());
 		cardPool.add(new HandyRobot());
+		cardPool.add(new ChargedLaser());
 		cardPool.add(new CowardlyRobot());
 		cardPool.add(new Damnation());
 		cardPool.add(new PeaceTreaty());
@@ -327,5 +328,10 @@ public class Game {
 		cardPool.add(new Regrow());
 		cardPool.add(new EternalHerb());
 		cardPool.add(new TempoDrain());
+		cardPool.add(new ThoughtScour());
+		cardPool.add(new Gesper());
+		cardPool.add(new Apparition());
+		cardPool.add(new DarkZap());
+		cardPool.add(new CorporateShredder());
 	}
 }
