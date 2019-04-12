@@ -13,10 +13,12 @@ public class CorruptedBlood extends Card {
 	
 	@Override
 	public void onentry(Player self, Player opponent) {
-		self.lifeTotal -= 2;
+
+		self.getDeck().add(new CorruptedBlood());
+		self.getDeck().add(new CorruptedBlood());
+		self.lifeTotal -= (self.cardCount(self.getDeck(), "Corrupted Blood")+1);
+		
 		self.draw();
-		self.getDeck().add(new CorruptedBlood());
-		self.getDeck().add(new CorruptedBlood());
 		Collections.shuffle(self.getDeck());
 	}	
 }
