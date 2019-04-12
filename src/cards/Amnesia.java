@@ -13,5 +13,4 @@ public class Amnesia extends Card {
 		opponent.randomDiscard();
 		opponent.randomDiscard();
 	}
-
 }
