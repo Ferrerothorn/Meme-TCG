@@ -197,7 +197,7 @@ public class Game {
 			if (!p1.isAlive() || !p2.isAlive()) {
 				break;
 			}
-			while (p1playsPerTurn > 0) {
+			while (p1playsPerTurn > 0 && p1.getHand().size() > 0) {
 				p1.makePlay(p2);
 				p1playsPerTurn--;
 				if (!p1.isAlive() || !p2.isAlive()) {
@@ -223,7 +223,7 @@ public class Game {
 			if (!p1.isAlive() || !p2.isAlive()) {
 				break;
 			}
-			while (p2playsPerTurn > 0) {
+			while (p2playsPerTurn > 0 && p2.getHand().size() > 0) {
 				p2.makePlay(p1);
 				p2playsPerTurn--;
 				if (!p2.isAlive() || !p1.isAlive()) {
