@@ -12,8 +12,6 @@ public class Apparition extends Card {
 
 	@Override
 	public void onentry(Player self, Player opponent) {
-		self.rfg.add(this);
-		self.grave.remove(this);
 		if (self.grave.size() > 0) {
 			Collections.shuffle(self.grave);
 			if (!self.grave.get(0).getName().equals("Apparition")) {
