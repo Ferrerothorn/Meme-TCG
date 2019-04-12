@@ -10,6 +10,8 @@ public class TheRack extends Card {
 
 	@Override
 	public void graveAbility(Player self, Player opponent) {
-		opponent.lifeTotal -= (3 - opponent.getHand().size());
+		if (opponent.getHand().size() <= 2) {
+			opponent.lifeTotal -= (2 - opponent.getHand().size());
+		}
 	}
 }
