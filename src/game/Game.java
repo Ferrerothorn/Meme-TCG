@@ -199,12 +199,15 @@ public class Game {
 				}
 			}
 
-			for (Card c : p1.grave) {
+			ArrayList<Card> triggers = new ArrayList<>();
+			triggers.addAll(p1.grave);
+			for (Card c : triggers) {
 				if (!p2.isAlive() || !p1.isAlive()) {
 					break;
 				}
 				c.graveAbility(p1, p2);
 			}
+			triggers.clear();
 
 			if (!p1.isAlive() || !p2.isAlive()) {
 				break;
@@ -222,12 +225,14 @@ public class Game {
 				}
 			}
 
-			for (Card c : p2.grave) {
+			triggers.addAll(p2.grave);
+			for (Card c : triggers) {
 				if (!p2.isAlive() || !p1.isAlive()) {
 					break;
 				}
 				c.graveAbility(p2, p1);
 			}
+			triggers.clear();
 
 			if (!p1.isAlive() || !p2.isAlive()) {
 				break;
