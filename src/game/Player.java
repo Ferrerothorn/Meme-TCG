@@ -96,7 +96,8 @@ public class Player {
 			Card c = hand.remove(0);
 			grave.add(c);
 			c.onentry(this, opponent);
-			//System.out.println(this.name + " casts " + c.getName() + ". (" + lifeTotal + ")-(" + opponent.getLife() + ")");
+			// System.out.println(this.name + " casts " + c.getName() + ". (" + lifeTotal +
+			// ")-(" + opponent.getLife() + ")");
 		}
 	}
 
@@ -127,5 +128,13 @@ public class Player {
 	public void movePile(ArrayList<Card> targetPile, ArrayList<Card> sourcePile) {
 		targetPile.addAll(sourcePile);
 		sourcePile.clear();
+	}
+
+	public void rfgFromDeck(int x) {
+		for (int i = 0; i < x; i++) {
+			if (getDeck().size() > 0) {
+				rfg.add(getDeck().remove(0));
+			}
+		}
 	}
 }
