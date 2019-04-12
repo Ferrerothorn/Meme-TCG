@@ -12,16 +12,18 @@ public class DarkTransfusion extends Card {
 
 	@Override
 	public void onentry(Player self, Player opponent) {
-		opponent.getDeck().add(new CorruptedBlood());
+		Card c = opponent.rfgTop();
+		if (c != null) {
+			c.onentry(self, opponent);
+			c.graveAbility(self, opponent);
+		}
 		opponent.getDeck().add(new CorruptedBlood());
 		Collections.shuffle(opponent.getDeck());
-		self.getDeck().add(this);
-		self.grave.remove(this);
 	}
 
 	@Override
 	public void graveAbility(Player self, Player opponent) {
-		self.getDeck().add(this);
-		self.grave.remove(this);
+		// self.getDeck().add(this);
+		// self.grave.remove(this);
 	}
 }
