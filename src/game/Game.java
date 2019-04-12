@@ -69,8 +69,8 @@ public class Game {
 					break;
 				}
 
-				System.out.println(
-						p1.getName() + " wins " + grind25k(p1, p2) + "% of games against " + p2.getName() + ".");
+				System.out.println(p1.getName() + " wins " + grindGames(p1, p2, 25000) + "% of games against "
+						+ p2.getName() + ".");
 				break;
 
 			case 7:
@@ -101,9 +101,9 @@ public class Game {
 
 	}
 
-	private static int grind25k(Player p1, Player p2) {
+	private static int grindGames(Player p1, Player p2, int bestOf) {
 		int p1winrate = 0;
-		for (int i = 0; i < 12500; i++) {
+		for (int i = 0; i < (bestOf / 2); i++) {
 			if (play(p1, p2).equals(p1)) {
 				p1winrate++;
 			}
@@ -148,14 +148,11 @@ public class Game {
 				topCut.put(c.getName(), topCut.getOrDefault(c.getName(), 0) + 1);
 			}
 		}
-
 		topCut = sortByValues(topCut);
-
 		String decklist = "";
 		Iterator it = topCut.entrySet().iterator();
 		while (it.hasNext()) {
 			Map.Entry pair = (Map.Entry) it.next();
-			// System.out.println(pair.getKey() + ": " + pair.getValue());
 			decklist += pair.getKey() + "-" + pair.getValue() + ",";
 		}
 		return decklist;
