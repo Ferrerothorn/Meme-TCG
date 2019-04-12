@@ -113,7 +113,7 @@ public class Game {
 				p1winrate++;
 			}
 		}
-		return (100 * p1winrate) / 25000;
+		return (100 * p1winrate) / bestOf;
 	}
 
 	private static void parseDeckFromLine(Player p1, String p1deck) {
@@ -177,6 +177,9 @@ public class Game {
 	private static Player play(Player p1, Player p2) {
 		p1.lifeTotal = 30;
 		p2.lifeTotal = 30;
+		p1.playsPerTurn = 2;
+		p2.playsPerTurn = 2;
+
 		if (p1.deck.cards.size() != 30 || p2.deck.cards.size() != 30) {
 			System.out.println("Definitely a problem.");
 			System.out.println("P1 deck: " + p1.deck.cards.size());
