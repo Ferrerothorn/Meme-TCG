@@ -10,8 +10,11 @@ public class Damnation extends Card {
 
 	@Override
 	public void onentry(Player self, Player opponent) {
-		opponent.movePile(opponent.grave, opponent.rfg);
-		self.movePile(self.grave, self.rfg);
+		opponent.movePile(opponent.rfg, opponent.grave);
+		if(self.playsPerTurn<2) {
+		self.playsPerTurn = 2;
+		}
+		opponent.playsPerTurn = 2;
 		self.draw();
 	}
 }
