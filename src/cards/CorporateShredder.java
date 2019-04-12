@@ -12,7 +12,7 @@ public class CorporateShredder extends Card {
 
 	@Override
 	public void onentry(Player self, Player opponent) {
-		self.draw();
+		self.rfgFromDeck(1);
 	}
 
 	@Override
