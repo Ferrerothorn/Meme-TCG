@@ -273,13 +273,12 @@ public class Game {
 				break;
 			}
 		}
-		if (p1.isAlive()) {
-			p1.cleanup();
-			p2.cleanup();
-			return p1;
-		}
+
 		p1.cleanup();
 		p2.cleanup();
+		if (p1.isAlive()) {
+			return p1;
+		}
 		return p2;
 	}
 
