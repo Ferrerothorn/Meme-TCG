@@ -26,6 +26,7 @@ public class Game {
 			System.out.println("===Choose a command===");
 			System.out.println("0: Run randomised tournament.");
 			System.out.println("5: Compare two decks.");
+			System.out.println("6: Compare one deck against a multitude of other decks.");
 			System.out.println("7: Generate a 'solution' to a deck.");
 			System.out.println("999: Quit.");
 			System.out.println();
@@ -68,9 +69,38 @@ public class Game {
 					System.out.println(p2.name + ": " + p2.getDeck().size());
 					break;
 				}
-
 				System.out.println(p1.getName() + " wins " + grindGames(p1, p2, 25000) + "% of games against "
 						+ p2.getName() + ".");
+				break;
+
+			case 6:
+				System.out
+						.println("Enter player 1's name and decklist. (Format should be 'Name:Zap-4,Life Zap-3,...')");
+				String bossInfo = input.nextLine();
+				String[] parseBossName = bossInfo.split(":");
+				Player boss = new Player(parseBossName[0]);
+				parseDeckFromLine(boss, parseBossName[1]);
+
+				System.out.println("Enter any number of other decklists in the same format, separated by '/'.");
+				String gauntletInfo = input.nextLine();
+				System.out.println();
+				String[] gauntlet = gauntletInfo.split("/");
+
+				for (String s : gauntlet) {
+					String[] parsedNames = s.split(":");
+					Player opp = new Player(parsedNames[0]);
+					parseDeckFromLine(opp, parsedNames[1]);
+
+					if (boss.getDeck().size() + opp.getDeck().size() != 60) {
+						System.out.println("One or more decks isn't correct (@30 cards).");
+						System.out.println(boss.name + ": " + boss.getDeck().size());
+						System.out.println(opp.name + ": " + opp.getDeck().size());
+						break;
+					}
+
+					System.out.println(boss.getName() + " wins " + grindGames(boss, opp, 25000) + "% of games against "
+							+ opp.getName() + ".");
+				}
 				break;
 
 			case 7:
@@ -78,17 +108,17 @@ public class Game {
 						"Enter the player+deck intended to beat. (Format should be 'Name:Zap-4,Life Zap-3,...')");
 				String bossDeckInfo = input.nextLine();
 				String[] parsebossname = bossDeckInfo.split(":");
-				Player boss = new Player(parsebossname[0]);
-				parseDeckFromLine(boss, parsebossname[1]);
+				Player counterThisDeck = new Player(parsebossname[0]);
+				parseDeckFromLine(counterThisDeck, parsebossname[1]);
 
 				generateDecklists(1);
 				int winrate = 0;
 				while (winrate < 75) {
 					players.clear();
 					generateDecklists(1);
-					winrate = grindGames(players.get(0), boss, 3000);
+					winrate = grindGames(players.get(0), counterThisDeck, 3000);
 					System.gc();
-					if (winrate > 50) {
+					if (winrate > 55) {
 						System.out.println(winrate + ":" + analyseTopCut());
 					}
 				}
@@ -230,7 +260,6 @@ public class Game {
 					break;
 				}
 			}
-
 			triggers.addAll(p2.grave);
 			for (Card c : triggers) {
 				if (!p2.isAlive() || !p1.isAlive()) {
@@ -249,7 +278,6 @@ public class Game {
 			p2.cleanup();
 			return p1;
 		}
-
 		p1.cleanup();
 		p2.cleanup();
 		return p2;
