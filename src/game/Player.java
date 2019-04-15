@@ -177,4 +177,13 @@ public class Player {
 		}
 		return null;
 	}
+
+	public String showDecklist() {
+		ArrayList<String> cards = new ArrayList<String>();
+		for (Card c: getDeck()) {
+			cards.add(c.getName());
+		}
+		Collections.sort(cards);
+		return cards.toString();
+	}
 }
