@@ -125,6 +125,7 @@ public class Player {
 			Card c = hand.remove(0);
 			grave.add(c);
 			c.onentry(this, opponent);
+			c.afterResolving(this, opponent);
 			// System.out.println(this.name + " casts " + c.getName() + ". (" + lifeTotal +
 			// ")-(" + opponent.getLife() + ")");
 		}

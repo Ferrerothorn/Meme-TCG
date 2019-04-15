@@ -9,6 +9,10 @@ public abstract class Card {
 	public void onentry(Player self, Player opponent) {
 
 	}
+	
+	public void afterResolving(Player self, Player opponent) {
+
+	}
 
 	public void graveAbility(Player self, Player opponent) {
 
