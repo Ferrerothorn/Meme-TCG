@@ -130,6 +130,18 @@ public class Player {
 			// ")-(" + opponent.getLife() + ")");
 		}
 	}
+	
+	public void cleanup() {
+		this.deck.addAll(this.grave);
+		this.grave.clear();
+		this.deck.addAll(this.rfg);
+		this.rfg.clear();
+		this.deck.addAll(this.hand);
+		this.hand.clear();
+		this.deck.remove("Corrupted Blood");
+		this.lifeTotal = 30;
+	}
+
 
 	public int getLife() {
 		return lifeTotal;
@@ -143,17 +155,6 @@ public class Player {
 			}
 		}
 		return i;
-	}
-
-	public void cleanup() {
-		this.deck.addAll(this.grave);
-		this.grave.clear();
-		this.deck.addAll(this.rfg);
-		this.rfg.clear();
-		this.deck.addAll(this.hand);
-		this.hand.clear();
-		this.deck.remove("Corrupted Blood");
-		this.lifeTotal = 30;
 	}
 
 	public void movePile(ArrayList<Card> targetPile, ArrayList<Card> sourcePile) {

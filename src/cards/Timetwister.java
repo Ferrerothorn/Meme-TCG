@@ -16,11 +16,19 @@ public class Timetwister extends Card {
 		self.movePile(self.getDeck(), self.grave);
 		self.movePile(self.getDeck(), self.getHand());
 		Collections.shuffle(self.getDeck());
+		self.getDeck().remove(this);
+		self.rfg.add(this);
 		opponent.movePile(opponent.getDeck(), opponent.grave);
 		opponent.movePile(opponent.getDeck(), opponent.getHand());
 		Collections.shuffle(opponent.getDeck());
 		self.drawX(3);
 		opponent.drawX(3);
 	}	
-	}	
+	
+	@Override
+	public void afterResolving(Player self, Player opponent) {
+//		System.out.println("====");
+//		System.out.println(self.rfg.add(this));
+//		System.out.println(self.getDeck().remove(this));
+}
 }

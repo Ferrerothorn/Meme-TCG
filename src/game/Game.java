@@ -25,6 +25,7 @@ public class Game {
 			System.out.println();
 			System.out.println("===Choose a command===");
 			System.out.println("0: Run randomised tournament.");
+			System.out.println("2: Run a multiplayer tournament.");
 			System.out.println("5: Compare two decks.");
 			System.out.println("6: Compare one deck against a multitude of other decks.");
 			System.out.println("7: Generate a 'solution' to a deck.");
@@ -349,6 +350,7 @@ public class Game {
 		cardPool.add("Peace Treaty");
 		cardPool.add("Poison Frog");
 		cardPool.add("Regrow");
+		cardPool.add("Robot Assassin");
 		cardPool.add("Search the Darkness");
 		cardPool.add("Sinkhole");
 		cardPool.add("Sparkwave");
@@ -432,6 +434,8 @@ public class Game {
 			return new PoisonFrog();
 		case "Regrow":
 			return new Regrow();
+		case "Robot Assassin":
+			return new RobotAssassin();
 		case "Search the Darkness":
 			return new SearchTheDarkness();
 		case "Sinkhole":
