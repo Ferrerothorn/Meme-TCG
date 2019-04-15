@@ -66,7 +66,9 @@ public class Game {
 				if (p2.getDeck().size() + p1.getDeck().size() != 60) {
 					System.out.println("One or more decks isn't correct (@30 cards).");
 					System.out.println(p1.name + ": " + p1.getDeck().size());
+					System.out.println(p1.name + ": " + p1.showDecklist());
 					System.out.println(p2.name + ": " + p2.getDeck().size());
+					System.out.println(p2.name + ": " + p2.showDecklist());
 					break;
 				}
 				System.out.println(p1.getName() + " wins " + grindGames(p1, p2, 25000) + "% of games against "
@@ -216,7 +218,9 @@ public class Game {
 		if (p1.deck.cards.size() != 30 || p2.deck.cards.size() != 30) {
 			System.out.println("Definitely a problem.");
 			System.out.println("P1 deck: " + p1.deck.cards.size());
+			System.out.println("P1 deck: " + p1.showDecklist());
 			System.out.println("P2 deck: " + p2.deck.cards.size());
+			System.out.println("P2 deck: " + p2.showDecklist());
 		}
 		p1.drawX(5);
 		p2.drawX(5);
