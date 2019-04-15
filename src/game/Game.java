@@ -15,7 +15,7 @@ import cards.*;
 public class Game {
 
 	public static ArrayList<Player> players = new ArrayList<>();
-	public static ArrayList<Card> cardPool = new ArrayList<>();
+	public static ArrayList<String> cardPool = new ArrayList<>();
 
 	public static void main(String[] args) {
 		instantiateCardpool();
@@ -162,9 +162,9 @@ public class Game {
 	}
 
 	private static Card findCardByName(String string) {
-		for (Card c : cardPool) {
-			if (c.getName().equals(string)) {
-				return c;
+		for (String c : cardPool) {
+			if (c.equals(string)) {
+				return newCardByName(string);
 			}
 		}
 		System.out.println("Can't find a card called: " + string);
@@ -288,7 +288,8 @@ public class Game {
 			Player p = new Player("");
 			while (p.getDeck().size() < 30) {
 				Collections.shuffle(cardPool);
-				Card c = cardPool.get(0);
+				String s = cardPool.get(0);
+				Card c = findCardByName(s);
 				if (cardCount(p.getDeck(), c.getName()) < 4) {
 					p.getDeck().add(c);
 				}
@@ -311,51 +312,150 @@ public class Game {
 	}
 
 	private static void instantiateCardpool() {
-		cardPool.add(new AccumulatedKnowledge());
-		cardPool.add(new Amnesia());
-		cardPool.add(new AncestralRecall());
-		cardPool.add(new Apparition());
-		cardPool.add(new BodySwap());
-		cardPool.add(new Burial());
-		cardPool.add(new ChargedLaser());
-		cardPool.add(new ColossalJunkChucker());
-		cardPool.add(new ComebackZap());
-		cardPool.add(new CorporateShredder());
-		cardPool.add(new CowardlyRobot());
-		cardPool.add(new Damnation());
-		cardPool.add(new DarkPact());
-		cardPool.add(new DarkTransfusion());
-		cardPool.add(new DarkZap());
-		cardPool.add(new Donate());
-		cardPool.add(new EternalHerb());
-		cardPool.add(new Gesper());
-		cardPool.add(new GigaZap());
-		cardPool.add(new Grindstone());
-		cardPool.add(new HandyRobot());
-		cardPool.add(new Heal());
-		cardPool.add(new Ignite());
-		cardPool.add(new JunkChucker());
-		cardPool.add(new JunkHunter());
-		cardPool.add(new Lifezap());
-		cardPool.add(new Mend());
-		cardPool.add(new Mill());
-		cardPool.add(new MulchMunch());
-		cardPool.add(new Parry());
-		cardPool.add(new PeaceTreaty());
-		cardPool.add(new PoisonFrog());
-		cardPool.add(new Regrow());
-		cardPool.add(new SearchTheDarkness());
-		cardPool.add(new Sinkhole());
-		cardPool.add(new Sparkwave());
-		cardPool.add(new Sycamore());
-		cardPool.add(new TempoDrain());
-		cardPool.add(new TheRack());
-		cardPool.add(new ThoughtScour());
-		cardPool.add(new Timetwister());
-		cardPool.add(new Waifu());
-		cardPool.add(new WickedRobot());
-		cardPool.add(new Zap());
-		cardPool.add(new ZapAndTap());
-		cardPool.add(new Zapstarter());
+		cardPool.add("Accumulated Knowledge");
+		cardPool.add("Amnesia");
+		cardPool.add("Ancestral Recall");
+		cardPool.add("Apparition");
+		cardPool.add("Body Swap");
+		cardPool.add("Burial");
+		cardPool.add("Charged Laser");
+		cardPool.add("Colossal Junk Chucker");
+		cardPool.add("Comeback Zap");
+		cardPool.add("Corporate Shredder");
+		cardPool.add("Cowardly Robot");
+		cardPool.add("Damnation");
+		cardPool.add("Dark Pact");
+		cardPool.add("Dark Transfusion");
+		cardPool.add("Dark Zap");
+		cardPool.add("Donate");
+		cardPool.add("Eternal Herb");
+		cardPool.add("Gesper");
+		cardPool.add("Giga Zap");
+		cardPool.add("Grindstone");
+		cardPool.add("Handy Robot");
+		cardPool.add("Heal");
+		cardPool.add("Ignite");
+		cardPool.add("Junk Chucker");
+		cardPool.add("Junk Hunter");
+		cardPool.add("Life Zap");
+		cardPool.add("Mend");
+		cardPool.add("Mill");
+		cardPool.add("Mulch Munch");
+		cardPool.add("Parry");
+		cardPool.add("Peace Treaty");
+		cardPool.add("Poison Frog");
+		cardPool.add("Regrow");
+		cardPool.add("Search the Darkness");
+		cardPool.add("Sinkhole");
+		cardPool.add("Sparkwave");
+		cardPool.add("Sycamore");
+		cardPool.add("Tempo Drain");
+		cardPool.add("The Rack");
+		cardPool.add("Thought Scour");
+		cardPool.add("Timetwister");
+		cardPool.add("Waifu");
+		cardPool.add("Wicked Robot");
+		cardPool.add("Zap");
+		cardPool.add("Zap and Tap");
+		cardPool.add("Zapstarter");
+	}
+
+	private static Card newCardByName(String string) {
+		switch (string) {
+		case "Accumulated Knowledge":
+			return new AccumulatedKnowledge();
+		case "Amnesia":
+			return new Amnesia();
+		case "Ancestral Recall":
+			return new AncestralRecall();
+		case "Apparition":
+			return new Apparition();
+		case "Body Swap":
+			return new BodySwap();
+		case "Burial":
+			return new Burial();
+		case "Charged Laser":
+			return new ChargedLaser();
+		case "Colossal Junk Chucker":
+			return new ColossalJunkChucker();
+		case "Comeback Zap":
+			return new ComebackZap();
+		case "Corporate Shredder":
+			return new CorporateShredder();
+		case "Cowardly Robot":
+			return new CowardlyRobot();
+		case "Damnation":
+			return new Damnation();
+		case "Dark Pact":
+			return new DarkPact();
+		case "Dark Transfusion":
+			return new DarkTransfusion();
+		case "Dark Zap":
+			return new DarkZap();
+		case "Donate":
+			return new Donate();
+		case "Eternal Herb":
+			return new EternalHerb();
+		case "Gesper":
+			return new Gesper();
+		case "Giga Zap":
+			return new GigaZap();
+		case "Grindstone":
+			return new Grindstone();
+		case "Handy Robot":
+			return new HandyRobot();
+		case "Heal":
+			return new Heal();
+		case "Ignite":
+			return new Ignite();
+		case "Junk Chucker":
+			return new JunkChucker();
+		case "Junk Hunter":
+			return new JunkHunter();
+		case "Life Zap":
+			return new Lifezap();
+		case "Mend":
+			return new Mend();
+		case "Mill":
+			return new Mill();
+		case "Mulch Munch":
+			return new MulchMunch();
+		case "Parry":
+			return new Parry();
+		case "Peace Treaty":
+			return new PeaceTreaty();
+		case "Poison Frog":
+			return new PoisonFrog();
+		case "Regrow":
+			return new Regrow();
+		case "Search the Darkness":
+			return new SearchTheDarkness();
+		case "Sinkhole":
+			return new Sinkhole();
+		case "Sparkwave":
+			return new Sparkwave();
+		case "Sycamore":
+			return new Sycamore();
+		case "Tempo Drain":
+			return new TempoDrain();
+		case "The Rack":
+			return new TheRack();
+		case "Thought Scour":
+			return new ThoughtScour();
+		case "Timetwister":
+			return new Timetwister();
+		case "Waifu":
+			return new Waifu();
+		case "Wicked Robot":
+			return new WickedRobot();
+		case "Zap":
+			return new Zap();
+		case "Zap and Tap":
+			return new ZapAndTap();
+		case "Zapstarter":
+			return new Zapstarter();
+		default:
+			return new CorruptedBlood();
+		}
 	}
 }
