@@ -364,12 +364,16 @@ public class Game {
 		cardPool.add("Zap");
 		cardPool.add("Zap and Tap");
 		cardPool.add("Zapstarter");
+		cardPool.add("Channel the Depths");
+		cardPool.add("Pylon");
 	}
 
 	private static Card newCardByName(String string) {
 		switch (string) {
 		case "Accumulated Knowledge":
 			return new AccumulatedKnowledge();
+		case "Pylon":
+			return new Pylon();
 		case "Amnesia":
 			return new Amnesia();
 		case "Ancestral Recall":
@@ -440,6 +444,8 @@ public class Game {
 			return new SearchTheDarkness();
 		case "Sinkhole":
 			return new Sinkhole();
+		case "Channel the Depths":
+			return new ChannelTheDepths();
 		case "Sparkwave":
 			return new Sparkwave();
 		case "Sycamore":

@@ -12,7 +12,5 @@ public class Zap extends Card {
 	@Override
 	public void onentry(Player self, Player opponent) {
 		opponent.lifeTotal = opponent.lifeTotal-3;
-	}
-	
-	
+	}	
 }
