@@ -1,10 +1,10 @@
-package cards;
+package extraData;
 
 import game.Player;
 
 public abstract class Card {
 
-	String name;
+	protected String name;
 	int counters;
 
 	public void onentry(Player self, Player opponent) {

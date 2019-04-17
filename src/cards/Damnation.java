@@ -1,5 +1,6 @@
 package cards;
 
+import extraData.Card;
 import game.Player;
 
 public class Damnation extends Card {

@@ -3,6 +3,7 @@ package cards;
 import java.util.ArrayList;
 import java.util.Collections;
 
+import extraData.Card;
 import game.Player;
 
 public class Burial extends Card {

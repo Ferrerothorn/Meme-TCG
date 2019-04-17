@@ -1,4 +1,4 @@
-package cards;
+package extraData;
 
 import java.util.Collections;
 

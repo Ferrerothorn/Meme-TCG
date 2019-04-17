@@ -1,4 +1,4 @@
-package cards;
+package extraData;
 
 import game.Player;
 

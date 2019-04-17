@@ -2,6 +2,8 @@ package cards;
 
 import java.util.Collections;
 
+import extraData.Card;
+import extraData.CorruptedBlood;
 import game.Player;
 
 public class DarkTransfusion extends Card {
