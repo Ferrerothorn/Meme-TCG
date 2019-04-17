@@ -389,10 +389,25 @@ public class Game {
 		cardPool.add("Zap and Tap");
 		cardPool.add("Zapstarter");
 		cardPool.add("Zap Magnifier");
+		cardPool.add("Eventual Zap");
+		cardPool.add("Mass Grave");
+		cardPool.add("Zap Cannon");
+		cardPool.add("Time Stop");
+		cardPool.add("Burst Heal");
 	}
 
 	private static Card newCardByName(String string) {
 		switch (string) {
+		case "Time Stop":
+			return new TimeStop();
+		case "Burst Heal":
+			return new BurstHeal();
+		case "Eventual Zap":
+			return new EventualZap();
+		case "Mass Grave":
+			return new MassGrave();
+		case "Zap Cannon":
+			return new ZapCannon();
 		case "Accumulated Knowledge":
 			return new AccumulatedKnowledge();
 		case "Doomsday Device":
@@ -496,7 +511,7 @@ public class Game {
 		case "Zap Magnifier":
 			return new ZapMagnifier();
 		default:
-			return new ErrorMessage();
+			return new ErrorMessage(string);
 		}
 	}
 }
