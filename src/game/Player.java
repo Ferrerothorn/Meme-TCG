@@ -130,7 +130,7 @@ public class Player {
 			// ")-(" + opponent.getLife() + ")");
 		}
 	}
-	
+
 	public void cleanup() {
 		this.deck.addAll(this.grave);
 		this.grave.clear();
@@ -140,9 +140,11 @@ public class Player {
 		this.hand.clear();
 		this.deck.remove("Corrupted Blood");
 		this.deck.remove("Cable");
+		for (Card c : this.getDeck()) {
+			c.setCounters(0);
+		}
 		this.lifeTotal = 30;
 	}
-
 
 	public int getLife() {
 		return lifeTotal;
@@ -182,7 +184,7 @@ public class Player {
 
 	public String showDecklist() {
 		ArrayList<String> cards = new ArrayList<String>();
-		for (Card c: getDeck()) {
+		for (Card c : getDeck()) {
 			cards.add(c.getName());
 		}
 		Collections.sort(cards);
