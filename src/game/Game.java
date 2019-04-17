@@ -37,8 +37,8 @@ public class Game {
 			switch (choice) {
 
 			case 0:
-				System.out.println("Generating 500k decklists.");
-				generateDecklists(500000);
+				System.out.println("Generating 300k decklists.");
+				generateDecklists(300000);
 				Collections.shuffle(players);
 				System.out.println("Running tournament.");
 				while (players.size() > 1) {
@@ -119,7 +119,7 @@ public class Game {
 				while (winrate < 75) {
 					players.clear();
 					generateDecklists(1);
-					winrate = grindGames(players.get(0), counterThisDeck, 3000);
+					winrate = grindGames(players.get(0), counterThisDeck, 1500);
 					System.gc();
 					if (winrate > 55) {
 						System.out.println(winrate + ":" + analyseTopCut());
