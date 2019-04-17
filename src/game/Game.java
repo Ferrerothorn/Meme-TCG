@@ -344,6 +344,7 @@ public class Game {
 		cardPool.add("Apparition");
 		cardPool.add("Body Swap");
 		cardPool.add("Burial");
+		cardPool.add("Channel the Depths");
 		cardPool.add("Charged Laser");
 		cardPool.add("Colossal Junk Chucker");
 		cardPool.add("Comeback Zap");
@@ -354,6 +355,7 @@ public class Game {
 		cardPool.add("Dark Transfusion");
 		cardPool.add("Dark Zap");
 		cardPool.add("Donate");
+		cardPool.add("Doomsday Device");
 		cardPool.add("Eternal Herb");
 		cardPool.add("Gesper");
 		cardPool.add("Giga Zap");
@@ -370,6 +372,7 @@ public class Game {
 		cardPool.add("Parry");
 		cardPool.add("Peace Treaty");
 		cardPool.add("Poison Frog");
+		cardPool.add("Pylon");
 		cardPool.add("Regrow");
 		cardPool.add("Robot Assassin");
 		cardPool.add("Search the Darkness");
@@ -385,17 +388,14 @@ public class Game {
 		cardPool.add("Zap");
 		cardPool.add("Zap and Tap");
 		cardPool.add("Zapstarter");
-		cardPool.add("Channel the Depths");
-		cardPool.add("Pylon");
 		cardPool.add("Zap Magnifier");
-		cardPool.add("Doomsday Device");
 	}
 
 	private static Card newCardByName(String string) {
 		switch (string) {
 		case "Accumulated Knowledge":
 			return new AccumulatedKnowledge();
-		case "DOomsday Device":
+		case "Doomsday Device":
 			return new DoomsdayDevice();
 		case "Pylon":
 			return new Pylon();
@@ -496,7 +496,7 @@ public class Game {
 		case "Zap Magnifier":
 			return new ZapMagnifier();
 		default:
-			return new CorruptedBlood();
+			return new ErrorMessage();
 		}
 	}
 }
