@@ -34,9 +34,10 @@ public class Zapstarter extends Card {
 	@Override
 	public void afterResolving(Player self, Player opponent) {
 		for (Card c: self.grave) {
-			if (c.getName().equals("Zap Magnifier") && c.getCounters()>=2) {
+			if (c.getName().equals("Zap Magnifier") && c.getCounters()>0) {
 				opponent.randomDiscard();
 				opponent.randomDiscard();
+				c.takeCounter();
 			}
 		}
 	}	

@@ -1,20 +1,24 @@
 package cards;
 
+import java.util.Random;
+
 import extraData.Card;
 import game.Player;
 
-public class Zap extends Card {
+public class ZapCannon extends Card {
 
 	
-	public Zap() {
-		this.name = "Zap";
+	public ZapCannon() {
+		this.name = "Zap Cannon";
 	}
 	
 	@Override
 	public void onentry(Player self, Player opponent) {
-		opponent.lifeTotal = opponent.lifeTotal-3;
-	}	
-	
+		Random r = new Random();
+		if (r.nextInt(2) == 0) {
+			opponent.lifeTotal -=6;
+		}
+	}
 	
 	@Override
 	public void afterResolving(Player self, Player opponent) {
@@ -24,5 +28,5 @@ public class Zap extends Card {
 				c.takeCounter();
 			}
 		}
-	}	
+	}
 }
