@@ -35,15 +35,14 @@ public class Deck {
 		return cards.remove(0);
 	}
 	
-	public ArrayList<Card> remove(String string) {
+	public void remove(String string) {
 		ArrayList<Card> filter = new ArrayList<>();
 		for(Card c : cards) {
 			if (c.getName().equals(string)) {
 				filter.add(c);
 			}
 		}
-		cards.removeAll(filter);				
-		return filter;
+		cards.removeAll(filter);
 	}
 
 	public void addAll(ArrayList<Card> newCards) {
