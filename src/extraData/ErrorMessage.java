@@ -4,13 +4,17 @@ import game.Player;
 
 public class ErrorMessage extends Card {
 
-	public ErrorMessage() {
+	String error = "";
+	
+	public ErrorMessage(String string) {
 		this.name = "Error Message";
+		error = string;
 	}
 
 	@Override
 	public void onentry(Player self, Player opponent) {
-		System.out.println("One of the cards in the card pool index is spelled wrongly. Check them all!");
+		System.out.println("The config for " + error + " in the card pool index is spelled wrongly. Check it out!");
+		System.exit(0);
 	}
 
 }
