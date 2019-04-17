@@ -217,14 +217,16 @@ public class Game {
 		p2.lifeTotal = 30;
 		p1.playsPerTurn = 2;
 		p2.playsPerTurn = 2;
-
-		if (p1.deck.cards.size() != 30 || p2.deck.cards.size() != 30) {
-			System.out.println("Definitely a problem.");
-			System.out.println("P1 deck: " + p1.deck.cards.size());
-			System.out.println("P1 deck: " + p1.showDecklist());
-			System.out.println("P2 deck: " + p2.deck.cards.size());
-			System.out.println("P2 deck: " + p2.showDecklist());
-		}
+		String p1start = p1.showDecklist();
+		String p2start = p2.showDecklist();
+		// if (p1.deck.cards.size() != 30 || p2.deck.cards.size() != 30) {
+		// System.out.println("Definitely a problem.");
+		// System.out.println("P1 deck: " + p1.deck.cards.size());
+		// System.out.println("P1 deck: " + p1.showDecklist());
+		// System.out.println("P2 deck: " + p2.deck.cards.size());
+		// System.out.println("P2 deck: " + p2.showDecklist());
+		// System.exit(0);
+		// }
 		p1.drawX(5);
 		p2.drawX(5);
 		while (p1.isAlive() && p2.isAlive()) {
@@ -283,10 +285,27 @@ public class Game {
 		if (p1.isAlive()) {
 			p1.cleanup();
 			p2.cleanup();
+
+			String p1end = p1.showDecklist();
+			String p2end = p2.showDecklist();
+			if (!(p1start.equals(p1end)) && !(p2start.equals(p2end))) {
+				System.out.println("P1 start: " + p1start);
+				System.out.println("P1 end: " + p1end);
+				System.out.println("P2 start: " + p2start);
+				System.out.println("P2 end: " + p2end);
+			}
+			// System.out.println("P1 deck: " + p1.deck.cards.size());
+			// System.out.println("P1 deck: " + p1.showDecklist());
+			// System.out.println("P2 deck: " + p2.deck.cards.size());
+			// System.out.println("P2 deck: " + p2.showDecklist());
 			return p1;
 		}
 		p1.cleanup();
 		p2.cleanup();
+		// System.out.println("P1 deck: " + p1.deck.cards.size());
+		// System.out.println("P1 deck: " + p1.showDecklist());
+		// System.out.println("P2 deck: " + p2.deck.cards.size());
+		// System.out.println("P2 deck: " + p2.showDecklist());
 		return p2;
 	}
 

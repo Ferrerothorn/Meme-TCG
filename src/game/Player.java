@@ -144,6 +144,11 @@ public class Player {
 			c.setCounters(0);
 		}
 		this.lifeTotal = 30;
+//		if (this.deck.size() != 30) {
+//			System.out.println("Deck isn't 30 cards: cleanup seems to not be working.");
+//			System.out.println(this.showDecklist());
+//			System.exit(0);
+//		}
 	}
 
 	public int getLife() {
