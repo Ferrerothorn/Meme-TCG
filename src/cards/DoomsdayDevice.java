@@ -17,6 +17,7 @@ public class DoomsdayDevice extends Card {
 	
 	@Override
 	public void graveAbility(Player self, Player opponent) {
+		self.lifeTotal--;
 		takeCounter();
 		if(getCounters()<=0) {
 			opponent.lifeTotal = 0;
