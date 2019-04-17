@@ -2,6 +2,7 @@ package cards;
 
 import java.util.Collections;
 
+import extraData.Card;
 import game.Player;
 
 public class Waifu extends Card {

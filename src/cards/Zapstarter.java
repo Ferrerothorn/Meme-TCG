@@ -3,6 +3,7 @@ package cards;
 import java.util.ArrayList;
 import java.util.Collections;
 
+import extraData.Card;
 import game.Player;
 
 public class Zapstarter extends Card {
@@ -19,7 +20,7 @@ public class Zapstarter extends Card {
 		Collections.shuffle(self.getDeck());
 		ArrayList<Card> zaps = new ArrayList<>();
 		for (Card c : self.getDeck()) {
-			if (c.name.contains("Zap")) {
+			if (c.getName().contains("Zap")) {
 				zaps.add(c);
 			}
 		}

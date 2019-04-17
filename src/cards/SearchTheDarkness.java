@@ -2,6 +2,7 @@ package cards;
 
 import java.util.ArrayList;
 
+import extraData.Card;
 import game.Player;
 
 public class SearchTheDarkness extends Card {
@@ -16,7 +17,7 @@ public class SearchTheDarkness extends Card {
 		self.getHand().clear();
 		ArrayList<Card> darkCards = new ArrayList<>();
 		for (Card c : self.getDeck()) {
-			if (c.name.contains("Dark")) {
+			if (c.getName().contains("Dark")) {
 				darkCards.add(c);
 			}
 		}

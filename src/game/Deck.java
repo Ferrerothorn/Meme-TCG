@@ -3,7 +3,7 @@ package game;
 import java.util.ArrayList;
 import java.util.Collections;
 
-import cards.Card;
+import extraData.Card;
 
 public class Deck {
 

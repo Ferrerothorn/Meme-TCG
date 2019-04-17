@@ -1,5 +1,7 @@
 package cards;
 
+import extraData.Cable;
+import extraData.Card;
 import game.Player;
 
 public class Pylon extends Card {

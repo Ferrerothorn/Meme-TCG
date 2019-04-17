@@ -11,6 +11,8 @@ import java.util.Map;
 import java.util.Scanner;
 
 import cards.*;
+import extraData.Card;
+import extraData.ErrorMessage;
 
 public class Game {
 
