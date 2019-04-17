@@ -11,7 +11,7 @@ public class PeaceTreaty extends Card {
 
 	@Override
 	public void onentry(Player self, Player opponent) {
-		if ((self.rfg.size() + opponent.rfg.size() > 20) || self.grave.size() + opponent.grave.size() > 45) {
+		if ((self.rfg.size() > 10 && opponent.rfg.size() > 10) || self.grave.size() > 20 && opponent.grave.size() > 20) {
 			opponent.lifeTotal = 1;
 		}
 	}
