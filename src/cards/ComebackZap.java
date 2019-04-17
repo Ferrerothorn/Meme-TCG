@@ -15,4 +15,13 @@ public class ComebackZap extends Card {
 		}
 		opponent.lifeTotal -= 2;
 	}
+	
+	@Override
+	public void afterResolving(Player self, Player opponent) {
+		for (Card c: self.grave) {
+			if (c.getName().equals("Zap Magnifier") && c.getCounters()>=2) {
+				opponent.lifeTotal--;
+			}
+		}
+	}	
 }

@@ -14,4 +14,14 @@ public class Lifezap extends Card {
 		opponent.lifeTotal = opponent.lifeTotal-2;
 		self.lifeTotal++;
 	}
+	
+	@Override
+	public void afterResolving(Player self, Player opponent) {
+		for (Card c: self.grave) {
+			if (c.getName().equals("Zap Magnifier") && c.getCounters()>=2) {
+				opponent.lifeTotal--;
+				self.lifeTotal++;
+			}
+		}
+	}	
 }

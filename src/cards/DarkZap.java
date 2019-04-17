@@ -16,4 +16,14 @@ public class DarkZap extends Card {
 			self.rfg.add(self.getDeck().remove(0));
 		}
 	}
+	
+	@Override
+	public void afterResolving(Player self, Player opponent) {
+		for (Card c: self.grave) {
+			if (c.getName().equals("Zap Magnifier") && c.getCounters()>=2) {
+				opponent.lifeTotal--;
+				self.lifeTotal++;
+			}
+		}
+	}	
 }
