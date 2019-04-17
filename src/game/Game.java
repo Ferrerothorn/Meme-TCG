@@ -366,12 +366,16 @@ public class Game {
 		cardPool.add("Zapstarter");
 		cardPool.add("Channel the Depths");
 		cardPool.add("Pylon");
+		cardPool.add("Zap Magnifier");
+		cardPool.add("Doomsday Device");
 	}
 
 	private static Card newCardByName(String string) {
 		switch (string) {
 		case "Accumulated Knowledge":
 			return new AccumulatedKnowledge();
+		case "DOomsday Device":
+			return new DoomsdayDevice();
 		case "Pylon":
 			return new Pylon();
 		case "Amnesia":
@@ -468,6 +472,8 @@ public class Game {
 			return new ZapAndTap();
 		case "Zapstarter":
 			return new Zapstarter();
+		case "Zap Magnifier":
+			return new ZapMagnifier();
 		default:
 			return new CorruptedBlood();
 		}
