@@ -17,8 +17,9 @@ public class BurstHeal extends Card {
 	public void graveAbility(Player self, Player opponent) {
 		if (self.lifeTotal < 10) {
 			self.lifeTotal = 20;
-			self.rfg.add(this);
-			self.grave.remove(this);
+			if (self.grave.remove(this)) {
+				self.rfg.add(this);
+			}
 		}
 	}
 }
