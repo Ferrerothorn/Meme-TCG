@@ -35,7 +35,9 @@ public abstract class Card {
 	}
 
 	public void takeCounter() {
+		if (counters > 0) {
 		counters--;
+		}
 	}
 
 	public void takeCounters(int x) {
