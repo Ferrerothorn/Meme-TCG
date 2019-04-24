@@ -17,13 +17,16 @@ public class TimeStop extends Card {
 
 	@Override
 	public void graveAbility(Player self, Player opponent) {
-		if (self.lifeTotal < 10) {
-			self.lifeTotal = 10;
-		}
-		this.takeCounter();
-		if (getCounters() == 0) {
-			self.rfg.add(this);
-			self.grave.remove(this);
+		if (this.getCounters()>0) {
+			if (self.lifeTotal < 10) {
+				self.lifeTotal = 10;
+			}
+			this.takeCounter();
+			if (getCounters() <= 0) {
+				if (self.grave.remove(this)) {
+					self.rfg.add(this);
+				}
+			}
 		}
 	}
 }
