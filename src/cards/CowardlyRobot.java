@@ -16,7 +16,7 @@ public class CowardlyRobot extends Card {
 	
 	@Override
 	public void graveAbility(Player self, Player opponent) {
-		if(self.cardCount(self.grave, "Accumulated Knowledge") >=2) {
+		if(self.cardCount(self.grave, "Cowardly Robot") >=2) {
 			opponent.lifeTotal-=2;
 		}
 	}
