@@ -11,13 +11,12 @@ public class DoomsdayDevice extends Card {
 
 	@Override
 	public void onentry(Player self, Player opponent) {
-		setCounters(10);
+		setCounters(15);
 		self.draw();
 	}
 	
 	@Override
 	public void graveAbility(Player self, Player opponent) {
-		self.lifeTotal--;
 		takeCounter();
 		if(getCounters()<=0) {
 			opponent.lifeTotal = 0;
