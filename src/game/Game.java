@@ -152,6 +152,8 @@ public class Game {
 			if (play(p2, p1).equals(p1)) {
 				p1winrate++;
 			}
+			p1.cleanup();
+			p2.cleanup();
 		}
 		return (100 * p1winrate) / bestOf;
 	}
@@ -409,13 +411,25 @@ public class Game {
 		cardPool.add("Mass Grave");
 		cardPool.add("Zap Cannon");
 		cardPool.add("Time Stop");
+		cardPool.add("Slow Flare");
+		cardPool.add("Royal Robot");
 		cardPool.add("Burst Heal");
+		cardPool.add("Vitality Artifact");
+		// cardPool.add("Mighty Wrench");
 	}
 
 	private static Card newCardByName(String string) {
 		switch (string) {
+		case "Mighty Wrench":
+			return new MightyWrench();
+		case "Vitality Artifact":
+			return new VitalityArtifact();
 		case "Time Stop":
 			return new TimeStop();
+		case "Slow Flare":
+			return new SlowFlare();
+		case "Royal Robot":
+			return new RoyalRobot();
 		case "Burst Heal":
 			return new BurstHeal();
 		case "Eventual Zap":
