@@ -1,8 +1,6 @@
 package cards;
 
-import java.util.Collections;
 import java.util.Random;
-
 import extraData.Card;
 import game.Player;
 
@@ -17,8 +15,9 @@ public class EventualZap extends Card {
 		Random r = new Random();
 		if (r.nextInt(2) == 0) {
 			opponent.lifeTotal -= 4;
-			self.rfg.add(this);
-			self.grave.remove(this);
+			if(self.grave.remove(this)) {
+				self.rfg.add(this);
+			}
 		}
 	}
 	
@@ -34,8 +33,8 @@ public class EventualZap extends Card {
 
 	@Override
 	public void graveAbility(Player self, Player opponent) {
-		self.grave.remove(this);
-		self.getDeck().add(this);
-		Collections.shuffle(self.getDeck());
+		if(self.grave.remove(this)) {
+			self.getDeck().add(this);
+		}
 	}
 }
