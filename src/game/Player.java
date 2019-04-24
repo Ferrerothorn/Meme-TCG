@@ -124,16 +124,21 @@ public class Player {
 		return lifeTotal > 0;
 	}
 
-	public void makePlay(Player opponent) {
+	public void makePlay(Player opponent, Boolean debug) {
 		if (hand.size() > 0) {
 			Collections.shuffle(hand);
 			Card c = hand.remove(0);
 			grave.add(c);
 			c.onentry(this, opponent);
 			c.afterResolving(this, opponent);
-			// System.out.println(this.name + " casts " + c.getName() + ". (" + lifeTotal +
-			// ")-(" + opponent.getLife() + ")");
+			if (debug) {
+				debug(this.name + " casts " + c.getName() + ". (" + lifeTotal + ")-(" + opponent.getLife() + ")");
+			}
 		}
+	}
+
+	private static void debug(String string) {
+		System.out.println(string);
 	}
 
 	public void cleanup() {
@@ -149,11 +154,11 @@ public class Player {
 			c.setCounters(0);
 		}
 		this.lifeTotal = 30;
-//		if (this.deck.size() != 30) {
-//			System.out.println("Deck isn't 30 cards: cleanup seems to not be working.");
-//			System.out.println(this.showDecklist());
-//			System.exit(0);
-//		}
+		// if (this.deck.size() != 30) {
+		// System.out.println("Deck isn't 30 cards: cleanup seems to not be working.");
+		// System.out.println(this.showDecklist());
+		// System.exit(0);
+		// }
 	}
 
 	public int getLife() {

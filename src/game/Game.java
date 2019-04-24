@@ -18,6 +18,7 @@ public class Game {
 
 	public static ArrayList<Player> players = new ArrayList<>();
 	public static ArrayList<String> cardPool = new ArrayList<>();
+	public static Boolean debug = false;
 
 	public static void main(String[] args) {
 		instantiateCardpool();
@@ -46,6 +47,9 @@ public class Game {
 				while (players.size() > 1) {
 					Player p1 = players.remove(0);
 					Player p2 = players.remove(0);
+					debug();
+					debug(p1.showDecklist());
+					debug(p2.showDecklist());
 					Player winner = play(p1, p2);
 					players.add(winner);
 				}
@@ -67,11 +71,11 @@ public class Game {
 				parseDeckFromLine(p2, parsename2[1]);
 
 				if (p2.getDeck().size() + p1.getDeck().size() != 60) {
-					System.out.println("One or more decks isn't correct (@30 cards).");
-					System.out.println(p1.name + ": " + p1.getDeck().size());
-					System.out.println(p1.name + ": " + p1.showDecklist());
-					System.out.println(p2.name + ": " + p2.getDeck().size());
-					System.out.println(p2.name + ": " + p2.showDecklist());
+					debug("One or more decks isn't correct (@30 cards).");
+					debug(p1.name + ": " + p1.getDeck().size());
+					debug(p1.name + ": " + p1.showDecklist());
+					debug(p2.name + ": " + p2.getDeck().size());
+					debug(p2.name + ": " + p2.showDecklist());
 					break;
 				}
 				System.out.println(p1.getName() + " wins " + grindGames(p1, p2, 25000) + "% of games against "
@@ -97,9 +101,9 @@ public class Game {
 					parseDeckFromLine(opp, parsedNames[1]);
 
 					if (boss.getDeck().size() + opp.getDeck().size() != 60) {
-						System.out.println("One or more decks isn't correct (@30 cards).");
-						System.out.println(boss.name + ": " + boss.getDeck().size());
-						System.out.println(opp.name + ": " + opp.getDeck().size());
+						debug("One or more decks isn't correct (@30 cards).");
+						debug(boss.name + ": " + boss.getDeck().size());
+						debug(opp.name + ": " + opp.getDeck().size());
 						break;
 					}
 
@@ -129,14 +133,12 @@ public class Game {
 				}
 				System.out.println();
 				break;
-
 			case 999:
 				input.close();
 				System.exit(0);
 				break;
 			}
 		}
-
 	}
 
 	private static int grindGames(Player p1, Player p2, int bestOf) {
@@ -172,9 +174,21 @@ public class Game {
 				return newCardByName(string);
 			}
 		}
-		System.out.println("Can't find a card called: " + string);
+		debug("Can't find a card called: " + string);
 		System.exit(0);
 		return null;
+	}
+
+	private static void debug(String string) {
+		if (debug) {
+			System.out.println(string);
+		}
+	}
+
+	private static void debug() {
+		if (debug) {
+			debug("");
+		}
 	}
 
 	private static String analyseTopCut() {
@@ -219,14 +233,14 @@ public class Game {
 		p2.playsPerTurn = 2;
 		String p1start = p1.showDecklist();
 		String p2start = p2.showDecklist();
-		// if (p1.deck.cards.size() != 30 || p2.deck.cards.size() != 30) {
-		// System.out.println("Definitely a problem.");
-		// System.out.println("P1 deck: " + p1.deck.cards.size());
-		// System.out.println("P1 deck: " + p1.showDecklist());
-		// System.out.println("P2 deck: " + p2.deck.cards.size());
-		// System.out.println("P2 deck: " + p2.showDecklist());
-		// System.exit(0);
-		// }
+		if (p1.deck.cards.size() != 30 || p2.deck.cards.size() != 30) {
+			System.out.println("Definitely a problem.");
+			System.out.println("P1 deck: " + p1.deck.cards.size());
+			System.out.println("P1 deck: " + p1.showDecklist());
+			System.out.println("P2 deck: " + p2.deck.cards.size());
+			System.out.println("P2 deck: " + p2.showDecklist());
+			System.exit(0);
+		}
 		p1.drawX(5);
 		p2.drawX(5);
 		while (p1.isAlive() && p2.isAlive()) {
@@ -237,7 +251,7 @@ public class Game {
 				break;
 			}
 			while (p1playsPerTurn > 0 && p1.getHand().size() > 0) {
-				p1.makePlay(p2);
+				p1.makePlay(p2, debug);
 				p1playsPerTurn--;
 				if (!p1.isAlive() || !p2.isAlive()) {
 					break;
@@ -253,6 +267,7 @@ public class Game {
 				c.graveAbility(p1, p2);
 			}
 			triggers.clear();
+			debug(p1.name + "'s grave triggers. (" + p1.getLife() + ")-(" + p2.getLife() + ")");
 
 			if (!p1.isAlive() || !p2.isAlive()) {
 				break;
@@ -263,7 +278,7 @@ public class Game {
 				break;
 			}
 			while (p2playsPerTurn > 0 && p2.getHand().size() > 0) {
-				p2.makePlay(p1);
+				p2.makePlay(p1, debug);
 				p2playsPerTurn--;
 				if (!p2.isAlive() || !p1.isAlive()) {
 					break;
@@ -277,6 +292,7 @@ public class Game {
 				c.graveAbility(p2, p1);
 			}
 			triggers.clear();
+			debug(p2.name + "'s grave triggers. (" + p2.getLife() + ")-(" + p1.getLife() + ")");
 
 			if (!p1.isAlive() || !p2.isAlive()) {
 				break;
@@ -289,29 +305,29 @@ public class Game {
 			String p1end = p1.showDecklist();
 			String p2end = p2.showDecklist();
 			if (!(p1start.equals(p1end)) && !(p2start.equals(p2end))) {
-				System.out.println("P1 start: " + p1start);
-				System.out.println("P1 end: " + p1end);
-				System.out.println("P2 start: " + p2start);
-				System.out.println("P2 end: " + p2end);
+				debug("P1 start: " + p1start);
+				debug("P1 end: " + p1end);
+				debug("P2 start: " + p2start);
+				debug("P2 end: " + p2end);
 			}
-			// System.out.println("P1 deck: " + p1.deck.cards.size());
-			// System.out.println("P1 deck: " + p1.showDecklist());
-			// System.out.println("P2 deck: " + p2.deck.cards.size());
-			// System.out.println("P2 deck: " + p2.showDecklist());
+			debug("P1 deck: " + p1.deck.cards.size());
+			debug("P1 deck: " + p1.showDecklist());
+			debug("P2 deck: " + p2.deck.cards.size());
+			debug("P2 deck: " + p2.showDecklist());
 			return p1;
 		}
 		p1.cleanup();
 		p2.cleanup();
-		// System.out.println("P1 deck: " + p1.deck.cards.size());
-		// System.out.println("P1 deck: " + p1.showDecklist());
-		// System.out.println("P2 deck: " + p2.deck.cards.size());
-		// System.out.println("P2 deck: " + p2.showDecklist());
+		debug("P1 deck: " + p1.deck.cards.size());
+		debug("P1 deck: " + p1.showDecklist());
+		debug("P2 deck: " + p2.deck.cards.size());
+		debug("P2 deck: " + p2.showDecklist());
 		return p2;
 	}
 
 	private static void generateDecklists(int i) {
 		for (int ps = 0; ps < i; ps++) {
-			Player p = new Player("");
+			Player p = new Player("P" + (ps + 1));
 			while (p.getDeck().size() < 30) {
 				Collections.shuffle(cardPool);
 				String s = cardPool.get(0);
