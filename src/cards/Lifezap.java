@@ -12,7 +12,7 @@ public class Lifezap extends Card {
 	
 	@Override
 	public void onentry(Player self, Player opponent) {
-		opponent.lifeTotal = opponent.lifeTotal-2;
+		opponent.lifeTotal -= 2;
 		self.lifeTotal++;
 	}
 	
