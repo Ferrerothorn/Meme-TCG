@@ -14,11 +14,7 @@ public class Sinkhole extends Card {
 		if (self.getDeck().size() <= 2) {
 			opponent.lifeTotal = 0;
 		} else {
-			if (opponent.getHand().size() > 1) {
-				opponent.randomDiscard();
-			} else {
-				self.draw();
-			}
+			self.draw();
 		}
 	}
 
