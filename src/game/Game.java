@@ -19,10 +19,10 @@ public class Game {
 	public static ArrayList<Player> players = new ArrayList<>();
 	public static ArrayList<String> cardPool = new ArrayList<>();
 	public static Boolean debug = false;
+	public static Scanner input = new Scanner(System.in);
 
 	public static void main(String[] args) {
 		instantiateCardpool();
-		Scanner input = new Scanner(System.in);
 
 		while (true) {
 			System.out.println();
@@ -40,48 +40,15 @@ public class Game {
 			switch (choice) {
 
 			case 0:
-				System.out.println("Generating 300k decklists.");
-				generateDecklists(300000);
-				Collections.shuffle(players);
-				System.out.println("Running tournament.");
-				while (players.size() > 1) {
-					Player p1 = players.remove(0);
-					Player p2 = players.remove(0);
-					debug();
-					debug(p1.showDecklist());
-					debug(p2.showDecklist());
-					Player winner = play(p1, p2);
-					players.add(winner);
-				}
-				System.out.println(analyseTopCut());
+				runTournament();
 				break;
+			case 3:
+				runSingleGame();
+				break;
+
 			case 5:
-				System.out
-						.println("Enter player 1's name and decklist. (Format should be 'Name:Zap-4,Life Zap-3,...')");
-				String p1info = input.nextLine();
-				String[] parsename = p1info.split(":");
-				Player p1 = new Player(parsename[0]);
-				parseDeckFromLine(p1, parsename[1]);
-
-				System.out
-						.println("Enter player 2's name and decklist. (Format should be 'Name:Zap-4,Life Zap-3,...')");
-				String p2info = input.nextLine();
-				String[] parsename2 = p2info.split(":");
-				Player p2 = new Player(parsename2[0]);
-				parseDeckFromLine(p2, parsename2[1]);
-
-				if (p2.getDeck().size() + p1.getDeck().size() != 60) {
-					debug("One or more decks isn't correct (@30 cards).");
-					debug(p1.name + ": " + p1.getDeck().size());
-					debug(p1.name + ": " + p1.showDecklist());
-					debug(p2.name + ": " + p2.getDeck().size());
-					debug(p2.name + ": " + p2.showDecklist());
-					break;
-				}
-				System.out.println(p1.getName() + " wins " + grindGames(p1, p2, 25000) + "% of games against "
-						+ p2.getName() + ".");
+				runBestOf25k();
 				break;
-
 			case 6:
 				System.out
 						.println("Enter player 1's name and decklist. (Format should be 'Name:Zap-4,Life Zap-3,...')");
@@ -139,6 +106,74 @@ public class Game {
 				break;
 			}
 		}
+	}
+
+	private static void runBestOf25k() {
+		System.out.println("Enter player 1's name and decklist. (Format should be 'Name:Zap-4,Life Zap-3,...')");
+		String p1info = input.nextLine();
+		String[] parsename = p1info.split(":");
+		Player p1 = new Player(parsename[0]);
+		parseDeckFromLine(p1, parsename[1]);
+
+		System.out.println("Enter player 2's name and decklist. (Format should be 'Name:Zap-4,Life Zap-3,...')");
+		String p2info = input.nextLine();
+		String[] parsename2 = p2info.split(":");
+		Player p2 = new Player(parsename2[0]);
+		parseDeckFromLine(p2, parsename2[1]);
+
+		if (p2.getDeck().size() + p1.getDeck().size() != 60) {
+			debug("One or more decks isn't correct (@30 cards).");
+			debug(p1.name + ": " + p1.getDeck().size());
+			debug(p1.name + ": " + p1.showDecklist());
+			debug(p2.name + ": " + p2.getDeck().size());
+			debug(p2.name + ": " + p2.showDecklist());
+			System.exit(0);
+		}
+		System.out.println(
+				p1.getName() + " wins " + grindGames(p1, p2, 25000) + "% of games against " + p2.getName() + ".");
+
+	}
+
+	private static void runSingleGame() {
+		System.out.println("Enter player 1's name and decklist. (Format should be 'Name:Zap-4,Life Zap-3,...')");
+		String p1inf = input.nextLine();
+		String[] parse = p1inf.split(":");
+		Player p1 = new Player(parse[0]);
+		parseDeckFromLine(p1, parse[1]);
+
+		System.out.println("Enter player 2's name and decklist. (Format should be 'Name:Zap-4,Life Zap-3,...')");
+		String p2info = input.nextLine();
+		String[] parsename2 = p2info.split(":");
+		Player p2 = new Player(parsename2[0]);
+		parseDeckFromLine(p2, parsename2[1]);
+
+		if (p2.getDeck().size() + p1.getDeck().size() != 60) {
+			debug("One or more decks isn't correct (@30 cards).");
+			debug(p1.name + ": " + p1.getDeck().size());
+			debug(p1.name + ": " + p1.showDecklist());
+			debug(p2.name + ": " + p2.getDeck().size());
+			debug(p2.name + ": " + p2.showDecklist());
+			System.exit(0);
+		}
+		debug = true;
+		System.out.println(play(p1, p2).getName() + " wins!");
+	}
+
+	private static void runTournament() {
+		System.out.println("Generating 300k decklists.");
+		generateDecklists(300000);
+		Collections.shuffle(players);
+		System.out.println("Running tournament.");
+		while (players.size() > 1) {
+			Player p1 = players.remove(0);
+			Player p2 = players.remove(0);
+			debug();
+			debug(p1.showDecklist());
+			debug(p2.showDecklist());
+			Player winner = play(p1, p2);
+			players.add(winner);
+		}
+		System.out.println(analyseTopCut());
 	}
 
 	private static int grindGames(Player p1, Player p2, int bestOf) {
@@ -414,14 +449,22 @@ public class Game {
 		cardPool.add("Slow Flare");
 		cardPool.add("Royal Robot");
 		cardPool.add("Burst Heal");
+		cardPool.add("Demon");
+		cardPool.add("Remembrance");
 		cardPool.add("Vitality Artifact");
 		// cardPool.add("Mighty Wrench");
 	}
 
 	private static Card newCardByName(String string) {
 		switch (string) {
-		case "Mighty Wrench":
-			return new MightyWrench();
+		// case "Mighty Wrench":
+		// return new MightyWrench();
+
+		case "Demon":
+			return new Demon();
+		case "Remembrance":
+			return new Remembrance();
+
 		case "Vitality Artifact":
 			return new VitalityArtifact();
 		case "Time Stop":
