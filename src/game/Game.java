@@ -404,15 +404,57 @@ public class Game {
 	private static void generateDecklists(int i) {
 		for (int ps = 0; ps < i; ps++) {
 			Player p = new Player("P" + (ps + 1));
+
+			Collections.shuffle(cardPool);
+			String first = cardPool.get(0);
+			debug("Finding card: " + first);
+			while (cardCount(p.getDeck(), first) < 4) {
+				Card c = findCardByName(first);
+				p.getDeck().add(c);
+			}
+
+			Collections.shuffle(cardPool);
+			String second = cardPool.get(0);
+			debug("Finding card: " + second);
+			while (cardCount(p.getDeck(), second) < 4) {
+				Card c = findCardByName(second);
+				p.getDeck().add(c);
+			}
+
+			Collections.shuffle(cardPool);
+			String third = cardPool.get(0);
+			debug("Finding card: " + third);
+			while (cardCount(p.getDeck(), third) < 4) {
+				Card c = findCardByName(third);
+				p.getDeck().add(c);
+			}
+
+			Collections.shuffle(cardPool);
+			String fourth = cardPool.get(0);
+			debug("Finding card: " + fourth);
+			while (cardCount(p.getDeck(), fourth) < 3) {
+				Card c = findCardByName(fourth);
+				p.getDeck().add(c);
+			}
+
+			Collections.shuffle(cardPool);
+			String fifth = cardPool.get(0);
+			debug("Finding card: " + fifth);
+			while (cardCount(p.getDeck(), fifth) < 3) {
+				Card c = findCardByName(fifth);
+				p.getDeck().add(c);
+			}
+
 			while (p.getDeck().size() < 30) {
 				Collections.shuffle(cardPool);
 				String s = cardPool.get(0);
+				debug("Finding card: " + s);
 				Card c = findCardByName(s);
 				if (cardCount(p.getDeck(), c.getName()) < 4) {
+					debug("Still able to add: " + first);
 					p.getDeck().add(c);
-				}
-				if (cardCount(p.getDeck(), c.getName()) < 2 && p.getDeck().size() < 30) {
-					p.getDeck().add(c);
+				} else {
+					debug("Got enough: " + first);
 				}
 			}
 			players.add(p);
