@@ -18,7 +18,7 @@ public class SlowFlare extends Card {
 	@Override
 	public void graveAbility(Player self, Player opponent) {
 		if (this.getCounters() > 0) {
-			opponent.lifeTotal = 4 - this.getCounters();
+			opponent.lifeTotal -= (4 - this.getCounters());
 			this.takeCounter();
 		}
 	}
