@@ -491,20 +491,38 @@ public class Game {
 		cardPool.add("Demon");
 		cardPool.add("Remembrance");
 		cardPool.add("Vitality Artifact");
+		cardPool.add("Export");
 		cardPool.add("Tasty Bread");
-		// cardPool.add("Mighty Wrench");
+		cardPool.add("Recycle");
+		cardPool.add("Aulstyne");
+		cardPool.add("Locke");
+		cardPool.add("Mighty Wrench");
+		cardPool.add("Repair");
+		cardPool.add("Eternal Flame");
 	}
 
 	private static Card newCardByName(String string) {
 		switch (string) {
-		// case "Mighty Wrench":
-		// return new MightyWrench();
-
+		case "Eternal Flame":
+			return new EternalFlame();
+		case "Repair":
+			return new Repair();
+		case "Locke":
+			return new Locke();
+		case "Aulstyne":
+			return new Aulstyne();
+		case "Mighty Wrench":
+			return new MightyWrench();
+		case "Recycle":
+			return new Recycle();
+		case "Export":
+			return new Export();
+		case "Tasty Bread":
+			return new TastyBread();
 		case "Demon":
 			return new Demon();
 		case "Remembrance":
 			return new Remembrance();
-
 		case "Vitality Artifact":
 			return new VitalityArtifact();
 		case "Time Stop":
