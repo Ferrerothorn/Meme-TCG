@@ -20,13 +20,13 @@ public class Pigeon extends Card {
 			if (c.getName().equals("Pigeon")) {
 				temp.add(c);
 			}
+			i++;
 		}
 		self.grave.remove(this);
-		self.lifeTotal++;
 		opponent.lifeTotal--;
-		self.lifeTotal += temp.size()*2;
 		opponent.lifeTotal -= temp.size()*2;
 		self.getDeck().removeAll(temp);
+		temp.clear();
 		Collections.shuffle(self.getDeck());
 	}
 }
