@@ -452,6 +452,7 @@ public class Game {
 		cardPool.add("Demon");
 		cardPool.add("Remembrance");
 		cardPool.add("Vitality Artifact");
+		cardPool.add("Tasty Bread");
 		// cardPool.add("Mighty Wrench");
 	}
 
