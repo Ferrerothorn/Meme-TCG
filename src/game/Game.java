@@ -28,7 +28,8 @@ public class Game {
 			System.out.println();
 			System.out.println("===Choose a command===");
 			System.out.println("0: Run randomised tournament.");
-			System.out.println("2: Run a multiplayer tournament.");
+			System.out.println("2: Run a round of a tournament.");
+			System.out.println("3: Run a single game.");
 			System.out.println("5: Compare two decks.");
 			System.out.println("6: Compare one deck against a multitude of other decks.");
 			System.out.println("7: Generate a 'solution' to a deck.");
@@ -41,6 +42,9 @@ public class Game {
 
 			case 0:
 				runTournament();
+				break;
+			case 2:
+				runTournamentRound();
 				break;
 			case 3:
 				runSingleGame();
@@ -104,6 +108,36 @@ public class Game {
 				input.close();
 				System.exit(0);
 				break;
+			}
+		}
+	}
+
+	private static void runTournamentRound() {
+		System.out.println("Enter any number of decklists, separated by '/'.");
+		String gauntletInfo = input.nextLine();
+		System.out.println();
+		String[] gauntlet = gauntletInfo.split("/");
+		if (gauntlet.length % 2 != 0) {
+			System.out.println("Incorrect number of decks - not a complete round.");
+		} else {
+			int index = 0;
+			while ((index + 1) < gauntlet.length) {
+				String[] p1Data = gauntlet[index].split(":");
+				String[] p2Data = gauntlet[index + 1].split(":");
+				Player p1 = new Player(p1Data[0]);
+				parseDeckFromLine(p1, p1Data[1]);
+				Player p2 = new Player(p2Data[0]);
+				parseDeckFromLine(p2, p2Data[1]);
+
+				if (p1.getDeck().size() + p2.getDeck().size() != 60) {
+					debug("One or more decks isn't correct (@30 cards).");
+					debug(p1.name + ": " + p1.getDeck().size());
+					debug(p2.name + ": " + p2.getDeck().size());
+					break;
+				}
+				System.out.println(p1.getName() + " wins " + grindGames(p1, p2, 25000) + "% of games against "
+						+ p2.getName() + ".");
+				index += 2;
 			}
 		}
 	}
@@ -297,11 +331,12 @@ public class Game {
 
 			ArrayList<Card> triggers = new ArrayList<>();
 			triggers.addAll(p1.grave);
+			Collections.shuffle(triggers);
 			for (Card c : triggers) {
+				c.graveAbility(p1, p2);
 				if (!p2.isAlive() || !p1.isAlive()) {
 					break;
 				}
-				c.graveAbility(p1, p2);
 			}
 			triggers.clear();
 			debug(p1.name + "'s grave triggers. (" + p1.getLife() + ")-(" + p2.getLife() + ")");
@@ -321,12 +356,16 @@ public class Game {
 					break;
 				}
 			}
+			if (!p2.isAlive() || !p1.isAlive()) {
+				break;
+			}
 			triggers.addAll(p2.grave);
+			Collections.shuffle(triggers);
 			for (Card c : triggers) {
+				c.graveAbility(p2, p1);
 				if (!p2.isAlive() || !p1.isAlive()) {
 					break;
 				}
-				c.graveAbility(p2, p1);
 			}
 			triggers.clear();
 			debug(p2.name + "'s grave triggers. (" + p2.getLife() + ")-(" + p1.getLife() + ")");
