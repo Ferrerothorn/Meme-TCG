@@ -15,8 +15,4 @@ public class WickedRobot extends Card {
 			opponent.playsPerTurn--;
 		}
 	}
-
-	@Override
-	public void graveAbility(Player self, Player opponent) {
-	}
 }
