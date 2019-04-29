@@ -57,6 +57,7 @@ public class Player {
 	public int maxLifeTotal = 30;
 	public int lifeTotal;
 	public int playsPerTurn = 2;
+	public int fatigue = 1;
 
 	public Player(String newName) {
 		name = newName;
@@ -95,7 +96,8 @@ public class Player {
 		if (deck.size() > 0) {
 			hand.add(deck.remove(0));
 		} else {
-			this.lifeTotal = lifeTotal - 5;
+			this.lifeTotal = lifeTotal - fatigue;
+			fatigue++;
 		}
 	}
 
