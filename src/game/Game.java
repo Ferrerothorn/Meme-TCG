@@ -541,10 +541,19 @@ public class Game {
 		cardPool.add("Mighty Wrench");
 		cardPool.add("Repair");
 		cardPool.add("Eternal Flame");
+		cardPool.add("Rotato Potato");
+		cardPool.add("Insurance Plan");
+		cardPool.add("Wheel of Fate");
 	}
 
 	private static Card newCardByName(String string) {
 		switch (string) {
+		case "Wheel of Fate":
+			return new WheelOfFate();
+		case "Insurance Plan":
+			return new InsurancePlan();
+		case "Rotato Potato":
+			return new RotatoPotato();
 		case "Eternal Flame":
 			return new EternalFlame();
 		case "Repair":
