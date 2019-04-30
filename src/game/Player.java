@@ -5,6 +5,7 @@ package game;
  * 
  * 
  * 
+Healer Demon:Increasing Heal-4,Greater Demon-4,Eventual Zap-4,Damnation-4,Vitality Artifact-3,Gesper-2,Lesser Demon-1,Mass Grave-1,Mend-1,Mulch Munch-1,Eternal Herb-1,Burst Heal-1,Ignite-1,Amnesia-1,Parry-1
 Steve's Transfusion Stall:Dark Transfusion-4,Waifu-3,Mend-3,Remembrance-3,Eternal Herb-4,Vitality Artifact-3,Apparition-2,Heal-2,Time Stop-2,Burst Heal-4
 Dredge:Gesper-4,Mend-4,Thought Scour-4,Cowardly Robot-4,Grindstone-4,Eternal Herb-4,Poison Frog-2,The Rack-4
 Wicked Robot Control:Wicked Robot-3,Thought Scour-2,Gesper-2,Zap-2,Poison Frog-2,Mend-2,Junk Chucker-2,The Rack-2,Ancestral Recall-2,Mulch Munch-2,Zap and Tap-2,Handy Robot-2,Eternal Herb-2,Tempo Drain-2,Comeback Zap-1
