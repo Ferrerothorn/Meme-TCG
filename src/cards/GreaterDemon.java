@@ -3,10 +3,10 @@ package cards;
 import extraData.Card;
 import game.Player;
 
-public class Demon extends Card {
+public class GreaterDemon extends Card {
 
-	public Demon() {
-		this.name = "Demon";
+	public GreaterDemon() {
+		this.name = "Greater Demon";
 	}
 
 	@Override
@@ -18,7 +18,7 @@ public class Demon extends Card {
 	@Override
 	public void graveAbility(Player self, Player opponent) {
 		if(this.getCounters()>0) {
-			opponent.lifeTotal -= 2;
+			opponent.lifeTotal -= 3;
 		}
 	}
 }

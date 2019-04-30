@@ -530,7 +530,7 @@ public class Game {
 		cardPool.add("Slow Flare");
 		cardPool.add("Royal Robot");
 		cardPool.add("Burst Heal");
-		cardPool.add("Demon");
+		cardPool.add("Greater Demon");
 		cardPool.add("Remembrance");
 		cardPool.add("Vitality Artifact");
 		cardPool.add("Export");
@@ -544,6 +544,12 @@ public class Game {
 		cardPool.add("Rotato Potato");
 		cardPool.add("Insurance Plan");
 		cardPool.add("Wheel of Fate");
+		cardPool.add("Zap Machine");
+		cardPool.add("Tent");
+		cardPool.add("Increasing Heal");
+		cardPool.add("Lesser Demon");
+		cardPool.add("Dark Contract");
+		cardPool.add("Overdrive");
 	}
 
 	private static Card newCardByName(String string) {
@@ -554,6 +560,18 @@ public class Game {
 			return new InsurancePlan();
 		case "Rotato Potato":
 			return new RotatoPotato();
+		case "Overdrive":
+			return new Overdrive();
+		case "Dark Contract":
+			return new DarkContract();
+		case "Lesser Demon":
+			return new LesserDemon();
+		case "Increasing Heal":
+			return new IncreasingHeal();
+		case "Tent":
+			return new Tent();
+		case "Zap Machine":
+			return new ZapMachine();
 		case "Eternal Flame":
 			return new EternalFlame();
 		case "Repair":
@@ -570,8 +588,8 @@ public class Game {
 			return new Export();
 		case "Tasty Bread":
 			return new TastyBread();
-		case "Demon":
-			return new Demon();
+		case "Greater Demon":
+			return new GreaterDemon();
 		case "Remembrance":
 			return new Remembrance();
 		case "Vitality Artifact":
