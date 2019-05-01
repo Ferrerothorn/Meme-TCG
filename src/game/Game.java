@@ -536,7 +536,7 @@ public class Game {
 		cardPool.add("Export");
 		cardPool.add("Tasty Bread");
 		cardPool.add("Recycle");
-		cardPool.add("Aulstyne");
+		cardPool.add("Checkmate");
 		cardPool.add("Locke");
 		cardPool.add("Mighty Wrench");
 		cardPool.add("Repair");
@@ -549,19 +549,19 @@ public class Game {
 		cardPool.add("Increasing Heal");
 		cardPool.add("Lesser Demon");
 		cardPool.add("Dark Contract");
-		cardPool.add("Overdrive");
+		cardPool.add("Miller");
 	}
 
 	private static Card newCardByName(String string) {
 		switch (string) {
+		case "Miller":
+			return new Miller();
 		case "Wheel of Fate":
 			return new WheelOfFate();
 		case "Insurance Plan":
 			return new InsurancePlan();
 		case "Rotato Potato":
 			return new RotatoPotato();
-		case "Overdrive":
-			return new Overdrive();
 		case "Dark Contract":
 			return new DarkContract();
 		case "Lesser Demon":
@@ -578,8 +578,8 @@ public class Game {
 			return new Repair();
 		case "Locke":
 			return new Locke();
-		case "Aulstyne":
-			return new Aulstyne();
+		case "Checkmate":
+			return new Checkmate();
 		case "Mighty Wrench":
 			return new MightyWrench();
 		case "Recycle":
