@@ -3,10 +3,10 @@ package cards;
 import extraData.Card;
 import game.Player;
 
-public class Aulstyne extends Card {
+public class Checkmate extends Card {
 
-	public Aulstyne() {
-		this.name = "Aulstyne";
+	public Checkmate() {
+		this.name = "Checkmate";
 	}
 
 	@Override
@@ -16,7 +16,6 @@ public class Aulstyne extends Card {
 			if(self.playsPerTurn<2) {
 			self.playsPerTurn = 2;
 			}
-			opponent.playsPerTurn = 2;
 		}
 		opponent.lifeTotal -= 2;
 	}
