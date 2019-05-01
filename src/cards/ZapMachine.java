@@ -24,6 +24,15 @@ public class ZapMachine extends Card {
 		if (this.getCounters() == 0) {
 			opponent.lifeTotal -= 4;
 		}
-
+	}
+	
+	@Override
+	public void afterResolving(Player self, Player opponent) {
+		for (Card c: self.grave) {
+			if (c.getName().equals("Zap Magnifier") && c.getCounters()>0) {
+				opponent.lifeTotal-= c.getCounters();
+				c.takeCounter();
+			}
+		}
 	}
 }

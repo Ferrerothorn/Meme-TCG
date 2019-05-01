@@ -22,7 +22,7 @@ public class ZapAndTap extends Card {
 	public void afterResolving(Player self, Player opponent) {
 		for (Card c: self.grave) {
 			if (c.getName().equals("Zap Magnifier") && c.getCounters()>0) {
-				opponent.lifeTotal--;
+				opponent.lifeTotal-= c.getCounters();
 				c.takeCounter();
 			}
 		}
