@@ -1,6 +1,7 @@
 package cards;
 
 import java.util.ArrayList;
+import java.util.Collections;
 
 import extraData.Card;
 import game.Player;
@@ -18,6 +19,7 @@ public class Repair extends Card {
 		}
 		if (self.getDeck().size() <= 3) {
 			self.movePile(self.getDeck(), self.grave);
+			Collections.shuffle(self.getDeck());
 		}
 		ArrayList<Card> corruption = new ArrayList<Card>();
 		for (Card c : self.getDeck()) {
