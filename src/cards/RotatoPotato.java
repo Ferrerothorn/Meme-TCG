@@ -16,8 +16,7 @@ public class RotatoPotato extends Card {
 		int x = self.grave.size();
 		self.movePile(self.getDeck(), self.grave);
 		Collections.shuffle(self.getDeck());
-		self.millX(x);
-		self.draw();
+		self.millX(x/2);
 
 	}
 
