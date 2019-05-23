@@ -56,7 +56,9 @@ public class Player {
 
 	public void draw() {
 		if (deck.size() > 0) {
-			hand.add(deck.remove(0));
+			Card c = deck.remove(0);
+			c.whenDrawn();
+			hand.add(c);
 		} else {
 			this.lifeTotal = lifeTotal - fatigue;
 			fatigue++;
