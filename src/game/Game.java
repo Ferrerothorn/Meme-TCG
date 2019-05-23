@@ -20,6 +20,7 @@ public class Game {
 	public static ArrayList<String> cardPool = new ArrayList<>();
 	public static Boolean debug = false;
 	public static Scanner input = new Scanner(System.in);
+	public static int deathsByMill = 0;
 
 	public static void main(String[] args) {
 		instantiateCardpool();
@@ -49,7 +50,6 @@ public class Game {
 			case 3:
 				runSingleGame();
 				break;
-
 			case 5:
 				runBestOf25k();
 				break;
@@ -550,10 +550,22 @@ public class Game {
 		cardPool.add("Lesser Demon");
 		cardPool.add("Dark Contract");
 		cardPool.add("Miller");
+		cardPool.add("Monastery");
+		cardPool.add("Sacrifice");
+		cardPool.add("Divine Zap");
+		cardPool.add("Griselbrand");
 	}
 
 	private static Card newCardByName(String string) {
 		switch (string) {
+		case "Griselbrand":
+			return new Griselbrand();
+		case "Divine Zap":
+			return new DivineZap();
+		case "Monastery":
+			return new Monastery();
+		case "Sacrifice":
+			return new Sacrifice();
 		case "Miller":
 			return new Miller();
 		case "Wheel of Fate":
