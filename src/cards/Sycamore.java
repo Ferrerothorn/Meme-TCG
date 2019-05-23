@@ -12,9 +12,7 @@ public class Sycamore extends Card {
 	
 	@Override
 	public void onentry(Player self, Player opponent) {
-		while(self.getHand().size()>0) {
-		self.randomDiscard();
-		}
+		self.movePile(self.grave, self.getHand());
 		self.drawX(7);
 	}	
 }
