@@ -53,4 +53,14 @@ public class Deck {
 		cards.add(c);
 	}
 
+	public void removeIfContains(String string) {
+		ArrayList<Card> filter = new ArrayList<>();
+		for(Card c : cards) {
+			if (c.getName().contains(string)) {
+				filter.add(c);
+			}
+		}
+		cards.removeAll(filter);
+	}
+
 }
