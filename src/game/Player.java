@@ -57,7 +57,7 @@ public class Player {
 	public void draw() {
 		if (deck.size() > 0) {
 			Card c = deck.remove(0);
-			c.whenDrawn();
+			c.whenDrawn(this);
 			hand.add(c);
 		} else {
 			this.lifeTotal = lifeTotal - fatigue;
@@ -123,8 +123,10 @@ public class Player {
 		this.deck.addAll(this.hand);
 		this.hand.clear();
 		this.deck.remove("Corrupted Blood");
+		this.deck.remove("Holy Grail");
 		this.deck.remove("Cable");
 		this.deck.remove("Pigeon");
+		this.deck.remove("Copycard");
 		this.fatigue = 1;
 		for (Card c : this.getDeck()) {
 			c.setCounters(0);
