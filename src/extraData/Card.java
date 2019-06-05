@@ -1,12 +1,13 @@
 package extraData;
 
 import game.Player;
-
 public abstract class Card {
 
 	protected String name;
 	int counters;
 
+	
+	
 	public void onentry(Player self, Player opponent) {
 
 	}
@@ -18,9 +19,16 @@ public abstract class Card {
 	public void graveAbility(Player self, Player opponent) {
 
 	}
+	
+	public void whenDrawn(Player self) {
+	}
 
 	public String getName() {
 		return name;
+	}
+	
+	public void setName(String s) {
+		name = s;
 	}
 
 	public void addCounter() {
