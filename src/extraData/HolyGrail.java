@@ -1,6 +1,5 @@
-package cards;
+package extraData;
 
-import extraData.Card;
 import game.Player;
 
 public class HolyGrail extends Card {
