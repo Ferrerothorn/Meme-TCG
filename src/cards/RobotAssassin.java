@@ -15,7 +15,7 @@ public class RobotAssassin extends Card {
 
 	@Override
 	public void graveAbility(Player self, Player opponent) {
-		if (self.grave.size() >= 7 || opponent.grave.size() >= 7) {
+		if (self.grave.size() >= 7) {
 			opponent.lifeTotal -= 2;
 		}
 	}
