@@ -1,8 +1,9 @@
 package cards;
 
-import java.util.Random;
+import java.util.Collections;
 
 import extraData.Card;
+import extraData.HolyGrail;
 import game.Player;
 
 public class Trial extends Card {
@@ -16,6 +17,7 @@ public class Trial extends Card {
 		self.lifeTotal -=3;
 		opponent.draw();
 		self.getDeck().add(new HolyGrail());
+		Collections.shuffle(self.getDeck());
 	}
 
 	@Override
