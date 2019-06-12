@@ -11,6 +11,6 @@ public class Miller extends Card {
 
 	@Override
 	public void onentry(Player self, Player opponent) {
-		opponent.fatigue = 2100000000;
+		opponent.fatigue = -1;
 	}
 }

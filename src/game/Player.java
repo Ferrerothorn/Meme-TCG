@@ -56,8 +56,12 @@ public class Player {
 			c.whenDrawn(this);
 			hand.add(c);
 		} else {
-			this.lifeTotal = lifeTotal - fatigue;
-			fatigue++;
+			if (fatigue == -1) {
+				this.lifeTotal = 0;
+			} else {
+				this.lifeTotal = lifeTotal - fatigue;
+				fatigue++;
+			}
 		}
 	}
 
@@ -133,12 +137,12 @@ public class Player {
 
 	private void removeAll(ArrayList<Card> cards, String string) {
 		ArrayList<Card> removeList = new ArrayList<>();
-		for(Card c : cards) {
-			if (c.getName().contains(string)){
+		for (Card c : cards) {
+			if (c.getName().contains(string)) {
 				removeList.add(c);
 			}
 		}
-		cards.removeAll(removeList);	
+		cards.removeAll(removeList);
 	}
 
 	public int getLife() {
