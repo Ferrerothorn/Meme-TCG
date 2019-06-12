@@ -206,6 +206,7 @@ public class Game {
 			debug(p2.showDecklist());
 			Player winner = play(p1, p2);
 			players.add(winner);
+			debug("======" + players.size() + "======");
 		}
 		System.out.println(analyseTopCut());
 	}
@@ -251,8 +252,13 @@ public class Game {
 	}
 
 	private static void debug(String string) {
-		if (debug) {
+		if (debug && !string.contains("Still able to add") && !string.contains("Finding card")) {
 			System.out.println(string);
+		}
+		else {
+			if(string.contains("====")) {
+				System.out.println(string);
+			}
 		}
 	}
 
