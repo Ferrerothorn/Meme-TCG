@@ -10,7 +10,7 @@ public class HolyGrail extends Card {
 
 	@Override
 	public void onentry(Player self, Player opponent) {
-		self.lifeTotal += 10000;
+		self.lifeTotal += 5000;
 	}
 
 	@Override
