@@ -15,7 +15,7 @@ public class Apparition extends Card {
 	public void onentry(Player self, Player opponent) {
 		if (self.grave.size() > 0) {
 			Collections.shuffle(self.grave);
-			if (!self.grave.get(0).getName().equals("Apparition")) {
+			if (!self.grave.get(0).getName().equals("Apparition") && !self.grave.get(0).getName().contains("Copied ")) {
 				self.grave.get(0).onentry(self, opponent);
 			}
 			else{
