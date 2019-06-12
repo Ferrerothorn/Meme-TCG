@@ -11,8 +11,7 @@ import java.util.Map;
 import java.util.Scanner;
 
 import cards.*;
-import extraData.Card;
-import extraData.ErrorMessage;
+import extraData.*;
 
 public class Game {
 
@@ -29,23 +28,27 @@ public class Game {
 			System.out.println();
 			System.out.println("===Choose a command===");
 			System.out.println("0: Run randomised tournament.");
-			System.out.println("2: Run a round of a tournament.");
+			System.out.println("2: Analyse the top 8 meta.");
+			System.out.println("22: Debug: Top Cut is entire tourney.");
 			System.out.println("3: Run a single game.");
 			System.out.println("5: Compare two decks.");
 			System.out.println("6: Compare one deck against a multitude of other decks.");
 			System.out.println("7: Generate a 'solution' to a deck.");
 			System.out.println("999: Quit.");
 			System.out.println();
-			int choice = input.nextInt();
-			input.nextLine();
+//			int choice = input.nextInt();
+//			input.nextLine();
 
-			switch (choice) {
+			switch (5) {
 
 			case 0:
-				runTournament();
+				runTournament(1);
 				break;
 			case 2:
-				runTournamentRound();
+				runTournament(8);
+				break;
+			case 22:
+				runTournament(300000);
 				break;
 			case 3:
 				runSingleGame();
@@ -111,36 +114,37 @@ public class Game {
 			}
 		}
 	}
-
-	private static void runTournamentRound() {
-		System.out.println("Enter any number of decklists, separated by '/'.");
-		String gauntletInfo = input.nextLine();
-		System.out.println();
-		String[] gauntlet = gauntletInfo.split("/");
-		if (gauntlet.length % 2 != 0) {
-			System.out.println("Incorrect number of decks - not a complete round.");
-		} else {
-			int index = 0;
-			while ((index + 1) < gauntlet.length) {
-				String[] p1Data = gauntlet[index].split(":");
-				String[] p2Data = gauntlet[index + 1].split(":");
-				Player p1 = new Player(p1Data[0]);
-				parseDeckFromLine(p1, p1Data[1]);
-				Player p2 = new Player(p2Data[0]);
-				parseDeckFromLine(p2, p2Data[1]);
-
-				if (p1.getDeck().size() + p2.getDeck().size() != 60) {
-					debug("One or more decks isn't correct (@30 cards).");
-					debug(p1.name + ": " + p1.getDeck().size());
-					debug(p2.name + ": " + p2.getDeck().size());
-					break;
-				}
-				System.out.println(p1.getName() + " wins " + grindGames(p1, p2, 25000) + "% of games against "
-						+ p2.getName() + ".");
-				index += 2;
-			}
-		}
-	}
+	//
+	// private static void runTournamentRound() {
+	// System.out.println("Enter any number of decklists, separated by '/'.");
+	// String gauntletInfo = input.nextLine();
+	// System.out.println();
+	// String[] gauntlet = gauntletInfo.split("/");
+	// if (gauntlet.length % 2 != 0) {
+	// System.out.println("Incorrect number of decks - not a complete round.");
+	// } else {
+	// int index = 0;
+	// while ((index + 1) < gauntlet.length) {
+	// String[] p1Data = gauntlet[index].split(":");
+	// String[] p2Data = gauntlet[index + 1].split(":");
+	// Player p1 = new Player(p1Data[0]);
+	// parseDeckFromLine(p1, p1Data[1]);
+	// Player p2 = new Player(p2Data[0]);
+	// parseDeckFromLine(p2, p2Data[1]);
+	//
+	// if (p1.getDeck().size() + p2.getDeck().size() != 60) {
+	// debug("One or more decks isn't correct (@30 cards).");
+	// debug(p1.name + ": " + p1.getDeck().size());
+	// debug(p2.name + ": " + p2.getDeck().size());
+	// break;
+	// }
+	// System.out.println(p1.getName() + " wins " + grindGames(p1, p2, 25000) + "%
+	// of games against "
+	// + p2.getName() + ".");
+	// index += 2;
+	// }
+	// }
+	// }
 
 	private static void runBestOf25k() {
 		System.out.println("Enter player 1's name and decklist. (Format should be 'Name:Zap-4,Life Zap-3,...')");
@@ -193,12 +197,12 @@ public class Game {
 		System.out.println(play(p1, p2).getName() + " wins!");
 	}
 
-	private static void runTournament() {
+	private static void runTournament(int cullToThisNumber) {
 		System.out.println("Generating 300k decklists.");
 		generateDecklists(300000);
 		Collections.shuffle(players);
 		System.out.println("Running tournament.");
-		while (players.size() > 1) {
+		while (players.size() > cullToThisNumber) {
 			Player p1 = players.remove(0);
 			Player p2 = players.remove(0);
 			debug();
@@ -237,7 +241,7 @@ public class Game {
 				p1.getDeck().add(c);
 			}
 		}
-		p1.shuffle();
+		p1.shuffle(p1.getDeck());
 	}
 
 	private static Card findCardByName(String string) {
@@ -254,9 +258,8 @@ public class Game {
 	private static void debug(String string) {
 		if (debug && !string.contains("Still able to add") && !string.contains("Finding card")) {
 			System.out.println(string);
-		}
-		else {
-			if(string.contains("====")) {
+		} else {
+			if (string.contains("====")) {
 				System.out.println(string);
 			}
 		}
@@ -321,6 +324,14 @@ public class Game {
 		p1.drawX(5);
 		p2.drawX(5);
 		while (p1.isAlive() && p2.isAlive()) {
+			// if (p1.lifeTotal > 100000 || p2.lifeTotal > 100000) {
+			// printGameState(p1, p2);
+			// try {
+			// Thread.sleep(5000);
+			// } catch (InterruptedException e) {
+			// e.printStackTrace();
+			// }
+			// }
 			int p1playsPerTurn = p1.playsPerTurn;
 			int p2playsPerTurn = p2.playsPerTurn;
 			p1.draw();
@@ -405,6 +416,33 @@ public class Game {
 		debug("P2 deck: " + p2.deck.cards.size());
 		debug("P2 deck: " + p2.showDecklist());
 		return p2;
+	}
+
+	private static void printGameState(Player p1, Player p2) {
+		System.out.println("P1's life: " + p1.lifeTotal);
+		System.out.println("P1's hand: " + toString(p1.getHand()));
+		System.out.println("P1's deck: " + toString(p1.getDeck()));
+		System.out.println("P1's grave: " + toString(p1.getGrave()));
+		System.out.println("P1's RFG: " + toString(p1.rfg));
+		System.out.println("");
+		System.out.println("P2's life: " + p2.lifeTotal);
+		System.out.println("P2's hand: " + toString(p2.getHand()));
+		System.out.println("P2's deck: " + toString(p2.getDeck()));
+		System.out.println("P2's grave: " + toString(p2.getGrave()));
+		System.out.println("P2's RFG: " + toString(p2.rfg));
+	}
+
+	private static String toString(ArrayList<Card> hand) {
+		String output = "[";
+		for (Card c : hand) {
+			output += c.getName();
+			output += ", ";
+		}
+		if (output.length() > 2) {
+			output = output.substring(0, output.length() - 2);
+		}
+		output += "]";
+		return output;
 	}
 
 	private static void generateDecklists(int i) {
@@ -504,6 +542,7 @@ public class Game {
 		cardPool.add("Eternal Herb");
 		cardPool.add("Eventual Zap");
 		cardPool.add("Export");
+		cardPool.add("Genome");
 		cardPool.add("Gesper");
 		cardPool.add("Giga Zap");
 		cardPool.add("Greater Demon");
@@ -560,13 +599,18 @@ public class Game {
 		cardPool.add("Zap and Tap");
 		cardPool.add("Zap");
 		cardPool.add("Zapstarter");
-
 		cardPool.add("Doubling Zap");
 		cardPool.add("Trial");
+		cardPool.add("Cloning Gallery");
+		cardPool.add("Bargaining");
 	}
 
-	private static Card newCardByName(String string) {
+	public static Card newCardByName(String string) {
 		switch (string) {
+		case "Bargaining":
+			return new Bargaining();
+		case "Cloning Gallery":
+			return new CloningGallery();
 		case "Trial":
 			return new Trial();
 		case "Doubling Zap":
@@ -583,6 +627,8 @@ public class Game {
 			return new Miller();
 		case "Wheel of Fate":
 			return new WheelOfFate();
+		case "Genome":
+			return new Genome();
 		case "Insurance Plan":
 			return new InsurancePlan();
 		case "Rotato Potato":
@@ -735,6 +781,15 @@ public class Game {
 			return new Zapstarter();
 		case "Zap Magnifier":
 			return new ZapMagnifier();
+		case "Corrupted Blood":
+			return new CorruptedBlood();
+		case "Pigeon":
+			return new Pigeon();
+		case "Holy Grail":
+			return new HolyGrail();
+		case "Cable":
+			return new Cable();
+
 		default:
 			return new ErrorMessage(string);
 		}
