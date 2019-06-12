@@ -228,7 +228,7 @@ public class Game {
 		return (100 * p1winrate) / bestOf;
 	}
 
-	private static void parseDeckFromLine(Player p1, String p1deck) {
+	public static void parseDeckFromLine(Player p1, String p1deck) {
 		String[] cards = p1deck.split(",");
 		for (String s : cards) {
 			String[] cardQty = s.split("-");
