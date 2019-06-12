@@ -65,8 +65,8 @@ public class Player {
 		}
 	}
 
-	public void shuffle() {
-		deck.shuffle();
+	public void shuffle(ArrayList<Card> pile) {
+		Collections.shuffle(pile);
 	}
 
 	public void randomDiscard() {
