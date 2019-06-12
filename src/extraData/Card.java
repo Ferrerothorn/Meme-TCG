@@ -1,13 +1,12 @@
 package extraData;
 
 import game.Player;
-public abstract class Card {
+
+public abstract class Card implements Cloneable {
 
 	protected String name;
 	int counters;
 
-	
-	
 	public void onentry(Player self, Player opponent) {
 
 	}
@@ -19,14 +18,14 @@ public abstract class Card {
 	public void graveAbility(Player self, Player opponent) {
 
 	}
-	
+
 	public void whenDrawn(Player self) {
 	}
 
 	public String getName() {
 		return name;
 	}
-	
+
 	public void setName(String s) {
 		name = s;
 	}
@@ -44,7 +43,7 @@ public abstract class Card {
 
 	public void takeCounter() {
 		if (counters > 0) {
-		counters--;
+			counters--;
 		}
 	}
 
@@ -61,5 +60,9 @@ public abstract class Card {
 
 	public int getCounters() {
 		return counters;
+	}
+
+	public Card clone() throws CloneNotSupportedException {
+		return (Card) super.clone();
 	}
 }
