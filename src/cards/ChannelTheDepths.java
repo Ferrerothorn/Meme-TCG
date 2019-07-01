@@ -12,10 +12,8 @@ public class ChannelTheDepths extends Card {
 	@Override
 	public void onentry(Player self, Player opponent) {
 		if (self.grave.size() >= 7 || opponent.grave.size() >= 7) {
-			opponent.lifeTotal -= 5;
+			opponent.lifeTotal -= 3;
 		}
-		else {
 			opponent.lifeTotal -= 2;
-		}
 	}
 }
