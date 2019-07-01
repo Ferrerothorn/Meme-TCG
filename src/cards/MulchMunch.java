@@ -5,13 +5,12 @@ import game.Player;
 
 public class MulchMunch extends Card {
 
-	
 	public MulchMunch() {
 		this.name = "Mulch Munch";
 	}
-	
+
 	@Override
 	public void onentry(Player self, Player opponent) {
-		self.lifeTotal+=self.grave.size();
+		self.lifeTotal += self.grave.size();
 	}
 }
