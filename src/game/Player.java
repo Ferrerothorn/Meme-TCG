@@ -16,6 +16,12 @@ public class Player {
 	public int lifeTotal;
 	public int playsPerTurn = 2;
 	public int fatigue = 1;
+	private boolean graveAbilitiesOn = true;
+	public int losses = 0;
+
+	public boolean getGraveAbilities() {
+		return graveAbilitiesOn;
+	}
 
 	public Player(String newName) {
 		name = newName;
@@ -188,5 +194,14 @@ public class Player {
 		}
 		Collections.sort(cards);
 		return cards.toString();
+	}
+
+	public void toggleGraveAbilities() {
+		graveAbilitiesOn = !graveAbilitiesOn;
+	}
+
+	public void setDeck(ArrayList<Card> parseDeckFromLine) {
+		deck.clear();
+		deck.addAll(parseDeckFromLine);
 	}
 }
