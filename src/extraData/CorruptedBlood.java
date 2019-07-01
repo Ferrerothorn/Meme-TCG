@@ -12,13 +12,13 @@ public class CorruptedBlood extends Card {
 
 	@Override
 	public void onentry(Player self, Player opponent) {
-
 		self.getDeck().add(new CorruptedBlood());
 		self.getDeck().add(new CorruptedBlood());
 		int bloodCount = self.cardCount(self.getDeck(), "Corrupted Blood");
-		self.lifeTotal -= fibonacci(bloodCount);
-		self.draw();
+		bloodCount += self.cardCount(self.getHand(), "Corrupted Blood");
+		self.lifeTotal -= bloodCount * (bloodCount - 1);
 		Collections.shuffle(self.getDeck());
+		self.draw();
 	}
 
 	public static int fibonacci(int n) {
