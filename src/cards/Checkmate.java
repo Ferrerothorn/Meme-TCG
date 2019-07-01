@@ -13,10 +13,7 @@ public class Checkmate extends Card {
 	public void onentry(Player self, Player opponent) {
 		if (opponent.getHand().size() == 0) {
 			opponent.movePile(opponent.rfg, opponent.grave);
-			if (self.playsPerTurn < 2) {
-				self.playsPerTurn = 2;
-				this.addCounter();
-			}
+			this.addCounter();
 		} else {
 			opponent.lifeTotal -= 2;
 		}
