@@ -557,7 +557,6 @@ public class Game {
 		cardPool.add("Junk Hunter");
 		cardPool.add("Lesser Demon");
 		cardPool.add("Life Zap");
-		cardPool.add("Locke");
 		cardPool.add("Mass Grave");
 		cardPool.add("Mend");
 		cardPool.add("Mighty Wrench");
@@ -603,12 +602,24 @@ public class Game {
 		cardPool.add("Trial");
 		cardPool.add("Cloning Gallery");
 		cardPool.add("Bargaining");
+		cardPool.add("Arcane Zap");
+		cardPool.add("Exorcise");
+		cardPool.add("Titan");
+		cardPool.add("Thief");
 	}
 
 	public static Card newCardByName(String string) {
 		switch (string) {
+		case "Exorcise":
+			return new Exorcise();
+		case "Titan":
+			return new Titan();
+		case "Arcane Zap":
+			return new ArcaneZap();
 		case "Bargaining":
 			return new Bargaining();
+		case "Upper Hand":
+			return new UpperHand();
 		case "Cloning Gallery":
 			return new CloningGallery();
 		case "Trial":
