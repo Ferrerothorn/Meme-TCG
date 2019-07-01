@@ -63,4 +63,8 @@ public class Deck {
 		cards.removeAll(filter);
 	}
 
+	public void clear() {
+		cards.clear();
+	}
+
 }
