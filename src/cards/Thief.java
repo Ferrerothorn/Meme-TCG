@@ -3,16 +3,16 @@ package cards;
 import extraData.Card;
 import game.Player;
 
-public class Locke extends Card {
+public class Thief extends Card {
 
-	public Locke() {
-		this.name = "Locke";
+	public Thief() {
+		this.name = "Thief";
 	}
 
 	@Override
 	public void onentry(Player self, Player opponent) {
 		this.setCounters(opponent.getLife());
-		if (self.cardCount(self.grave, "Locke") > 2) {
+		if (self.cardCount(self.grave, "Thief") > 2) {
 			opponent.randomDiscard();
 		}
 	}
