@@ -588,6 +588,7 @@ public class Game {
 		cardPool.add("Thought Scour");
 		cardPool.add("Time Stop");
 		cardPool.add("Timetwister");
+		cardPool.add("Upper Hand");
 		cardPool.add("Vitality Artifact");
 		cardPool.add("Waifu");
 		cardPool.add("Wheel of Fate");
@@ -658,8 +659,10 @@ public class Game {
 			return new EternalFlame();
 		case "Repair":
 			return new Repair();
-		case "Locke":
-			return new Locke();
+		case "Thief":
+			return new Thief();
+		case "Monk":
+			return new Monk();
 		case "Checkmate":
 			return new Checkmate();
 		case "Mighty Wrench":
