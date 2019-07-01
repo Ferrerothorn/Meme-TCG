@@ -27,28 +27,36 @@ public class Game {
 		while (true) {
 			System.out.println();
 			System.out.println("===Choose a command===");
-			System.out.println("0: Run randomised tournament.");
+			System.out.println("0: Generate a blind meta deck.");
+			System.out.println("1: Generate a deck with a list of must-include cards.");
 			System.out.println("2: Analyse the top 8 meta.");
-			System.out.println("22: Debug: Top Cut is entire tourney.");
+			System.out.println("22: Debug generation: Top Cut is entire tourney.");
 			System.out.println("3: Run a single game.");
 			System.out.println("5: Compare two decks.");
 			System.out.println("6: Compare one deck against a multitude of other decks.");
 			System.out.println("7: Generate a 'solution' to a deck.");
 			System.out.println("999: Quit.");
 			System.out.println();
-//			int choice = input.nextInt();
-//			input.nextLine();
+			int choice = input.nextInt();
+			input.nextLine();
 
-			switch (5) {
+			switch (choice) {
 
 			case 0:
-				runTournament(1);
+				runTournament(1, "", "");
+				break;
+			case 1:
+				System.out.println("Please enter your list of required cards.");
+				String mandatoryCards = input.nextLine();
+				System.out.println("Please enter your list of banned cards.");
+				String bannedCards = input.nextLine();
+				runTournament(1, mandatoryCards, bannedCards);
 				break;
 			case 2:
-				runTournament(8);
+				runTournament(8, "", "");
 				break;
 			case 22:
-				runTournament(300000);
+				runTournament(300000, "", "");
 				break;
 			case 3:
 				runSingleGame();
@@ -62,7 +70,7 @@ public class Game {
 				String bossInfo = input.nextLine();
 				String[] parseBossName = bossInfo.split(":");
 				Player boss = new Player(parseBossName[0]);
-				parseDeckFromLine(boss, parseBossName[1]);
+				boss.setDeck(parseDeckFromLine(parseBossName[1]));
 
 				System.out.println("Enter any number of other decklists in the same format, separated by '/'.");
 				String gauntletInfo = input.nextLine();
@@ -72,7 +80,7 @@ public class Game {
 				for (String s : gauntlet) {
 					String[] parsedNames = s.split(":");
 					Player opp = new Player(parsedNames[0]);
-					parseDeckFromLine(opp, parsedNames[1]);
+					opp.setDeck(parseDeckFromLine(parsedNames[1]));
 
 					if (boss.getDeck().size() + opp.getDeck().size() != 60) {
 						debug("One or more decks isn't correct (@30 cards).");
@@ -92,13 +100,13 @@ public class Game {
 				String bossDeckInfo = input.nextLine();
 				String[] parsebossname = bossDeckInfo.split(":");
 				Player counterThisDeck = new Player(parsebossname[0]);
-				parseDeckFromLine(counterThisDeck, parsebossname[1]);
+				counterThisDeck.setDeck(parseDeckFromLine(parsebossname[1]));
 
-				generateDecklists(1);
+				generateDecklists(1, "", "");
 				int winrate = 0;
 				while (winrate < 75) {
 					players.clear();
-					generateDecklists(1);
+					generateDecklists(1, "", "");
 					winrate = grindGames(players.get(0), counterThisDeck, 1500);
 					System.gc();
 					if (winrate > 55) {
@@ -151,13 +159,13 @@ public class Game {
 		String p1info = input.nextLine();
 		String[] parsename = p1info.split(":");
 		Player p1 = new Player(parsename[0]);
-		parseDeckFromLine(p1, parsename[1]);
+		p1.setDeck(parseDeckFromLine(parsename[1]));
 
 		System.out.println("Enter player 2's name and decklist. (Format should be 'Name:Zap-4,Life Zap-3,...')");
 		String p2info = input.nextLine();
 		String[] parsename2 = p2info.split(":");
 		Player p2 = new Player(parsename2[0]);
-		parseDeckFromLine(p2, parsename2[1]);
+		p2.setDeck(parseDeckFromLine(parsename2[1]));
 
 		if (p2.getDeck().size() + p1.getDeck().size() != 60) {
 			debug("One or more decks isn't correct (@30 cards).");
@@ -177,13 +185,13 @@ public class Game {
 		String p1inf = input.nextLine();
 		String[] parse = p1inf.split(":");
 		Player p1 = new Player(parse[0]);
-		parseDeckFromLine(p1, parse[1]);
+		p1.setDeck(parseDeckFromLine(parse[1]));
 
 		System.out.println("Enter player 2's name and decklist. (Format should be 'Name:Zap-4,Life Zap-3,...')");
 		String p2info = input.nextLine();
 		String[] parsename2 = p2info.split(":");
 		Player p2 = new Player(parsename2[0]);
-		parseDeckFromLine(p2, parsename2[1]);
+		p2.setDeck(parseDeckFromLine(parsename2[1]));
 
 		if (p2.getDeck().size() + p1.getDeck().size() != 60) {
 			debug("One or more decks isn't correct (@30 cards).");
@@ -197,9 +205,9 @@ public class Game {
 		System.out.println(play(p1, p2).getName() + " wins!");
 	}
 
-	private static void runTournament(int cullToThisNumber) {
+	private static void runTournament(int cullToThisNumber, String mandatoryCards, String bannedCards) {
 		System.out.println("Generating 300k decklists.");
-		generateDecklists(300000);
+		generateDecklists(300000, mandatoryCards, bannedCards);
 		Collections.shuffle(players);
 		System.out.println("Running tournament.");
 		while (players.size() > cullToThisNumber) {
@@ -209,7 +217,15 @@ public class Game {
 			debug(p1.showDecklist());
 			debug(p2.showDecklist());
 			Player winner = play(p1, p2);
+			Player loser = p1;
+			if (loser == winner) {
+				loser = p2;
+			}
 			players.add(winner);
+			loser.losses++;
+			if (loser.losses < 2) {
+				players.add(loser);
+			}
 			debug("======" + players.size() + "======");
 		}
 		System.out.println(analyseTopCut());
@@ -232,16 +248,20 @@ public class Game {
 		return (100 * p1winrate) / bestOf;
 	}
 
-	public static void parseDeckFromLine(Player p1, String p1deck) {
-		String[] cards = p1deck.split(",");
-		for (String s : cards) {
-			String[] cardQty = s.split("-");
-			for (int i = Integer.parseInt(cardQty[1]); i > 0; i--) {
-				Card c = findCardByName(cardQty[0]);
-				p1.getDeck().add(c);
+	public static ArrayList<Card> parseDeckFromLine(String p1deck) {
+		ArrayList<Card> deck = new ArrayList<Card>();
+		if (p1deck.length() > 0) {
+			String[] cards = p1deck.split(",");
+			for (String s : cards) {
+				String[] cardQty = s.split("-");
+				for (int i = Integer.parseInt(cardQty[1]); i > 0; i--) {
+					Card c = findCardByName(cardQty[0]);
+					deck.add(c);
+				}
 			}
+			Collections.shuffle(deck);
 		}
-		p1.shuffle(p1.getDeck());
+		return deck;
 	}
 
 	private static Card findCardByName(String string) {
@@ -347,16 +367,18 @@ public class Game {
 			}
 
 			ArrayList<Card> triggers = new ArrayList<>();
-			triggers.addAll(p1.grave);
-			Collections.shuffle(triggers);
-			for (Card c : triggers) {
-				c.graveAbility(p1, p2);
-				if (!p2.isAlive() || !p1.isAlive()) {
-					break;
+			if (p1.getGraveAbilities()) {
+				triggers.addAll(p1.grave);
+				Collections.shuffle(triggers);
+				for (Card c : triggers) {
+					c.graveAbility(p1, p2);
+					if (!p2.isAlive() || !p1.isAlive()) {
+						break;
+					}
 				}
+				triggers.clear();
+				debug(p1.name + "'s grave triggers. (" + p1.getLife() + ")-(" + p2.getLife() + ")");
 			}
-			triggers.clear();
-			debug(p1.name + "'s grave triggers. (" + p1.getLife() + ")-(" + p2.getLife() + ")");
 
 			if (!p1.isAlive() || !p2.isAlive()) {
 				break;
@@ -376,16 +398,19 @@ public class Game {
 			if (!p2.isAlive() || !p1.isAlive()) {
 				break;
 			}
-			triggers.addAll(p2.grave);
-			Collections.shuffle(triggers);
-			for (Card c : triggers) {
-				c.graveAbility(p2, p1);
-				if (!p2.isAlive() || !p1.isAlive()) {
-					break;
+
+			if (p2.getGraveAbilities()) {
+				triggers.addAll(p2.grave);
+				Collections.shuffle(triggers);
+				for (Card c : triggers) {
+					c.graveAbility(p2, p1);
+					if (!p2.isAlive() || !p1.isAlive()) {
+						break;
+					}
 				}
+				triggers.clear();
+				debug(p2.name + "'s grave triggers. (" + p2.getLife() + ")-(" + p1.getLife() + ")");
 			}
-			triggers.clear();
-			debug(p2.name + "'s grave triggers. (" + p2.getLife() + ")-(" + p1.getLife() + ")");
 
 			if (!p1.isAlive() || !p2.isAlive()) {
 				break;
@@ -418,75 +443,45 @@ public class Game {
 		return p2;
 	}
 
-	private static void printGameState(Player p1, Player p2) {
-		System.out.println("P1's life: " + p1.lifeTotal);
-		System.out.println("P1's hand: " + toString(p1.getHand()));
-		System.out.println("P1's deck: " + toString(p1.getDeck()));
-		System.out.println("P1's grave: " + toString(p1.getGrave()));
-		System.out.println("P1's RFG: " + toString(p1.rfg));
-		System.out.println("");
-		System.out.println("P2's life: " + p2.lifeTotal);
-		System.out.println("P2's hand: " + toString(p2.getHand()));
-		System.out.println("P2's deck: " + toString(p2.getDeck()));
-		System.out.println("P2's grave: " + toString(p2.getGrave()));
-		System.out.println("P2's RFG: " + toString(p2.rfg));
-	}
+	// private static void printDebugGameState(Player p1, Player p2) {
+	// System.out.println("P1's life: " + p1.lifeTotal);
+	// System.out.println("P1's hand: " + toString(p1.getHand()));
+	// System.out.println("P1's deck: " + toString(p1.getDeck()));
+	// System.out.println("P1's grave: " + toString(p1.getGrave()));
+	// System.out.println("P1's RFG: " + toString(p1.rfg));
+	// System.out.println("");
+	// System.out.println("P2's life: " + p2.lifeTotal);
+	// System.out.println("P2's hand: " + toString(p2.getHand()));
+	// System.out.println("P2's deck: " + toString(p2.getDeck()));
+	// System.out.println("P2's grave: " + toString(p2.getGrave()));
+	// System.out.println("P2's RFG: " + toString(p2.rfg));
+	// }
 
-	private static String toString(ArrayList<Card> hand) {
-		String output = "[";
-		for (Card c : hand) {
-			output += c.getName();
-			output += ", ";
-		}
-		if (output.length() > 2) {
-			output = output.substring(0, output.length() - 2);
-		}
-		output += "]";
-		return output;
-	}
+	// private static String toString(ArrayList<Card> hand) {
+	// String output = "[";
+	// for (Card c : hand) {
+	// output += c.getName();
+	// output += ", ";
+	// }
+	// if (output.length() > 2) {
+	// output = output.substring(0, output.length() - 2);
+	// }
+	// output += "]";
+	// return output;
+	// }
 
-	private static void generateDecklists(int i) {
+	private static void generateDecklists(int i, String mandatoryCards, String bannedCards) {
 		for (int ps = 0; ps < i; ps++) {
 			Player p = new Player("P" + (ps + 1));
-
-			Collections.shuffle(cardPool);
-			String first = cardPool.get(0);
-			debug("Finding card: " + first);
-			while (cardCount(p.getDeck(), first) < 4) {
-				Card c = findCardByName(first);
-				p.getDeck().add(c);
-			}
-
-			Collections.shuffle(cardPool);
-			String second = cardPool.get(0);
-			debug("Finding card: " + second);
-			while (cardCount(p.getDeck(), second) < 4) {
-				Card c = findCardByName(second);
-				p.getDeck().add(c);
-			}
-
-			Collections.shuffle(cardPool);
-			String third = cardPool.get(0);
-			debug("Finding card: " + third);
-			while (cardCount(p.getDeck(), third) < 4) {
-				Card c = findCardByName(third);
-				p.getDeck().add(c);
-			}
-
-			Collections.shuffle(cardPool);
-			String fourth = cardPool.get(0);
-			debug("Finding card: " + fourth);
-			while (cardCount(p.getDeck(), fourth) < 3) {
-				Card c = findCardByName(fourth);
-				p.getDeck().add(c);
-			}
-
-			Collections.shuffle(cardPool);
-			String fifth = cardPool.get(0);
-			debug("Finding card: " + fifth);
-			while (cardCount(p.getDeck(), fifth) < 3) {
-				Card c = findCardByName(fifth);
-				p.getDeck().add(c);
+			ArrayList<Card> mandatory = parseDeckFromLine(mandatoryCards);
+			p.getDeck().addAll(mandatory);
+			while (p.getDeck().size() < 24) {
+				String card = fetchCardFactoringBans(bannedCards);
+				debug("Finding card: " + card);
+				while (cardCount(p.getDeck(), card) < 4) {
+					Card c = findCardByName(card);
+					p.getDeck().add(c);
+				}
 			}
 
 			while (p.getDeck().size() < 30) {
@@ -495,14 +490,22 @@ public class Game {
 				debug("Finding card: " + s);
 				Card c = findCardByName(s);
 				if (cardCount(p.getDeck(), c.getName()) < 4) {
-					debug("Still able to add: " + first);
+					debug("Still able to add: " + s);
 					p.getDeck().add(c);
 				} else {
-					debug("Got enough: " + first);
+					debug("Got enough: " + s);
 				}
 			}
 			players.add(p);
 		}
+	}
+
+	private static String fetchCardFactoringBans(String bannedCards) {
+		Collections.shuffle(cardPool);
+		if (bannedCards.contains(cardPool.get(0))) {
+			return fetchCardFactoringBans(bannedCards);
+		}
+		return cardPool.get(0);
 	}
 
 	private static int cardCount(ArrayList<Card> deck, String name) {
