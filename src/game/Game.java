@@ -99,15 +99,13 @@ public class Game {
 						"Enter the player+deck intended to beat. (Format should be 'Name:Zap-4,Life Zap-3,...')");
 				String bossDeckInfo = input.nextLine();
 				String[] parsebossname = bossDeckInfo.split(":");
-				Player counterThisDeck = new Player(parsebossname[0]);
-				counterThisDeck.setDeck(parseDeckFromLine(parsebossname[1]));
 
-				generateDecklists(1, "", "");
 				int winrate = 0;
 				while (winrate < 75) {
-					players.clear();
+					Player counterThisDeck = new Player(parsebossname[0]);
+					counterThisDeck.setDeck(parseDeckFromLine(parsebossname[1]));
 					generateDecklists(1, "", "");
-					winrate = grindGames(players.get(0), counterThisDeck, 1500);
+					winrate = grindGames(players.get(0), counterThisDeck, 5000);
 					System.gc();
 					if (winrate > 55) {
 						System.out.println(winrate + ":" + analyseTopCut());
