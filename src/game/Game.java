@@ -610,12 +610,20 @@ public class Game {
 		cardPool.add("Exorcise");
 		cardPool.add("Titan");
 		cardPool.add("Thief");
+		cardPool.add("Huge Plant");
+		cardPool.add("Gardening");
 	}
 
 	public static Card newCardByName(String string) {
 		switch (string) {
 		case "Exorcise":
 			return new Exorcise();
+		case "Gardening":
+			return new Gardening();
+		case "Plant Tendrils":
+			return new PlantTendrils();
+		case "Huge Plant":
+			return new HugePlant();
 		case "Titan":
 			return new Titan();
 		case "Arcane Zap":

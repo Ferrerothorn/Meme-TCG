@@ -132,6 +132,7 @@ public class Player {
 		this.deck.remove("Holy Grail");
 		this.deck.remove("Cable");
 		this.deck.remove("Pigeon");
+		this.deck.remove("Plant Tendrils");
 		removeAll(this.deck.cards, "Copied ");
 		this.fatigue = 1;
 		for (Card c : this.getDeck()) {
