@@ -12,11 +12,9 @@ public class ShuttleZap extends Card {
 	@Override
 	public void onentry(Player self, Player opponent) {
 		opponent.lifeTotal-=2;
-		self.rfg.add(this);
-		self.grave.remove(this);
-		if(self.cardCount(self.grave, "Shuttle Zap")>0 && self.cardCount(self.getDeck(), "Shuttle Zap")>1) {
+		if(self.cardCount(self.grave, "Shuttle Zap")>0 && self.cardCount(self.getDeck(), "Shuttle Zap")>0) {
 			self.getDeck().add(this);
-			self.rfg.remove(this);
+			self.grave.remove(this);
 			self.shuffle();
 		}
 	}

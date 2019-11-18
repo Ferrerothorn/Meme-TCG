@@ -11,7 +11,7 @@ public class Exorcise extends Card {
 
 	@Override
 	public void onentry(Player self, Player opponent) {
-		self.toggleGraveAbilities();
-		opponent.toggleGraveAbilities();
+		self.toggleGraveAbilities(!self.getGraveAbilities());
+		opponent.toggleGraveAbilities(!opponent.getGraveAbilities());
 	}
 }

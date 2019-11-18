@@ -12,7 +12,7 @@ public class AncestralRecall extends Card {
 	
 	@Override
 	public void onentry(Player self, Player opponent) {
-		self.drawX(3);
+		self.draw(3);
 	}
 	
 	

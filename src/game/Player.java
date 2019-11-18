@@ -2,6 +2,9 @@ package game;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.Map;
 
 import extraData.Card;
 
@@ -94,7 +97,7 @@ public class Player {
 		deck.add(c);
 	}
 
-	public void drawX(int x) {
+	public void draw(int x) {
 		for (int i = 0; i < x; i++) {
 			draw();
 		}
@@ -112,6 +115,12 @@ public class Player {
 			c.onentry(this, opponent);
 			c.afterResolving(this, opponent);
 			if (debug) {
+				try {
+					Thread.sleep(1000);
+				} catch (InterruptedException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
 				debug(this.name + " casts " + c.getName() + ". (" + lifeTotal + ")-(" + opponent.getLife() + ")");
 			}
 		}
@@ -131,15 +140,16 @@ public class Player {
 		this.deck.remove("Corrupted Blood");
 		this.deck.remove("Holy Grail");
 		this.deck.remove("Cable");
+		this.deck.remove("Ice");
 		this.deck.remove("Pigeon");
 		this.deck.remove("Plant Tendrils");
-		removeAll(this.deck.cards, "Copied ");
+		removeAll(this.getDeck(), "Copied ");
 		this.fatigue = 1;
 		for (Card c : this.getDeck()) {
 			c.setCounters(0);
 		}
 		this.lifeTotal = 30;
-
+		Collections.shuffle(this.getDeck());
 	}
 
 	private void removeAll(ArrayList<Card> cards, String string) {
@@ -189,20 +199,49 @@ public class Player {
 	}
 
 	public String showDecklist() {
-		ArrayList<String> cards = new ArrayList<String>();
-		for (Card c : getDeck()) {
-			cards.add(c.getName());
+		HashMap<String, Integer> topCut = new HashMap<>();
+		for (Card c : this.getDeck()) {
+			topCut.put(c.getName(), topCut.getOrDefault(c.getName(), 0) + 1);
 		}
-		Collections.sort(cards);
-		return cards.toString();
+
+		String decklist = "";
+		Iterator it = topCut.entrySet().iterator();
+		while (it.hasNext()) {
+			Map.Entry pair = (Map.Entry) it.next();
+			decklist += pair.getKey() + "-" + pair.getValue() + ",";
+		}
+		return decklist;
 	}
 
-	public void toggleGraveAbilities() {
-		graveAbilitiesOn = !graveAbilitiesOn;
+	public void toggleGraveAbilities(boolean b) {
+		graveAbilitiesOn = b;
 	}
 
 	public void setDeck(ArrayList<Card> parseDeckFromLine) {
 		deck.clear();
 		deck.addAll(parseDeckFromLine);
+	}
+
+	public void shuffle() {
+		Collections.shuffle(this.getDeck());
+	}
+
+	public boolean containsClass(ArrayList<Card> pile, String string) {
+		for (Card c : pile) {
+			if (c.getType().equals(string)) {
+				return true;
+			}
+		}
+		return false;
+	}
+	
+	public int containsXCardsFromClass(ArrayList<Card> pile, String string) {
+		int i = 0;
+		for (Card c : pile) {
+			if (c.getType().equals(string)) {
+				i++;
+			}
+		}
+		return i;
 	}
 }

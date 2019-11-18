@@ -6,6 +6,7 @@ public abstract class Card implements Cloneable {
 
 	protected String name;
 	int counters;
+	String type = "";
 
 	public void onentry(Player self, Player opponent) {
 
@@ -28,6 +29,14 @@ public abstract class Card implements Cloneable {
 
 	public void setName(String s) {
 		name = s;
+	}
+	
+	public String getType() {
+		return type;
+	}
+
+	public void setType(String s) {
+		type = s;
 	}
 
 	public void addCounter() {

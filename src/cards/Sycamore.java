@@ -13,6 +13,6 @@ public class Sycamore extends Card {
 	@Override
 	public void onentry(Player self, Player opponent) {
 		self.movePile(self.grave, self.getHand());
-		self.drawX(7);
+		self.draw(7);
 	}	
 }

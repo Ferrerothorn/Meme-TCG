@@ -6,7 +6,7 @@ import game.Player;
 public class Monk extends Card {
 
 	public Monk() {
-		this.name = "Rotato Potato";
+		this.name = "Monk";
 	}
 
 	@Override

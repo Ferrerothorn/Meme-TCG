@@ -13,7 +13,7 @@ public class DarkPact extends Card {
 	public void onentry(Player self, Player opponent) {
 		self.lifeTotal--;
 		self.rfgFromDeck(1);
-		self.drawX(2);
+		self.draw(2);
 		opponent.randomDiscard();
 	}
 }

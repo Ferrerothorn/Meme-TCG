@@ -22,8 +22,8 @@ public class Timetwister extends Card {
 		opponent.movePile(opponent.getDeck(), opponent.grave);
 		opponent.movePile(opponent.getDeck(), opponent.getHand());
 		Collections.shuffle(opponent.getDeck());
-		self.drawX(3);
-		opponent.drawX(3);
+		self.draw(3);
+		opponent.draw(3);
 	}	
 	
 	@Override

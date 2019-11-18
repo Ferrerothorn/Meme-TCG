@@ -17,6 +17,6 @@ public class Waifu extends Card {
 		self.getDeck().addAll(self.getHand());
 		self.getHand().clear();
 		Collections.shuffle(self.getDeck());
-		self.drawX(5);
+		self.draw(5);
 	}	
 }
