@@ -11,6 +11,7 @@ public class Zapstarter extends Card {
 	
 	public Zapstarter() {
 		this.name = "Zapstarter";
+		this.setType("Spell");
 	}
 	
 	@Override

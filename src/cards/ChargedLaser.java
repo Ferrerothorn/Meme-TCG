@@ -7,6 +7,7 @@ public class ChargedLaser extends Card {
 
 	public ChargedLaser() {
 		this.name = "Charged Laser";
+		this.setType("Spell");
 	}
 
 	@Override

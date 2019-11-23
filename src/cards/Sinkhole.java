@@ -7,6 +7,7 @@ public class Sinkhole extends Card {
 
 	public Sinkhole() {
 		this.name = "Sinkhole";
+		this.setType("Spell");
 	}
 
 	@Override

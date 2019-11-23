@@ -7,6 +7,7 @@ public class SlowFlare extends Card {
 
 	public SlowFlare() {
 		this.name = "Slow Flare";
+		this.setType("Spell");
 	}
 
 	@Override

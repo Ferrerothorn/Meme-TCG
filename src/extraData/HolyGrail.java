@@ -6,6 +6,7 @@ public class HolyGrail extends Card {
 
 	public HolyGrail() {
 		this.name = "Holy Grail";
+		this.setType("Junk");
 	}
 
 	@Override

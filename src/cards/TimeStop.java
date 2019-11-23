@@ -7,6 +7,7 @@ public class TimeStop extends Card {
 
 	public TimeStop() {
 		this.name = "Time Stop";
+		this.setType("Spell");
 	}
 
 	@Override

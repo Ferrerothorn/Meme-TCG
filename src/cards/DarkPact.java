@@ -7,6 +7,7 @@ public class DarkPact extends Card {
 
 	public DarkPact() {
 		this.name = "Dark Pact";
+		this.setType("Spell");
 	}
 
 	@Override

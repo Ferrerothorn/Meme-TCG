@@ -9,6 +9,7 @@ public class WheelOfFate extends Card {
 
 	public WheelOfFate() {
 		this.name = "Wheel of Fate";
+		this.setType("Mech");
 	}
 
 	@Override

@@ -7,6 +7,7 @@ public class GuildMaster extends Card {
 
 	public GuildMaster() {
 		this.name = "Guild Master";
+		this.setType("Hero");
 	}
 
 	@Override

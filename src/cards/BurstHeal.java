@@ -7,6 +7,7 @@ public class BurstHeal extends Card {
 
 	public BurstHeal() {
 		this.name = "Burst Heal";
+		this.setType("Spell");
 	}
 
 	@Override

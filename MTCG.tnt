@@ -1,0 +1,85 @@
+PLAYERS:
+Burial Mill,Burst Transfusion,Peace Treaty,Peaceful Waifu,Donation Swapper,Artifact Stall,Robot Pigeon,Corrupted Blood,Grave Ignorance,Storm,Dark.dek,Eternal Transfusion,Collector's Diversion,Every Combo Ever,Rack Prison,Fire-Ice Control,Pylon Turbo Mill,Healer Demon,Titan Burn,Damn Peaceful,Gene Cloner,Zap Deck,Tasty Hole,Trials,Doomsday Church,Body Swap Control,Black Hole Grave,Mega Mill,Jund,Dark x Light,Pylon Stall,Waifu Control,Burn Slayer,Frog Loaf,Demon Flare,Burn Lock,Steve's Stall,Corporate Peace Frog,Heroes,Assassin Control,Greenhouse,Outspeed Combo,Turbo Discard,Assassin Burn,Dredge Slayer,Exorcist,Dredge,BYE
+VICTORIES:
+Burial Mill_[Dredge]_[Dredge]
+Burst Transfusion_[Exorcist]_[Exorcist]
+Peace Treaty_[Dredge Slayer]_[Dredge Slayer]
+Peaceful Waifu_[Assassin Burn]_[Assassin Burn]
+Donation Swapper_[Turbo Discard]_[Turbo Discard]
+Artifact Stall_[Heroes]_[Heroes]
+Robot Pigeon_[Outspeed Combo]_[Outspeed Combo]
+Corrupted Blood_[Greenhouse]_[Greenhouse]
+Grave Ignorance_[Assassin Control]_[Assassin Control]
+Storm_[Burn Slayer]_[Burn Slayer]
+Dark.dek_[Steve's Stall]_[Steve's Stall]
+Eternal Transfusion_[Demon Flare]_[Demon Flare]
+Collector's Diversion_[Waifu Control]_[Waifu Control]
+Every Combo Ever_[Burn Lock]_[Burn Lock]
+Rack Prison_[Frog Loaf]_[Frog Loaf]
+Fire-Ice Control_[Corporate Peace Frog]_[Corporate Peace Frog]
+Pylon Turbo Mill_[Pylon Stall]_[Pylon Stall]
+Healer Demon_[Black Hole Grave]_[Black Hole Grave]
+Titan Burn_[Jund]_[Jund]
+Damn Peaceful_[Dark x Light]_[Dark x Light]
+Gene Cloner_[Body Swap Control]_[Body Swap Control]
+Zap Deck_[Doomsday Church]_[Doomsday Church]
+Tasty Hole_[Mega Mill]_[Mega Mill]
+Trials_[BYE]_[BYE]
+Doomsday Church_[]_[Zap Deck]
+Body Swap Control_[]_[Gene Cloner]
+Black Hole Grave_[]_[Healer Demon]
+Mega Mill_[]_[Tasty Hole]
+Jund_[]_[Titan Burn]
+Dark x Light_[]_[Damn Peaceful]
+Pylon Stall_[]_[Pylon Turbo Mill]
+Waifu Control_[]_[Collector's Diversion]
+Burn Slayer_[]_[Storm]
+Frog Loaf_[]_[Rack Prison]
+Demon Flare_[]_[Eternal Transfusion]
+Burn Lock_[]_[Every Combo Ever]
+Steve's Stall_[]_[Dark.dek]
+Corporate Peace Frog_[]_[Fire-Ice Control]
+Heroes_[]_[Artifact Stall]
+Assassin Control_[]_[Grave Ignorance]
+Greenhouse_[]_[Corrupted Blood]
+Outspeed Combo_[]_[Robot Pigeon]
+Turbo Discard_[]_[Donation Swapper]
+Assassin Burn_[]_[Peaceful Waifu]
+Dredge Slayer_[]_[Peace Treaty]
+Exorcist_[]_[Burst Transfusion]
+Dredge_[]_[Burial Mill]
+BYE_[]_[Trials]
+GAMES:
+Burial Mill,Burst Transfusion,1
+Peace Treaty,Peaceful Waifu,2
+Donation Swapper,Artifact Stall,3
+Robot Pigeon,Corrupted Blood,4
+Grave Ignorance,Storm,5
+Dark.dek,Eternal Transfusion,6
+Collector's Diversion,Every Combo Ever,7
+Rack Prison,Fire-Ice Control,8
+Pylon Turbo Mill,Healer Demon,9
+Titan Burn,Damn Peaceful,10
+Gene Cloner,Zap Deck,11
+Tasty Hole,Trials,12
+Doomsday Church,Body Swap Control,13
+Black Hole Grave,Mega Mill,14
+Jund,Dark x Light,15
+Pylon Stall,Waifu Control,16
+Burn Slayer,Frog Loaf,17
+Demon Flare,Burn Lock,18
+Steve's Stall,Corporate Peace Frog,19
+Heroes,Assassin Control,20
+Greenhouse,Outspeed Combo,21
+Turbo Discard,Assassin Burn,22
+Dredge Slayer,Exorcist,23
+Dredge,BYE,24
+PROPERTIES:
+On Round:2
+numberOfRounds:6
+topCut:10
+ELO:off
+predictionsMade:0
+correctPredictions:0
+damageDealtAndTaken:Damn Peaceful,Dark x Light;7,6/Heroes,Artifact Stall;4,7/Assassin Burn,Peaceful Waifu;3,7/Gene Cloner,Body Swap Control;7,6/Fire-Ice Control,Corporate Peace Frog;7,5/Grave Ignorance,Assassin Control;7,4/Black Hole Grave,Healer Demon;6,7/BYE,Trials;0,0/Burial Mill,Dredge;7,1/Burn Lock,Every Combo Ever;5,7/Storm,Burn Slayer;7,5/Exorcist,Burst Transfusion;2,7/Collector's Diversion,Waifu Control;7,5/Greenhouse,Corrupted Blood;4,7/Dark.dek,Steve's Stall;7,5/Titan Burn,Jund;7,6/Demon Flare,Eternal Transfusion;5,7/Donation Swapper,Turbo Discard;7,3/Frog Loaf,Rack Prison;5,7/Tasty Hole,Mega Mill;7,6/Zap Deck,Doomsday Church;7,6/Outspeed Combo,Robot Pigeon;4,7/Dredge Slayer,Peace Treaty;3,7/Pylon Turbo Mill,Pylon Stall;7,6
+Dropped:

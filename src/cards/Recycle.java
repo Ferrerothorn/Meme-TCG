@@ -9,6 +9,7 @@ public class Recycle extends Card {
 
 	public Recycle() {
 		this.name = "Recycle";
+		this.setType("Spell");
 	}
 
 	@Override

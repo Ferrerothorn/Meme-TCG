@@ -10,6 +10,7 @@ public class DoublingZap extends Card {
 	
 	public DoublingZap() {
 		this.name = "Doubling Zap";
+		this.setType("Spell");
 	}
 	
 	@Override

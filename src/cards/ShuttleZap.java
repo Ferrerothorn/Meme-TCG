@@ -7,6 +7,7 @@ public class ShuttleZap extends Card {
 
 	public ShuttleZap() {
 		this.name = "Shuttle Zap";
+		this.setType("Spell");
 	}
 
 	@Override

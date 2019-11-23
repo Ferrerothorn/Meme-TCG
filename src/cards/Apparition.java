@@ -9,6 +9,7 @@ public class Apparition extends Card {
 
 	public Apparition() {
 		this.name = "Apparition";
+		this.setType("Monster");
 	}
 
 	@Override

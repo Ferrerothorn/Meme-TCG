@@ -2,19 +2,21 @@ package extraData;
 
 import game.Player;
 
-public class PlantTendrils extends Card {
+public class Water extends Card {
 
-	public PlantTendrils() {
-		this.name = "Plant Tendrils";
+	public Water() {
+		this.name = "Water";
 		this.setType("Junk");
 	}
 
 	@Override
 	public void onentry(Player self, Player opponent) {
+		self.lifeTotal++;
+		self.rfg.add(this);
+		self.grave.add(this);
 	}
 
 	@Override
 	public void graveAbility(Player self, Player opponent) {
-		opponent.lifeTotal -= 2;
 	}
 }

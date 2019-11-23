@@ -10,6 +10,7 @@ public class Waifu extends Card {
 	
 	public Waifu() {
 		this.name = "Waifu";
+		this.setType("Hero");
 	}
 	
 	@Override

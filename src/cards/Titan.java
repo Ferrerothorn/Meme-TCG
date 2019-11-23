@@ -7,6 +7,7 @@ public class Titan extends Card {
 
 	public Titan() {
 		this.name = "Titan";
+		this.setType("Monster");
 	}
 
 	@Override

@@ -8,6 +8,7 @@ public class JunkChucker extends Card {
 	
 	public JunkChucker() {
 		this.name = "Junk Chucker";
+		this.setType("Mech");
 	}
 	
 	@Override

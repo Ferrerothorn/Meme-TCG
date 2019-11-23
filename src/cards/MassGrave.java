@@ -7,6 +7,7 @@ public class MassGrave extends Card {
 
 	public MassGrave() {
 		this.name = "Mass Grave";
+		this.setType("Spell");
 	}
 
 	@Override

@@ -7,6 +7,7 @@ public class MightyWrench extends Card {
 
 	public MightyWrench() {
 		this.name = "Mighty Wrench";
+		this.setType("Mech");
 	}
 
 	@Override

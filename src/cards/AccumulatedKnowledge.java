@@ -7,6 +7,7 @@ public class AccumulatedKnowledge extends Card {
 
 	public AccumulatedKnowledge() {
 		this.name = "Accumulated Knowledge";
+		this.setType("Spell");
 	}
 
 	@Override

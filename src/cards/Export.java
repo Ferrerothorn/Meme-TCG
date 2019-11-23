@@ -10,6 +10,7 @@ public class Export extends Card {
 
 	public Export() {
 		this.name = "Export";
+		this.setType("Spell");
 	}
 
 	@Override

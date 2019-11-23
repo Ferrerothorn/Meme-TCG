@@ -7,6 +7,7 @@ public class PeaceTreaty extends Card {
 
 	public PeaceTreaty() {
 		this.name = "Peace Treaty";
+		this.setType("Spell");
 	}
 
 	@Override

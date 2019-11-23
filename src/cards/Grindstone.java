@@ -7,6 +7,7 @@ public class Grindstone extends Card {
 
 	public Grindstone() {
 		this.name = "Grindstone";
+		this.setType("Mech");
 	}
 
 	@Override

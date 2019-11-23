@@ -10,6 +10,7 @@ public class Timetwister extends Card {
 	
 	public Timetwister() {
 		this.name = "Timetwister";
+		this.setType("Spell");
 	}
 	
 	@Override

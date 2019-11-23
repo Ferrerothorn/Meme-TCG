@@ -7,6 +7,7 @@ public class Mill extends Card {
 
 	public Mill() {
 		this.name = "Mill";
+		this.setType("Spell");
 	}
 
 	@Override

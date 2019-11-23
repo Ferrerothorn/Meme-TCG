@@ -8,6 +8,7 @@ public class Sycamore extends Card {
 	
 	public Sycamore() {
 		this.name = "Sycamore";
+		this.setType("Spell");
 	}
 	
 	@Override

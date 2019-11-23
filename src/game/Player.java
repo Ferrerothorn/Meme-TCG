@@ -18,9 +18,9 @@ public class Player {
 	public int maxLifeTotal = 30;
 	public int lifeTotal;
 	public int playsPerTurn = 2;
-	public int fatigue = 1;
 	private boolean graveAbilitiesOn = true;
 	public int losses = 0;
+	static boolean debug = false;
 
 	public boolean getGraveAbilities() {
 		return graveAbilitiesOn;
@@ -65,12 +65,7 @@ public class Player {
 			c.whenDrawn(this);
 			hand.add(c);
 		} else {
-			if (fatigue == -1) {
-				this.lifeTotal = 0;
-			} else {
-				this.lifeTotal = lifeTotal - fatigue;
-				fatigue++;
-			}
+			this.lifeTotal = 0;
 		}
 	}
 
@@ -88,6 +83,7 @@ public class Player {
 	public void millX(int x) {
 		for (int i = 0; i < x; i++) {
 			if (deck.size() > 0) {
+				debug("Milled " + deck.get(0).getName());
 				grave.add(deck.remove(0));
 			}
 		}
@@ -104,7 +100,7 @@ public class Player {
 	}
 
 	public boolean isAlive() {
-		return lifeTotal > 0;
+		return lifeTotal > 0 && getDeck().size() < 200;
 	}
 
 	public void makePlay(Player opponent, Boolean debug) {
@@ -115,19 +111,15 @@ public class Player {
 			c.onentry(this, opponent);
 			c.afterResolving(this, opponent);
 			if (debug) {
-				try {
-					Thread.sleep(1000);
-				} catch (InterruptedException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
 				debug(this.name + " casts " + c.getName() + ". (" + lifeTotal + ")-(" + opponent.getLife() + ")");
 			}
 		}
 	}
 
 	private static void debug(String string) {
-		System.out.println(string);
+		if (debug) {
+			System.out.println(string);
+		}
 	}
 
 	public void cleanup() {
@@ -137,14 +129,15 @@ public class Player {
 		this.rfg.clear();
 		this.deck.addAll(this.hand);
 		this.hand.clear();
-		this.deck.remove("Corrupted Blood");
-		this.deck.remove("Holy Grail");
-		this.deck.remove("Cable");
-		this.deck.remove("Ice");
-		this.deck.remove("Pigeon");
-		this.deck.remove("Plant Tendrils");
+
+		ArrayList<Card> junk = new ArrayList<Card>();
+		for (Card c : deck.cards) {
+			if (c.getType().equals("Junk")) {
+				junk.add(c);
+			}
+		}
+		this.deck.removeAll(junk);
 		removeAll(this.getDeck(), "Copied ");
-		this.fatigue = 1;
 		for (Card c : this.getDeck()) {
 			c.setCounters(0);
 		}
@@ -199,16 +192,18 @@ public class Player {
 	}
 
 	public String showDecklist() {
-		HashMap<String, Integer> topCut = new HashMap<>();
-		for (Card c : this.getDeck()) {
-			topCut.put(c.getName(), topCut.getOrDefault(c.getName(), 0) + 1);
-		}
-
 		String decklist = "";
-		Iterator it = topCut.entrySet().iterator();
-		while (it.hasNext()) {
-			Map.Entry pair = (Map.Entry) it.next();
-			decklist += pair.getKey() + "-" + pair.getValue() + ",";
+		if (this != null) {
+			HashMap<String, Integer> topCut = new HashMap<>();
+			for (Card c : this.getDeck()) {
+				topCut.put(c.getName(), topCut.getOrDefault(c.getName(), 0) + 1);
+			}
+			decklist = "";
+			Iterator it = topCut.entrySet().iterator();
+			while (it.hasNext()) {
+				Map.Entry pair = (Map.Entry) it.next();
+				decklist += pair.getKey() + "-" + pair.getValue() + ",";
+			}
 		}
 		return decklist;
 	}
@@ -234,7 +229,7 @@ public class Player {
 		}
 		return false;
 	}
-	
+
 	public int containsXCardsFromClass(ArrayList<Card> pile, String string) {
 		int i = 0;
 		for (Card c : pile) {

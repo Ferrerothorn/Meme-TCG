@@ -7,6 +7,7 @@ public class Griselbrand extends Card {
 
 	public Griselbrand() {
 		this.name = "Griselbrand";
+		this.setType("Monster");
 	}
 
 	@Override

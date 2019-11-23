@@ -8,6 +8,7 @@ public class EternalFlame extends Card {
 	
 	public EternalFlame() {
 		this.name = "Eternal Flame";
+		this.setType("Spell");
 	}
 	
 	@Override

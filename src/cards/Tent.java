@@ -9,6 +9,7 @@ public class Tent extends Card {
 
 	public Tent() {
 		this.name = "Tent";
+		this.setType("Spell");
 	}
 
 	@Override

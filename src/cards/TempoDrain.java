@@ -7,6 +7,7 @@ public class TempoDrain extends Card {
 
 	public TempoDrain() {
 		this.name = "Tempo Drain";
+		this.setType("Spell");
 	}
 
 	@Override

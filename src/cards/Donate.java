@@ -8,6 +8,7 @@ public class Donate extends Card {
 	
 	public Donate() {
 		this.name = "Donate";
+		this.setType("Spell");
 	}
 	
 	@Override

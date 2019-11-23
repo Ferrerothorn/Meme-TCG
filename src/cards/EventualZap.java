@@ -8,6 +8,7 @@ public class EventualZap extends Card {
 
 	public EventualZap() {
 		this.name = "Eventual Zap";
+		this.setType("Spell");
 	}
 
 	@Override

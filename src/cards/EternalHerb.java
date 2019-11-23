@@ -8,6 +8,7 @@ public class EternalHerb extends Card {
 	
 	public EternalHerb() {
 		this.name = "Eternal Herb";
+		this.setType("Plant");
 	}
 	
 	@Override

@@ -8,6 +8,7 @@ public class Zap extends Card {
 	
 	public Zap() {
 		this.name = "Zap";
+		this.setType("Spell");
 	}
 	
 	@Override

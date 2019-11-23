@@ -7,6 +7,7 @@ public class ColossalJunkChucker extends Card {
 
 	public ColossalJunkChucker() {
 		this.name = "Colossal Junk Chucker";
+		this.setType("Mech");
 	}
 
 	@Override

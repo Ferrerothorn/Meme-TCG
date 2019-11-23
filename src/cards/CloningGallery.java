@@ -11,6 +11,7 @@ public class CloningGallery extends Card {
 
 	public CloningGallery() {
 		this.name = "Cloning Gallery";
+		this.setType("Spell");
 	}
 
 	@Override
@@ -31,6 +32,5 @@ public class CloningGallery extends Card {
 			c.setName("Copied " + c.getName());
 		}
 		self.getHand().addAll(cloningGallery);
-		// Collections.shuffle(self.getDeck());
 	}
 }

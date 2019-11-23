@@ -9,6 +9,7 @@ public class Pigeon extends Card {
 
 	public Pigeon() {
 		this.name = "Pigeon";
+		this.setType("Junk");
 	}
 
 	@Override

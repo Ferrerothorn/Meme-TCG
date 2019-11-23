@@ -9,6 +9,7 @@ public class ZapMachine extends Card {
 
 	public ZapMachine() {
 		this.name = "Zap Machine";
+		this.setType("Mech");
 	}
 
 	@Override

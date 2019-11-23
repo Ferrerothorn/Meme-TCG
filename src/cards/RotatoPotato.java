@@ -9,6 +9,7 @@ public class RotatoPotato extends Card {
 
 	public RotatoPotato() {
 		this.name = "Rotato Potato";
+		this.setType("Plant");
 	}
 
 	@Override

@@ -7,6 +7,7 @@ public class Sparkwave extends Card {
 
 	public Sparkwave() {
 		this.name = "Sparkwave";
+		this.setType("Spell");
 	}
 
 	@Override

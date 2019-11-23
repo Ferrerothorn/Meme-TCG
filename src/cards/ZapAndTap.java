@@ -7,6 +7,7 @@ public class ZapAndTap extends Card {
 
 	public ZapAndTap() {
 		this.name = "Zap and Tap";
+		this.setType("Spell");
 	}
 
 	@Override

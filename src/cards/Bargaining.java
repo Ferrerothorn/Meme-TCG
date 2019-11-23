@@ -7,6 +7,7 @@ public class Bargaining extends Card {
 
 	public Bargaining() {
 		this.name = "Bargaining";
+		this.setType("Spell");
 	}
 
 	@Override

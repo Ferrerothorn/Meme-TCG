@@ -7,6 +7,7 @@ public class ArcaneZap extends Card {
 
 	public ArcaneZap() {
 		this.name = "Arcane Zap";
+		this.setType("Spell");
 	}
 
 	@Override

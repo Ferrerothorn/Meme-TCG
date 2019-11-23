@@ -10,6 +10,7 @@ public class TastyBread extends Card {
 
 	public TastyBread() {
 		this.name = "Tasty Bread";
+		this.setType("Spell");
 	}
 
 	@Override

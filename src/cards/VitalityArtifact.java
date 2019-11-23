@@ -7,6 +7,7 @@ public class VitalityArtifact extends Card {
 
 	public VitalityArtifact() {
 		this.name = "Vitality Artifact";
+		this.setType("Mech");
 	}
 
 	@Override

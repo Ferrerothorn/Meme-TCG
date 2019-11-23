@@ -10,6 +10,7 @@ public class ZapCannon extends Card {
 	
 	public ZapCannon() {
 		this.name = "Zap Cannon";
+		this.setType("Spell");
 	}
 	
 	@Override

@@ -6,6 +6,7 @@ public class Cable extends Card {
 
 	public Cable() {
 		this.name = "Cable";
+		this.setType("Junk");
 	}
 
 	@Override

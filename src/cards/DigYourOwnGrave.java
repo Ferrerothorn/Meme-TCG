@@ -3,21 +3,21 @@ package cards;
 import extraData.Card;
 import game.Player;
 
-public class Gesper extends Card {
+public class DigYourOwnGrave extends Card {
 
 	
-	public Gesper() {
-		this.name = "Gesper";
-		this.setType("Mech");
+	public DigYourOwnGrave() {
+		this.name = "Dig Your Own Grave";
+		this.setType("Spell");
 	}
 	
 	@Override
 	public void onentry(Player self, Player opponent) {
-	}
+	}	
 	
 	@Override
 	public void graveAbility(Player self, Player opponent) {
-		self.randomDiscard();
-		opponent.randomDiscard();
-	}
+		self.millX(1);
+		self.lifeTotal--;
+	}	
 }

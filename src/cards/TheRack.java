@@ -7,6 +7,7 @@ public class TheRack extends Card {
 
 	public TheRack() {
 		this.name = "The Rack";
+		this.setType("Mech");
 	}
 
 	@Override

@@ -7,6 +7,7 @@ public class IncreasingHeal extends Card {
 
 	public IncreasingHeal() {
 		this.name = "Increasing Heal";
+		this.setType("Spell");
 	}
 
 	@Override

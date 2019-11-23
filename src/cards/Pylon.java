@@ -8,6 +8,7 @@ public class Pylon extends Card {
 
 	public Pylon() {
 		this.name = "Pylon";
+		this.setType("Mech");
 	}
 
 	@Override

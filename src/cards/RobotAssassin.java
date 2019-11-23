@@ -7,6 +7,7 @@ public class RobotAssassin extends Card {
 
 	public RobotAssassin() {
 		this.name = "Robot Assassin";
+		this.setType("Mech");
 	}
 
 	@Override

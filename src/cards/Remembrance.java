@@ -9,6 +9,7 @@ public class Remembrance extends Card {
 
 	public Remembrance() {
 		this.name = "Remembrance";
+		this.setType("Spell");
 	}
 
 	@Override

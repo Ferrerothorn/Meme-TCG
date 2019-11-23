@@ -7,6 +7,7 @@ public class DarkZap extends Card {
 
 	public DarkZap() {
 		this.name = "Dark Zap";
+		this.setType("Spell");
 	}
 
 	@Override

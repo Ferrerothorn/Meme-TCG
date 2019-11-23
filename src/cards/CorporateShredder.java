@@ -9,6 +9,7 @@ public class CorporateShredder extends Card {
 
 	public CorporateShredder() {
 		this.name = "Corporate Shredder";
+		this.setType("Mech");
 	}
 
 	@Override

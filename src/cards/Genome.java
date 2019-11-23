@@ -7,6 +7,7 @@ public class Genome extends Card {
 
 	public Genome() {
 		this.name = "Genome";
+		this.setType("Spell");
 	}
 
 	@Override

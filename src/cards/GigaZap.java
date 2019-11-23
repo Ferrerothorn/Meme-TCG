@@ -8,6 +8,7 @@ public class GigaZap extends Card {
 	
 	public GigaZap() {
 		this.name = "Giga Zap";
+		this.setType("Spell");
 	}
 	
 	@Override

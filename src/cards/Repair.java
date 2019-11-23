@@ -10,6 +10,7 @@ public class Repair extends Card {
 
 	public Repair() {
 		this.name = "Repair";
+		this.setType("Spell");
 	}
 
 	@Override

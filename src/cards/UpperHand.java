@@ -7,6 +7,7 @@ public class UpperHand extends Card {
 
 	public UpperHand() {
 		this.name = "Upper Hand";
+		this.setType("Spell");
 	}
 
 	@Override

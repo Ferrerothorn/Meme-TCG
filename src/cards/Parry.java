@@ -7,6 +7,7 @@ public class Parry extends Card {
 
 	public Parry() {
 		this.name = "Parry";
+		this.setType("Spell");
 	}
 
 	@Override

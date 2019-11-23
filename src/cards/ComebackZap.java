@@ -7,6 +7,7 @@ public class ComebackZap extends Card {
 
 	public ComebackZap() {
 		this.name = "Comeback Zap";
+		this.setType("Spell");
 	}
 
 	@Override

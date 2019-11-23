@@ -8,6 +8,7 @@ public class CorruptedBlood extends Card {
 
 	public CorruptedBlood() {
 		this.name = "Corrupted Blood";
+		this.setType("Junk");
 	}
 
 	@Override

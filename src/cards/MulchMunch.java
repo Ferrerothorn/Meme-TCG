@@ -7,6 +7,7 @@ public class MulchMunch extends Card {
 
 	public MulchMunch() {
 		this.name = "Mulch Munch";
+		this.setType("Spell");
 	}
 
 	@Override

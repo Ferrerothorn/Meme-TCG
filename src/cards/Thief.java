@@ -7,6 +7,7 @@ public class Thief extends Card {
 
 	public Thief() {
 		this.name = "Thief";
+		this.setType("Hero");
 	}
 
 	@Override

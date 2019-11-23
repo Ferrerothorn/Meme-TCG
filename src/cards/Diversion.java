@@ -1,23 +1,23 @@
 package cards;
 
 import extraData.Card;
+import extraData.RoadCone;
 import game.Player;
 
-public class Gesper extends Card {
+public class Diversion extends Card {
 
-	
-	public Gesper() {
-		this.name = "Gesper";
-		this.setType("Mech");
+	public Diversion() {
+		this.name = "Diversion";
+		this.setType("Spell");
 	}
-	
+
 	@Override
 	public void onentry(Player self, Player opponent) {
+		opponent.getDeck().add(0, new RoadCone());
 	}
+	
 	
 	@Override
 	public void graveAbility(Player self, Player opponent) {
-		self.randomDiscard();
-		opponent.randomDiscard();
 	}
 }

@@ -8,6 +8,7 @@ public class PoisonFrog extends Card {
 	
 	public PoisonFrog() {
 		this.name = "Poison Frog";
+		this.setType("Monster");
 	}
 	
 	@Override

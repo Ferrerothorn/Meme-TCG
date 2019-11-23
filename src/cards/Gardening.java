@@ -9,6 +9,7 @@ public class Gardening extends Card {
 
 	public Gardening() {
 		this.name = "Gardening";
+		this.setType("Spell");
 	}
 
 	@Override

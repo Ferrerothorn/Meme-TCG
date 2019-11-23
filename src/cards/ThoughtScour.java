@@ -8,6 +8,7 @@ public class ThoughtScour extends Card {
 	
 	public ThoughtScour() {
 		this.name = "Thought Scour";
+		this.setType("Spell");
 	}
 	
 	@Override

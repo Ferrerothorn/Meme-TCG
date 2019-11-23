@@ -7,6 +7,7 @@ public class Amnesia extends Card {
 
 	public Amnesia() {
 		this.name = "Amnesia";
+		this.setType("Spell");
 	}
 
 	@Override

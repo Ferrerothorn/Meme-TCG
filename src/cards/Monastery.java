@@ -7,6 +7,7 @@ public class Monastery extends Card {
 
 	public Monastery() {
 		this.name = "Monastery";
+		this.setType("Spell");
 	}
 
 	public void onEntry(Player self, Player opponent) {

@@ -9,6 +9,7 @@ public class ZapMagnifier extends Card {
 
 	public ZapMagnifier() {
 		this.name = "Zap Magnifier";
+		this.setType("Spell");
 	}
 
 	@Override

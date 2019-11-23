@@ -8,6 +8,7 @@ public class HugePlant extends Card {
 
 	public HugePlant() {
 		this.name = "Huge Plant";
+		this.setType("Plant");
 	}
 
 	@Override

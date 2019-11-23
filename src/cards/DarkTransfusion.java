@@ -10,6 +10,7 @@ public class DarkTransfusion extends Card {
 
 	public DarkTransfusion() {
 		this.name = "Dark Transfusion";
+		this.setType("Spell");
 	}
 
 	@Override

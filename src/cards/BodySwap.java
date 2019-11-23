@@ -7,6 +7,7 @@ public class BodySwap extends Card {
 
 	public BodySwap() {
 		this.name = "Body Swap";
+		this.setType("Spell");
 	}
 
 	@Override

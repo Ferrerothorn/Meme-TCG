@@ -10,6 +10,7 @@ public class Trial extends Card {
 
 	public Trial() {
 		this.name = "Trial";
+		this.setType("Spell");
 	}
 
 	@Override

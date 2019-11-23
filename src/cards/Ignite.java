@@ -8,6 +8,7 @@ public class Ignite extends Card {
 	
 	public Ignite() {
 		this.name = "Ignite";
+		this.setType("Spell");
 	}
 	
 	@Override

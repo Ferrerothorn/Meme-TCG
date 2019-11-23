@@ -7,6 +7,7 @@ public class Checkmate extends Card {
 
 	public Checkmate() {
 		this.name = "Checkmate";
+		this.setType("Spell");
 	}
 
 	@Override

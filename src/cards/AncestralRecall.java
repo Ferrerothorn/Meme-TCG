@@ -8,6 +8,7 @@ public class AncestralRecall extends Card {
 	
 	public AncestralRecall() {
 		this.name = "Ancestral Recall";
+		this.setType("Spell");
 	}
 	
 	@Override

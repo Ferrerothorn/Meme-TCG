@@ -9,6 +9,7 @@ public class SearchTheDarkness extends Card {
 
 	public SearchTheDarkness() {
 		this.name = "Search the Darkness";
+		this.setType("Spell");
 	}
 
 	@Override

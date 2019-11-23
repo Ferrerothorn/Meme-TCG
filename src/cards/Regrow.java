@@ -9,6 +9,7 @@ public class Regrow extends Card {
 
 	public Regrow() {
 		this.name = "Regrow";
+		this.setType("Spell");
 	}
 
 	@Override

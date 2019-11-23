@@ -9,6 +9,7 @@ public class DarkContract extends Card {
 
 	public DarkContract() {
 		this.name = "Dark Contract";
+		this.setType("Spell");
 	}
 
 	@Override

@@ -11,6 +11,7 @@ public class Burial extends Card {
 	
 	public Burial() {
 		this.name = "Burial";
+		this.setType("Spell");
 	}
 	
 	@Override

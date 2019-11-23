@@ -34,10 +34,10 @@ public class Deck {
 	public Card remove(int i) {
 		return cards.remove(0);
 	}
-	
+
 	public void remove(String string) {
 		ArrayList<Card> filter = new ArrayList<>();
-		for(Card c : cards) {
+		for (Card c : cards) {
 			if (c.getName().equals(string)) {
 				filter.add(c);
 			}
@@ -55,7 +55,7 @@ public class Deck {
 
 	public void removeIfContains(String string) {
 		ArrayList<Card> filter = new ArrayList<>();
-		for(Card c : cards) {
+		for (Card c : cards) {
 			if (c.getName().contains(string)) {
 				filter.add(c);
 			}
@@ -65,6 +65,18 @@ public class Deck {
 
 	public void clear() {
 		cards.clear();
+	}
+
+	public Card get(int i) {
+		return (cards.get(i));
+	}
+
+	public void remove(Card c) {
+		cards.remove(c);
+	}
+
+	public void removeAll(ArrayList<Card> junk) {
+		cards.removeAll(junk);
 	}
 
 }

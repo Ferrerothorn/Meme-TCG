@@ -8,6 +8,7 @@ public class InsurancePlan extends Card {
 	
 	public InsurancePlan() {
 		this.name = "Insurance Plan";
+		this.setType("Spell");
 	}
 	
 	@Override

@@ -35,11 +35,11 @@ public class Game {
 			System.out.println("7: Generate a 'solution' to a deck.");
 			System.out.println("999: Quit.");
 			System.out.println();
-			int choice = 5;
-			choice = input.nextInt();
-			input.nextLine();
+		//	int choice = 5;
+		//	choice = input.nextInt();
+		//	input.nextLine();
 
-			switch (choice) {
+			switch (5) {
 
 			case 0:
 				runTournament(1, "", "");
@@ -220,10 +220,14 @@ public class Game {
 			debug(p1.showDecklist());
 			debug(p2.showDecklist());
 			int p1winrate = grindGames(p1, p2, 8);
-			if (p1winrate >= 50) {
+			if (p1winrate > 50) {
 				players.add(p1);
-			}
-			if (p1winrate <= 50) {
+				p2 = null;
+			} else if (p1winrate < 50) {
+				players.add(p2);
+				p1 = null;
+			} else {
+				players.add(p1);
 				players.add(p2);
 			}
 			debug("======" + players.size() + "======");
@@ -330,8 +334,16 @@ public class Game {
 		p2.shuffle();
 		p1.draw(6);
 		p2.draw(6);
-		while (p1.isAlive() && p2.isAlive() && turn <= 50) {
+		while (p1.isAlive() && p2.isAlive() && turn <= 4000) {
 
+//			if(turn>400) {
+//				System.out.println(p1.showDecklist());
+//				System.out.println(p2.showDecklist());
+//				System.exit(0);
+//				
+//			}
+
+			debug("Start of turn.");
 			int p1playsPerTurn = p1.playsPerTurn;
 			int p2playsPerTurn = p2.playsPerTurn;
 			p1.draw();
@@ -348,6 +360,7 @@ public class Game {
 			}
 
 			if (!p1.isAlive() || !p2.isAlive()) {
+				debug("P1's graveyard triggers.");
 				ArrayList<Card> triggers = new ArrayList<>();
 				if (p1.getGraveAbilities()) {
 					triggers.addAll(p1.grave);
@@ -362,6 +375,7 @@ public class Game {
 					debug(p1.name + "'s grave triggers. (" + p1.getLife() + ")-(" + p2.getLife() + ")");
 				}
 			}
+			debug("End of " + p1.getName() + "'s turn.");
 
 			if (!p1.isAlive() || !p2.isAlive()) {
 				break;
@@ -512,14 +526,13 @@ public class Game {
 		cardPool.add("Increasing Heal");
 		cardPool.add("Insurance Plan");
 		cardPool.add("Junk Chucker");
-		cardPool.add("Junk Hunter");
+		cardPool.add("Magnet");
 		cardPool.add("Lesser Demon");
 		cardPool.add("Life Zap");
 		cardPool.add("Mass Grave");
 		cardPool.add("Mend");
 		cardPool.add("Mighty Wrench");
 		cardPool.add("Mill");
-		cardPool.add("Miller");
 		cardPool.add("Monastery");
 		cardPool.add("Mulch Munch");
 		cardPool.add("Parry");
@@ -582,13 +595,25 @@ public class Game {
 		cardPool.add("Pirate");
 		cardPool.add("Guild Master");
 		cardPool.add("Eternal Ice");
-
+		cardPool.add("Dig Your Own Grave");
+		cardPool.add("Collector");
+		cardPool.add("Diversion");
 	}
 
 	public static Card newCardByName(String string) {
-		debug("Been asked to add a " + string + ".");
+		debug("newCardByName called on name: " + string + ".");
 		if (!string.contains("Copied ")) {
 			switch (string) {
+			case "Collector":
+				return new Collector();
+			case "Road Cone":
+				return new RoadCone();
+			case "Diversion":
+				return new Diversion();
+			case "Water":
+				return new Water();
+			case "Dig Your Own Grave":
+				return new DigYourOwnGrave();
 			case "Fire Wizard":
 				return new FireWizard();
 			case "Eternal Ice":
@@ -647,8 +672,6 @@ public class Game {
 				return new Monastery();
 			case "Sacrifice":
 				return new Sacrifice();
-			case "Miller":
-				return new Miller();
 			case "Wheel of Fate":
 				return new WheelOfFate();
 			case "Genome":
@@ -757,8 +780,8 @@ public class Game {
 				return new Ignite();
 			case "Junk Chucker":
 				return new JunkChucker();
-			case "Junk Hunter":
-				return new JunkHunter();
+			case "Magnet":
+				return new Magnet();
 			case "Life Zap":
 				return new Lifezap();
 			case "Mend":

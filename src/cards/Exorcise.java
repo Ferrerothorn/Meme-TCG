@@ -7,6 +7,7 @@ public class Exorcise extends Card {
 
 	public Exorcise() {
 		this.name = "Exorcise";
+		this.setType("Spell");
 	}
 
 	@Override

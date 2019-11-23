@@ -7,6 +7,7 @@ public class HandyRobot extends Card {
 
 	public HandyRobot() {
 		this.name = "Handy Robot";
+		this.setType("Mech");
 	}
 
 	@Override

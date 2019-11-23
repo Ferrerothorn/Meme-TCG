@@ -7,6 +7,7 @@ public class ChannelTheDepths extends Card {
 
 	public ChannelTheDepths() {
 		this.name = "Channel the Depths";
+		this.setType("Spell");
 	}
 
 	@Override
