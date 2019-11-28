@@ -13,6 +13,6 @@ public class Paladin extends Card {
 	@Override
 	public void onentry(Player self, Player opponent) {
 		self.movePile(self.grave, self.rfg);
-		self.lifeTotal += 12;
+		self.lifeTotal += 6;
 	}
 }
