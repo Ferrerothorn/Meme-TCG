@@ -1,6 +1,4 @@
 package cards;
-
-import java.util.ArrayList;
 import java.util.Collections;
 
 import extraData.Card;
@@ -15,20 +13,12 @@ public class Repair extends Card {
 
 	@Override
 	public void onentry(Player self, Player opponent) {
-		if(self.grave.remove(this)) {
-			self.rfg.add(this);
-		}
+		rfgThis(self);
 		if (self.getDeck().size() <= 3) {
 			self.movePile(self.getDeck(), self.grave);
 			Collections.shuffle(self.getDeck());
 		}
-		ArrayList<Card> corruption = new ArrayList<Card>();
-		for (Card c : self.getDeck()) {
-			if (c.getName().equals("Corrupted Blood")) {
-				corruption.add(c);
-			}
-		}
-		self.getDeck().removeAll(corruption);
+
 		if (self.lifeTotal < opponent.lifeTotal) {
 			self.lifeTotal = opponent.lifeTotal;
 		}
