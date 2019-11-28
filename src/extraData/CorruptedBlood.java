@@ -17,13 +17,8 @@ public class CorruptedBlood extends Card {
 		self.getDeck().add(new CorruptedBlood());
 		int bloodCount = self.cardCount(self.getDeck(), "Corrupted Blood");
 		bloodCount += self.cardCount(self.getHand(), "Corrupted Blood");
-		self.lifeTotal -= bloodCount * (bloodCount - 1);
+		self.lifeTotal -= (bloodCount - 1) * (bloodCount - 1);
 		Collections.shuffle(self.getDeck());
 		self.draw();
-	}
-
-	public static int fibonacci(int n) {
-		double phi = (1 + Math.sqrt(5)) / 2;
-		return (int) Math.round(Math.pow(phi, n) / Math.sqrt(5));
 	}
 }
