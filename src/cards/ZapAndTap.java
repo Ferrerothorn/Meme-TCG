@@ -13,9 +13,8 @@ public class ZapAndTap extends Card {
 	@Override
 	public void onentry(Player self, Player opponent) {
 		opponent.lifeTotal = opponent.lifeTotal - 1;
-		self.draw();
-		if (self.getHand().size() == 1) {
-			self.draw();
+		if (self.handContainsCardsWithType("Spell")) {
+			self.draw(2);
 		}
 	}
 
