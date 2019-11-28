@@ -16,6 +16,7 @@ public class WheelOfFate extends Card {
 	public void onentry(Player self, Player opponent) {
 		Random r = new Random();
 		this.setCounters(r.nextInt(4));
+		this.graveAbility(self, opponent);
 	}
 
 	@Override
