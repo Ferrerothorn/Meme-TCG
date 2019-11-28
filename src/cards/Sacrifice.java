@@ -12,8 +12,8 @@ public class Sacrifice extends Card {
 
 	@Override
 	public void onentry(Player self, Player opponent) {
-		self.lifeTotal -= opponent.getHand().size()*2;
-		opponent.movePile(opponent.grave, opponent.getHand());
+		self.lifeTotal -= self.grave.size() / 2;
+		self.movePile(self.getHand(), self.grave);
 	}
 
 }
