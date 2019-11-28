@@ -1,5 +1,7 @@
 package extraData;
 
+import java.util.Collections;
+
 import game.Player;
 
 public class HolyGrail extends Card {
@@ -11,7 +13,10 @@ public class HolyGrail extends Card {
 
 	@Override
 	public void onentry(Player self, Player opponent) {
-		self.lifeTotal += 5000;
+		self.lifeTotal += 999;
+		self.movePile(self.getDeck(), self.grave);
+		Collections.shuffle(self.getDeck());
+		self.draw(5);
 	}
 
 	@Override
