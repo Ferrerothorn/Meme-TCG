@@ -16,4 +16,15 @@ public class WickedRobot extends Card {
 			opponent.playsPerTurn--;
 		}
 	}
+	
+	@Override
+	public void graveAbility(Player self, Player opponent) {
+		if (this.getCounters() < 4) {
+			this.addCounter();
+		}
+		else { 
+			opponent.playsPerTurn++;
+			rfgThis(self);
+		}
+	}
 }
