@@ -30,7 +30,7 @@ public abstract class Card implements Cloneable {
 	public void setName(String s) {
 		name = s;
 	}
-	
+
 	public String getType() {
 		return type;
 	}
@@ -73,5 +73,11 @@ public abstract class Card implements Cloneable {
 
 	public Card clone() throws CloneNotSupportedException {
 		return (Card) super.clone();
+	}
+
+	public void rfgThis(Player self) {
+		if (self.grave.remove(this)) {
+			self.rfg.add(this);
+		}
 	}
 }
