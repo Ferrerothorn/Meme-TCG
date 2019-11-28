@@ -14,7 +14,8 @@ public class InsurancePlan extends Card {
 	@Override
 	public void graveAbility(Player self, Player opponent) {
 		if(self.getHand().size() == 0) {
-			self.draw();
+			self.draw(3);
+			rfgThis(self);
 		}
 	}
 }
