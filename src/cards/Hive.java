@@ -1,14 +1,17 @@
 package cards;
 
 import extraData.Card;
-import extraData.PlantTendrils;
+import extraData.KillerBee;
+import extraData.WorkerBee;
 import game.Player;
 
-public class HugePlant extends Card {
+public class Hive extends Card {
 
-	public HugePlant() {
-		this.name = "Huge Plant";
-		this.setType("Plant");
+	public Hive() {
+		this.name = "Hive";
+		this.setColor("Green");
+		this.setType("Creature");
+		this.setPriority(4);
 	}
 
 	@Override
@@ -18,8 +21,12 @@ public class HugePlant extends Card {
 
 	@Override
 	public void graveAbility(Player self, Player opponent) {
-		if (self.grave.size()<this.getCounters()) {
-			self.grave.add(new PlantTendrils());
+		if (self.grave.size() > this.getCounters()) {
+			self.getDeck().add(new WorkerBee());
+			self.shuffle();
+			opponent.getDeck().add(new KillerBee());
+			opponent.shuffle();
+			
 		}
 		this.setCounters(self.grave.size());
 	}

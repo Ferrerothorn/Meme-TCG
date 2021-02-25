@@ -5,26 +5,36 @@ import java.util.ArrayList;
 import extraData.Card;
 import game.Player;
 
-public class Collector extends Card {
+public class Beastmaster extends Card {
 
-	public Collector() {
-		this.name = "Collector";
+	public Beastmaster() {
+		this.name = "Beastmaster";
+		this.setColor("Green");
 		this.setType("Hero");
+		this.setPriority(12);
 	}
 
 	@Override
 	public void onentry(Player self, Player opponent) {
-		ArrayList<Card> collection = new ArrayList<Card>();
-		int i = 0;
-		while (i<self.getDeck().size() && collection.size()<3) {
-			Card c = self.getDeck().get(i);
-			if(!c.getType().equals("Spell")) {
-				collection.add(c);
+		ArrayList<Card> temp = new ArrayList<Card>();
+		for (Card c: self.grave) {
+			if (c.getType().equals("Creature")) {
+				temp.add(c);
 			}
-			i++;
 		}
-		self.getHand().addAll(collection);
-		self.getDeck().removeAll(collection);
-		self.shuffle();
+		for (Card c : temp) {
+			c.graveAbility(self, opponent);
+		}
+
+		
+	}
+	
+	@Override
+	public void graveAbility(Player self, Player opponent) {
+		if (self.typeCount(self.grave, "Hero") >3) {
+			if(self.grave.remove(this)) {
+				self.getHand().add(this);
+			}
+		}
 	}
 }

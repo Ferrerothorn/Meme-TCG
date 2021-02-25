@@ -3,12 +3,14 @@ package cards;
 import extraData.Card;
 import game.Player;
 
-public class EternalHerb extends Card {
+public class WalkingWoods extends Card {
 
 	
-	public EternalHerb() {
-		this.name = "Eternal Herb";
-		this.setType("Plant");
+	public WalkingWoods() {
+		this.name = "Walking Woods";
+		this.setColor("Green");
+		this.setType("Creature");
+		this.setPriority(7);
 	}
 	
 	@Override

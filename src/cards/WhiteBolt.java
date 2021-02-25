@@ -3,11 +3,13 @@ package cards;
 import extraData.Card;
 import game.Player;
 
-public class DivineZap extends Card {
+public class WhiteBolt extends Card {
 
-	public DivineZap() {
-		this.name = "Divine Zap";
+	public WhiteBolt() {
+		this.name = "White Bolt";
+		this.setColor("White");
 		this.setType("Spell");
+		this.setPriority(70);
 	}
 
 	@Override

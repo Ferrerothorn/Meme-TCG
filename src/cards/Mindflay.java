@@ -3,18 +3,26 @@ package cards;
 import extraData.Card;
 import game.Player;
 
-public class ChannelTheDepths extends Card {
+public class Mindflay extends Card {
 
-	public ChannelTheDepths() {
-		this.name = "Channel the Depths";
+	public Mindflay() {
+		this.name = "Mindflay";
+		this.setColor("Blue");
 		this.setType("Spell");
+		this.setPriority(11);
 	}
 
 	@Override
 	public void onentry(Player self, Player opponent) {
-		if (self.grave.size() >= 7 || opponent.grave.size() >= 7) {
-			opponent.lifeTotal -= 3;
+		opponent.lifeTotal -= 1;
+		if (self.grave.size() >= 4) {
+			opponent.lifeTotal -= 1;
 		}
-			opponent.lifeTotal -= 2;
+		if (self.grave.size() >= 6) {
+			opponent.lifeTotal -= 1;
+		}
+		if (self.grave.size() >= 8) {
+			opponent.lifeTotal -= 1;
+		}
 	}
 }

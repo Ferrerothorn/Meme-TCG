@@ -3,11 +3,13 @@ package cards;
 import extraData.Card;
 import game.Player;
 
-public class Checkmate extends Card {
+public class Beast extends Card {
 
-	public Checkmate() {
-		this.name = "Checkmate";
-		this.setType("Spell");
+	public Beast() {
+		this.name = "Beast";
+		this.setColor("Green");
+		this.setType("Creature");
+		this.setPriority(11);
 	}
 
 	@Override

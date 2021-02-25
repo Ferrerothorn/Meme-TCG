@@ -3,11 +3,13 @@ package cards;
 import extraData.Card;
 import game.Player;
 
-public class RobotAssassin extends Card {
+public class Leech extends Card {
 
-	public RobotAssassin() {
-		this.name = "Robot Assassin";
-		this.setType("Mech");
+	public Leech() {
+		this.name = "Leech";
+		this.setType("Creature");
+		this.setColor("Green");
+		this.setPriority(11);
 	}
 
 	@Override
@@ -18,6 +20,7 @@ public class RobotAssassin extends Card {
 	public void graveAbility(Player self, Player opponent) {
 		if (self.grave.size() >= 7) {
 			opponent.lifeTotal -= 2;
+			self.lifeTotal++;
 		}
 	}
 }
