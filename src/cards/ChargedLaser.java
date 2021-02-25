@@ -7,7 +7,9 @@ public class ChargedLaser extends Card {
 
 	public ChargedLaser() {
 		this.name = "Charged Laser";
+		this.setColor("Red");
 		this.setType("Spell");
+		this.setPriority(15);
 	}
 
 	@Override

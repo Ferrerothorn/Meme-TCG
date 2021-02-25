@@ -11,11 +11,12 @@ public class DarkTransfusion extends Card {
 	public DarkTransfusion() {
 		this.name = "Dark Transfusion";
 		this.setType("Spell");
+		this.setColor("Black");
+		this.setPriority(4);
 	}
 
 	@Override
 	public void onentry(Player self, Player opponent) {
-		opponent.rfgTop();
 		opponent.getDeck().add(new CorruptedBlood());
 		Collections.shuffle(opponent.getDeck());
 	}

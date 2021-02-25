@@ -7,12 +7,14 @@ public class RoyalRobot extends Card {
 
 	public RoyalRobot() {
 		this.name = "Royal Robot";
-		this.setType("Mech");
+		this.setType("Creature");
+		this.setColor("Green");
+		this.setPriority(2);
 	}
 
 	@Override
 	public void onentry(Player self, Player opponent) {
-		this.setCounters(2);
+		this.setCounters(3);
 	}
 
 	@Override

@@ -11,6 +11,8 @@ public class IceWizard extends Card {
 	public IceWizard() {
 		this.name = "Ice Wizard";
 		this.setType("Hero");
+		this.setColor("Blue");
+		this.setPriority(6);
 	}
 
 	@Override

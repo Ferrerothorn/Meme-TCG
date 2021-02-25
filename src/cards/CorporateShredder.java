@@ -9,12 +9,13 @@ public class CorporateShredder extends Card {
 
 	public CorporateShredder() {
 		this.name = "Corporate Shredder";
-		this.setType("Mech");
+		this.setType("Creature");
+		this.setColor("Green");
+		this.setPriority(6);
 	}
 
 	@Override
 	public void onentry(Player self, Player opponent) {
-		self.rfgFromDeck(1);
 	}
 
 	@Override

@@ -7,7 +7,9 @@ public class GreaterDemon extends Card {
 
 	public GreaterDemon() {
 		this.name = "Greater Demon";
-		this.setType("Monster");
+		this.setType("Creature");
+		this.setColor("Red");
+		this.setPriority(3);
 	}
 
 	@Override
@@ -20,6 +22,9 @@ public class GreaterDemon extends Card {
 	public void graveAbility(Player self, Player opponent) {
 		if(this.getCounters()>0) {
 			opponent.lifeTotal -= 3;
+		}
+		else {
+			this.shuffleBackIntoDeck(self);
 		}
 	}
 }

@@ -11,6 +11,8 @@ public class TastyBread extends Card {
 	public TastyBread() {
 		this.name = "Tasty Bread";
 		this.setType("Spell");
+		this.setColor("Green");
+		this.setPriority(6);
 	}
 
 	@Override
@@ -25,7 +27,7 @@ public class TastyBread extends Card {
 			self.getDeck().add(new Pigeon());
 			Collections.shuffle(self.getDeck());
 		}
-		this.addCounter();
+	//	this.addCounter();
 		if(this.getCounters()>=10) {
 			if(self.grave.remove(this)) {
 				self.rfg.add(this);

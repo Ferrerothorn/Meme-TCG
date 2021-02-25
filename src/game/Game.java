@@ -9,6 +9,7 @@ import java.util.LinkedHashMap;
 import java.util.LinkedList;
 import java.util.Map;
 import java.util.Scanner;
+
 import cards.*;
 import extraData.*;
 
@@ -16,9 +17,11 @@ public class Game {
 
 	public static ArrayList<Player> players = new ArrayList<>();
 	public static ArrayList<String> cardPool = new ArrayList<>();
-	public static Boolean debug = false;
+	public static Boolean debug = true;
 	public static Scanner input = new Scanner(System.in);
 	public static int deathsByMill = 0;
+	public static int games = 0;
+	public static int deckSize = 30;
 
 	public static void main(String[] args) {
 		instantiateCardpool();
@@ -26,36 +29,105 @@ public class Game {
 			System.out.println();
 			System.out.println("===Choose a command===");
 			System.out.println("0: Generate a blind meta deck.");
+			System.out.println("8: Generate endless meta decks.");
 			System.out.println("1: Generate a deck with a list of must-include cards.");
-			System.out.println("2: Analyse the top 8 meta.");
-			System.out.println("22: Debug generation: Top Cut is entire tourney.");
+			System.out.println("2: Analyse the Top X meta.");
+			System.out.println("22: Play until X decks remain.");
 			System.out.println("3: Run a single game.");
+			System.out.println("444: Debug generation: Top Cut is entire tourney.");
 			System.out.println("5: Compare two decks.");
 			System.out.println("6: Compare one deck against a multitude of other decks.");
 			System.out.println("7: Generate a 'solution' to a deck.");
+			System.out.println("77: Generate a 'solution' to a multitude of decks.");
 			System.out.println("999: Quit.");
 			System.out.println();
-		//	int choice = 5;
-		//	choice = input.nextInt();
-		//	input.nextLine();
+			// int choice = 5;
+			int choice = input.nextInt();
+			input.nextLine();
 
-			switch (5) {
+			switch (choice) {
 
 			case 0:
-				runTournament(1, "", "");
+				runTournament(1, "", "", "");
 				break;
+			case 8:
+				while(true) {
+					generateDecklists(500000, "", "");
+					Collections.shuffle(players);
+					while (players.size() > 1) {
+						Player p1 = players.remove(0);
+						Player p2 = players.remove(0);
+						debug();
+						debug(p1.showDecklist());
+						debug(p2.showDecklist());
+						int p1winrate = grindGames(p1, p2, 8);
+						games += 8;
+						if (p1winrate > 50) {
+							players.add(p1);
+							p2 = null;
+						} else if (p1winrate < 50) {
+							players.add(p2);
+							p1 = null;
+						} else {
+							players.add(p1);
+							players.add(p2);
+						}
+					}
+					System.out.println("Winner:" + analyseTopCut());
+					System.out.println(analyseColors());
+					System.out.println(((100 * deathsByMill) / games) + "% of games are won by mill.");
+				}
 			case 1:
+				players.clear();
+				System.out.println("Enter archetype name.");
+				String deckArchetypeName = input.nextLine();
 				System.out.println("Please enter your list of required cards.");
 				String mandatoryCards = input.nextLine();
 				System.out.println("Please enter your list of banned cards.");
 				String bannedCards = input.nextLine();
-				runTournament(1, mandatoryCards, bannedCards);
+				runTournament(1, mandatoryCards, bannedCards, deckArchetypeName);
 				break;
 			case 2:
-				runTournament(8, "", "");
+				System.out.println("How many players should the sample size be?");
+				int topCutSize = input.nextInt();
+				runTournament(topCutSize, "", "", "");
 				break;
 			case 22:
-				runTournament(300000, "", "");
+				deathsByMill = 0;
+				games = 0;
+				System.out.println("How many players should the sample size be?");
+				topCutSize = input.nextInt();
+				if (players.size() < topCutSize) {
+					runTournament(topCutSize, "", "", "");
+				} else {
+					while (players.size() > topCutSize) {
+						Player p1 = players.remove(0);
+						Player p2 = players.remove(0);
+						debug();
+						debug(p1.showDecklist());
+						debug(p2.showDecklist());
+						int p1winrate = grindGames(p1, p2, 8);
+						games += 8;
+						if (p1winrate > 50) {
+							players.add(p1);
+							p2 = null;
+						} else if (p1winrate < 50) {
+							players.add(p2);
+							p1 = null;
+						} else {
+							players.add(p1);
+							players.add(p2);
+						}
+						debug("======" + players.size() + "======");
+					}
+					System.out.println("Top Cut: " + analyseTopCut());
+					System.out.println(analyseColors());
+					System.out.println(((100 * deathsByMill) / games) + "% of games are won by mill.");
+				}
+				break;
+
+			case 444:
+				runTournament(300000, "", "", "");
 				break;
 			case 3:
 				runSingleGame();
@@ -81,8 +153,8 @@ public class Game {
 					Player opp = new Player(parsedNames[0]);
 					opp.setDeck(parseDeckFromLine(parsedNames[1]));
 
-					if (boss.getDeck().size() + opp.getDeck().size() != 80) {
-						debug("One or more decks isn't correct (@40 cards).");
+					if (boss.getDeck().size() + opp.getDeck().size() != 60) {
+						debug("One or more decks isn't correct (@" + deckSize + " cards).");
 						debug(boss.name + ": " + boss.getDeck().size());
 						debug(opp.name + ": " + opp.getDeck().size());
 						break;
@@ -104,23 +176,57 @@ public class Game {
 				System.out.println("Please enter your list of required cards.");
 				mandatoryCards = input.nextLine();
 
-				System.out.println("What percent winrate is acceptable?");
-				int threshold = Integer.parseInt(input.nextLine());
+				System.out.println("What percent winrate is intriguing enough to want to see it?");
+				int curiosityThreshold = Integer.parseInt(input.nextLine());
 
-				counterThisDeck(p1, mandatoryCards, threshold);
+				System.out.println("What percent winrate is intriguing enough to call it a 'counter' and stop?");
+				int counterThreshold = Integer.parseInt(input.nextLine());
+
+				counterThisDeck(p1, mandatoryCards, curiosityThreshold, counterThreshold);
 				break;
+
+			case 77:
+				System.out.println(
+						"Enter the desired enemy decks names and decklists; format should be 'Name:Cards-Quantity/Name:Cards-Quantity'");
+				String mobInput = input.nextLine();
+				String[] opponents = mobInput.split("/");
+
+				System.out.println("Please enter your list of required cards.");
+				mandatoryCards = input.nextLine();
+
+				System.out.println(
+						"What average percent winrate against this mob is intriguing enough to want to see it?");
+				curiosityThreshold = Integer.parseInt(input.nextLine());
+
+				System.out.println(
+						"What average percent winrate against this mob is intriguing enough to call it a 'counter' and stop?");
+				counterThreshold = Integer.parseInt(input.nextLine());
+
+				counterTheseDecks(opponents, mandatoryCards, curiosityThreshold, counterThreshold);
+				break;
+
 			case 999:
 				input.close();
 				System.exit(0);
+				break;
+			default:
+			//	runBestOf25k();
 				break;
 			}
 		}
 	}
 
-	private static void counterThisDeck(Player p1, String mandatoryCards, int threshold) {
+	private static void counterTheseDecks(String[] opponents, String mandatoryCards, int curiosityThreshold,
+			int counterThreshold) {
+		// TODO Auto-generated method stub
+
+	}
+
+	private static void counterThisDeck(Player p1, String mandatoryCards, int curiosityThreshold,
+			int completeThreshold) {
 		int wins = 0;
 
-		while (((wins * 100) / 5000) < threshold) {
+		while (((wins * 100) / 5000) < completeThreshold) {
 			wins = 0;
 			players.clear();
 			generateDecklists(1, mandatoryCards, "");
@@ -133,7 +239,7 @@ public class Game {
 					wins++;
 				}
 			}
-			if (((wins * 100) / 5000) > 50) {
+			if (((wins * 100) / 5000) > curiosityThreshold) {
 				System.out.println("" + ((wins * 100) / 5000) + ":" + p.showDecklist());
 			}
 		}
@@ -170,7 +276,7 @@ public class Game {
 		Player p2 = new Player(p2info[0]);
 		p2.setDeck(parseDeckFromLine(p2info[1]));
 
-		if (p1.getDeck().size() + p2.getDeck().size() != 80) {
+		if (p1.getDeck().size() + p2.getDeck().size() != 60) {
 			debug("One or more decks isn't correct (@40 cards).");
 			debug(p1.name + ": " + p1.getDeck().size());
 			debug(p1.name + ": " + p1.showDecklist());
@@ -196,8 +302,8 @@ public class Game {
 		Player p2 = new Player(parsename2[0]);
 		p2.setDeck(parseDeckFromLine(parsename2[1]));
 
-		if (p2.getDeck().size() + p1.getDeck().size() != 80) {
-			debug("One or more decks isn't correct (@40 cards).");
+		if (p2.getDeck().size() + p1.getDeck().size() != 60) {
+			debug("One or more decks isn't correct (@" + deckSize + " cards).");
 			debug(p1.name + ": " + p1.getDeck().size());
 			debug(p1.name + ": " + p1.showDecklist());
 			debug(p2.name + ": " + p2.getDeck().size());
@@ -208,9 +314,10 @@ public class Game {
 		System.out.println(play(p1, p2).getName() + " wins!");
 	}
 
-	private static void runTournament(int cullToThisNumber, String mandatoryCards, String bannedCards) {
-		System.out.println("Generating 300k decklists.");
-		generateDecklists(300000, mandatoryCards, bannedCards);
+	private static void runTournament(int cullToThisNumber, String mandatoryCards, String bannedCards,
+			String deckArchetypeName) {
+		System.out.println("Generating decklists.");
+		generateDecklists(500000, mandatoryCards, bannedCards);
 		Collections.shuffle(players);
 		System.out.println("Running tournament.");
 		while (players.size() > cullToThisNumber) {
@@ -220,6 +327,7 @@ public class Game {
 			debug(p1.showDecklist());
 			debug(p2.showDecklist());
 			int p1winrate = grindGames(p1, p2, 8);
+			games += 8;
 			if (p1winrate > 50) {
 				players.add(p1);
 				p2 = null;
@@ -232,7 +340,9 @@ public class Game {
 			}
 			debug("======" + players.size() + "======");
 		}
-		System.out.println(analyseTopCut());
+		System.out.println(deckArchetypeName + ":" + analyseTopCut());
+		System.out.println(analyseColors());
+		System.out.println(((100 * deathsByMill) / games) + "% of games are won by mill.");
 	}
 
 	public static ArrayList<Card> parseDeckFromLine(String p1deck) {
@@ -278,6 +388,49 @@ public class Game {
 		}
 	}
 
+	private static String analyseColors() {
+		int redCount = 0;
+		int blueCount = 0;
+		int greenCount = 0;
+		int whiteCount = 0;
+		int blackCount = 0;
+
+		for (Player p : players) {
+			for (Card c : p.getDeck()) {
+				if (!c.getType().equals("Creature") && !c.getType().equals("Spell") && !c.getType().equals("Hero")) {
+					System.out.println("" + c.getName() + " has an illegal type.");
+				}
+				if (!c.getColor().equals("Red") && !c.getColor().equals("Blue") && !c.getColor().equals("Green")
+						&& !c.getColor().equals("White") && !c.getColor().equals("Black")) {
+					System.out.println("" + c.getName() + " has an illegal color.");
+				}
+
+				switch (c.getColor()) {
+				case "Red":
+					redCount++;
+					break;
+				case "Blue":
+					blueCount++;
+					break;
+				case "Green":
+					greenCount++;
+					break;
+				case "White":
+					whiteCount++;
+					break;
+				case "Black":
+					blackCount++;
+					break;
+				default:
+					break;
+				}
+			}
+		}
+
+		return "Red: " + redCount + " Blue: " + blueCount + " Green: " + greenCount + " White: " + whiteCount
+				+ " Black: " + blackCount;
+	}
+
 	private static String analyseTopCut() {
 		System.out.println();
 		System.out.println();
@@ -315,14 +468,14 @@ public class Game {
 
 	public static Player play(Player p1, Player p2) {
 		int turn = 1;
-		p1.lifeTotal = 30;
-		p2.lifeTotal = 30;
+		p1.lifeTotal = 20;
+		p2.lifeTotal = 20;
 		p1.toggleGraveAbilities(true);
 		p2.toggleGraveAbilities(true);
 		p1.playsPerTurn = 2;
 		p2.playsPerTurn = 2;
 
-		if (p1.deck.cards.size() != 40 || p2.deck.cards.size() != 40) {
+		if (p1.deck.cards.size() != deckSize || p2.deck.cards.size() != deckSize) {
 			System.out.println("Definitely a problem.");
 			System.out.println("P1 deck: " + p1.deck.cards.size());
 			System.out.println("P1 deck: " + p1.showDecklist());
@@ -332,16 +485,9 @@ public class Game {
 		}
 		p1.shuffle();
 		p2.shuffle();
-		p1.draw(6);
-		p2.draw(6);
+		p1.draw(4);
+		p2.draw(4);
 		while (p1.isAlive() && p2.isAlive() && turn <= 4000) {
-
-//			if(turn>400) {
-//				System.out.println(p1.showDecklist());
-//				System.out.println(p2.showDecklist());
-//				System.exit(0);
-//				
-//			}
 
 			debug("Start of turn.");
 			int p1playsPerTurn = p1.playsPerTurn;
@@ -366,6 +512,7 @@ public class Game {
 					triggers.addAll(p1.grave);
 					Collections.shuffle(triggers);
 					for (Card c : triggers) {
+				//		System.out.println("" + c.getName() + "'s grave ability.");
 						c.graveAbility(p1, p2);
 						if (!p2.isAlive() || !p1.isAlive()) {
 							break;
@@ -420,9 +567,15 @@ public class Game {
 
 		if (p1.isAlive() && p2.isAlive()) {
 			if (p1.lifeTotal > p2.lifeTotal) {
+				if (p2.getDeck().size() == 0) {
+					deathsByMill++;
+				}
 				p1.cleanup();
 				p2.cleanup();
 				return p1;
+			}
+			if (p1.getDeck().size() == 0) {
+				deathsByMill++;
 			}
 			p1.cleanup();
 			p2.cleanup();
@@ -430,9 +583,15 @@ public class Game {
 		}
 
 		if (p1.isAlive()) {
+			if (p2.getDeck().size() == 0) {
+				deathsByMill++;
+			}
 			p1.cleanup();
 			p2.cleanup();
 			return p1;
+		}
+		if (p1.getDeck().size() == 0) {
+			deathsByMill++;
 		}
 		p1.cleanup();
 		p2.cleanup();
@@ -444,25 +603,22 @@ public class Game {
 			Player p = new Player("P" + (ps + 1));
 			ArrayList<Card> mandatory = parseDeckFromLine(mandatoryCards);
 			p.getDeck().addAll(mandatory);
-			while (p.getDeck().size() < 32) {
+
+			while (p.getDeck().size() < 0.8 * deckSize) {
 				String card = fetchCardFactoringBans(bannedCards);
 				debug("Finding card: " + card);
-				while (cardCount(p.getDeck(), card) < 4) {
+				while (cardCount(p.getDeck(), card) < 3) {
 					Card c = findCardByName(card);
 					p.getDeck().add(c);
 				}
 			}
 
-			while (p.getDeck().size() < 40) {
-				Collections.shuffle(cardPool);
-				String s = cardPool.get(0);
-				debug("Finding card: " + s);
-				Card c = findCardByName(s);
-				if (cardCount(p.getDeck(), c.getName()) < 4) {
-					debug("Still able to add: " + s);
+			while (p.getDeck().size() < deckSize) {
+				String card = fetchCardFactoringBans(bannedCards);
+				debug("Finding card: " + card);
+				while (cardCount(p.getDeck(), card) < 1) {
+					Card c = findCardByName(card);
 					p.getDeck().add(c);
-				} else {
-					debug("Got enough: " + s);
 				}
 			}
 			players.add(p);
@@ -489,358 +645,220 @@ public class Game {
 
 	public static void instantiateCardpool() {
 		cardPool.add("Accumulated Knowledge");
-		cardPool.add("Amnesia");
-		cardPool.add("Ancestral Recall");
-		cardPool.add("Apparition");
-		cardPool.add("Body Swap");
-		cardPool.add("Burial");
-		cardPool.add("Burst Heal");
-		cardPool.add("Channel the Depths");
+		cardPool.add("Alchemy");
+		cardPool.add("Beast");
 		cardPool.add("Charged Laser");
-		cardPool.add("Checkmate");
-		cardPool.add("Colossal Junk Chucker");
-		cardPool.add("Comeback Zap");
-		cardPool.add("Corporate Shredder");
-		cardPool.add("Cowardly Robot");
-		cardPool.add("Damnation");
 		cardPool.add("Dark Contract");
 		cardPool.add("Dark Pact");
-		cardPool.add("Dark Transfusion");
-		cardPool.add("Dark Zap");
-		cardPool.add("Divine Zap");
-		cardPool.add("Donate");
-		cardPool.add("Doomsday Device");
+		cardPool.add("Doctor");
+		cardPool.add("Drain Life");
 		cardPool.add("Eternal Flame");
-		cardPool.add("Eternal Herb");
-		cardPool.add("Eventual Zap");
-		cardPool.add("Export");
-		cardPool.add("Genome");
-		cardPool.add("Gesper");
-		cardPool.add("Giga Zap");
-		cardPool.add("Greater Demon");
-		cardPool.add("Grindstone");
-		cardPool.add("Griselbrand");
+		cardPool.add("Fairy");
+		cardPool.add("Flame Rift");
+		cardPool.add("Frenzy");
+		cardPool.add("Fry");
+		cardPool.add("Ghost");
+		cardPool.add("Giant Clam");
 		cardPool.add("Handy Robot");
-		cardPool.add("Heal");
-		cardPool.add("Ignite");
-		cardPool.add("Increasing Heal");
-		cardPool.add("Insurance Plan");
-		cardPool.add("Junk Chucker");
-		cardPool.add("Magnet");
-		cardPool.add("Lesser Demon");
-		cardPool.add("Life Zap");
-		cardPool.add("Mass Grave");
-		cardPool.add("Mend");
-		cardPool.add("Mighty Wrench");
-		cardPool.add("Mill");
-		cardPool.add("Monastery");
-		cardPool.add("Mulch Munch");
-		cardPool.add("Parry");
-		cardPool.add("Peace Treaty");
-		cardPool.add("Poison Frog");
-		cardPool.add("Pylon");
-		cardPool.add("Recycle");
-		cardPool.add("Regrow");
-		cardPool.add("Remembrance");
-		cardPool.add("Repair");
-		cardPool.add("Robot Assassin");
-		cardPool.add("Rotato Potato");
+		cardPool.add("Harass");
+		cardPool.add("Herdcaller");
+		cardPool.add("Spite");
+		cardPool.add("Lab Assistant");
+		cardPool.add("Lightning Bolt");
+		cardPool.add("Mindflay");
+		cardPool.add("Mushrooms");
+		cardPool.add("Recover");
+		cardPool.add("Salve");
+		cardPool.add("Zombie");
+		cardPool.add("Sanctify");
+		cardPool.add("Ancestral Recall");
+		cardPool.add("Tax");
+		cardPool.add("Torrent");
+		cardPool.add("Walking Woods");
+		cardPool.add("Worker Ant");
+		cardPool.add("Sage of Resurgence");
+		cardPool.add("Confidant");
+		cardPool.add("Hive");
+		cardPool.add("Body Swap");
 		cardPool.add("Royal Robot");
-		cardPool.add("Sacrifice");
-		cardPool.add("Search the Darkness");
-		cardPool.add("Sinkhole");
-		cardPool.add("Slow Flare");
-		cardPool.add("Sparkwave");
+		cardPool.add("Tax Man");
+		cardPool.add("Devotion Bolt");
+		cardPool.add("Gesper");
+		cardPool.add("Mass Grave");
+		cardPool.add("Doomsday Device");
+		cardPool.add("Fire Wizard");
+		cardPool.add("Ice Wizard");
+		cardPool.add("Pirate");
+		cardPool.add("Feisty Sorceress");
+		cardPool.add("Storyteller");
+		cardPool.add("Blue Bolt");
+		cardPool.add("Excise");
+		cardPool.add("Forest Shrine");
+		cardPool.add("Woodcutter");
+		cardPool.add("Dark Zap");
+		cardPool.add("Time Mage");
+		cardPool.add("Crusader");
+		cardPool.add("Ignite");
+		cardPool.add("Leech");
 		cardPool.add("Sycamore");
 		cardPool.add("Tasty Bread");
-		cardPool.add("Tempo Drain");
-		cardPool.add("Tent");
-		cardPool.add("The Rack");
-		cardPool.add("Thought Scour");
-		cardPool.add("Time Stop");
-		cardPool.add("Timetwister");
-		cardPool.add("Upper Hand");
-		cardPool.add("Vitality Artifact");
-		cardPool.add("Waifu");
-		cardPool.add("Wheel of Fate");
-		cardPool.add("Wicked Robot");
-		cardPool.add("Zap Cannon");
-		cardPool.add("Zap Machine");
-		cardPool.add("Zap Magnifier");
-		cardPool.add("Zap and Tap");
-		cardPool.add("Zap");
-		cardPool.add("Zapstarter");
-		cardPool.add("Doubling Zap");
-		cardPool.add("Trial");
-		cardPool.add("Cloning Gallery");
-		cardPool.add("Bargaining");
-		cardPool.add("Arcane Zap");
-		cardPool.add("Exorcise");
-		cardPool.add("Titan");
-		cardPool.add("Thief");
-		cardPool.add("Huge Plant");
-		cardPool.add("Gardening");
-		cardPool.add("Monk");
-		cardPool.add("Shuttle Zap");
-		cardPool.add("Hero");
-		cardPool.add("Paladin");
-		cardPool.add("Dark Knight");
-		cardPool.add("Ice Wizard");
-		cardPool.add("Fire Wizard");
-		cardPool.add("Bishop");
-		cardPool.add("Assassin");
-		cardPool.add("Bandit");
-		cardPool.add("Archer");
-		cardPool.add("Crossbowman");
-		cardPool.add("Pirate");
-		cardPool.add("Guild Master");
-		cardPool.add("Eternal Ice");
-		cardPool.add("Dig Your Own Grave");
-		cardPool.add("Collector");
-		cardPool.add("Diversion");
+		cardPool.add("Tarmogoyf");
+		cardPool.add("Spire of Industry");
+		cardPool.add("Beastmaster");
+		cardPool.add("Colossal Junk Chucker");
+		cardPool.add("Corporate Shredder");
+		cardPool.add("Dark Transfusion");
+		cardPool.add("White Bolt");
+		cardPool.add("Greater Demon");
 	}
 
 	public static Card newCardByName(String string) {
 		debug("newCardByName called on name: " + string + ".");
 		if (!string.contains("Copied ")) {
 			switch (string) {
-			case "Collector":
-				return new Collector();
-			case "Road Cone":
-				return new RoadCone();
-			case "Diversion":
-				return new Diversion();
-			case "Water":
-				return new Water();
-			case "Dig Your Own Grave":
-				return new DigYourOwnGrave();
-			case "Fire Wizard":
-				return new FireWizard();
-			case "Eternal Ice":
-				return new EternalIce();
-			case "Guild Master":
-				return new GuildMaster();
-			case "Ice Wizard":
-				return new IceWizard();
-			case "Bishop":
-				return new Bishop();
-			case "Assassin":
-				return new Assassin();
-			case "Bandit":
-				return new Bandit();
-			case "Crossbowman":
-				return new Crossbowman();
-			case "Archer":
-				return new Archer();
-			case "Pirate":
-				return new Pirate();
-			case "Paladin":
-				return new Paladin();
-			case "Hero":
-				return new Hero();
-			case "Dark Knight":
-				return new DarkKnight();
-			case "Shuttle Zap":
-				return new ShuttleZap();
-			case "Exorcise":
-				return new Exorcise();
-			case "Gardening":
-				return new Gardening();
-			case "Plant Tendrils":
-				return new PlantTendrils();
-			case "Huge Plant":
-				return new HugePlant();
-			case "Titan":
-				return new Titan();
-			case "Arcane Zap":
-				return new ArcaneZap();
-			case "Bargaining":
-				return new Bargaining();
-			case "Upper Hand":
-				return new UpperHand();
-			case "Cloning Gallery":
-				return new CloningGallery();
-			case "Trial":
-				return new Trial();
-			case "Doubling Zap":
-				return new DoublingZap();
-			case "Griselbrand":
-				return new Griselbrand();
-			case "Divine Zap":
-				return new DivineZap();
-			case "Monastery":
-				return new Monastery();
-			case "Sacrifice":
-				return new Sacrifice();
-			case "Wheel of Fate":
-				return new WheelOfFate();
-			case "Genome":
-				return new Genome();
-			case "Insurance Plan":
-				return new InsurancePlan();
-			case "Rotato Potato":
-				return new RotatoPotato();
-			case "Dark Contract":
-				return new DarkContract();
-			case "Lesser Demon":
-				return new LesserDemon();
-			case "Increasing Heal":
-				return new IncreasingHeal();
-			case "Tent":
-				return new Tent();
-			case "Zap Machine":
-				return new ZapMachine();
-			case "Eternal Flame":
-				return new EternalFlame();
-			case "Repair":
-				return new Repair();
-			case "Thief":
-				return new Thief();
-			case "Monk":
-				return new Monk();
-			case "Checkmate":
-				return new Checkmate();
-			case "Mighty Wrench":
-				return new MightyWrench();
-			case "Recycle":
-				return new Recycle();
-			case "Export":
-				return new Export();
-			case "Tasty Bread":
-				return new TastyBread();
 			case "Greater Demon":
 				return new GreaterDemon();
-			case "Remembrance":
-				return new Remembrance();
-			case "Vitality Artifact":
-				return new VitalityArtifact();
-			case "Time Stop":
-				return new TimeStop();
-			case "Slow Flare":
-				return new SlowFlare();
-			case "Royal Robot":
-				return new RoyalRobot();
-			case "Burst Heal":
-				return new BurstHeal();
-			case "Eventual Zap":
-				return new EventualZap();
-			case "Mass Grave":
-				return new MassGrave();
-			case "Zap Cannon":
-				return new ZapCannon();
-			case "Accumulated Knowledge":
-				return new AccumulatedKnowledge();
-			case "Doomsday Device":
-				return new DoomsdayDevice();
-			case "Pylon":
-				return new Pylon();
-			case "Amnesia":
-				return new Amnesia();
-			case "Ancestral Recall":
-				return new AncestralRecall();
-			case "Apparition":
-				return new Apparition();
-			case "Body Swap":
-				return new BodySwap();
-			case "Burial":
-				return new Burial();
-			case "Charged Laser":
-				return new ChargedLaser();
-			case "Colossal Junk Chucker":
-				return new ColossalJunkChucker();
-			case "Comeback Zap":
-				return new ComebackZap();
-			case "Corporate Shredder":
-				return new CorporateShredder();
-			case "Cowardly Robot":
-				return new CowardlyRobot();
-			case "Damnation":
-				return new Damnation();
-			case "Dark Pact":
-				return new DarkPact();
+			case "White Bolt":
+				return new WhiteBolt();
 			case "Dark Transfusion":
 				return new DarkTransfusion();
-			case "Dark Zap":
-				return new DarkZap();
-			case "Donate":
-				return new Donate();
-			case "Eternal Herb":
-				return new EternalHerb();
-			case "Gesper":
-				return new Gesper();
-			case "Giga Zap":
-				return new GigaZap();
-			case "Grindstone":
-				return new Grindstone();
-			case "Handy Robot":
-				return new HandyRobot();
-			case "Heal":
-				return new Heal();
-			case "Ignite":
-				return new Ignite();
-			case "Junk Chucker":
-				return new JunkChucker();
-			case "Magnet":
-				return new Magnet();
-			case "Life Zap":
-				return new Lifezap();
-			case "Mend":
-				return new Mend();
-			case "Mill":
-				return new Mill();
-			case "Mulch Munch":
-				return new MulchMunch();
-			case "Parry":
-				return new Parry();
-			case "Peace Treaty":
-				return new PeaceTreaty();
-			case "Poison Frog":
-				return new PoisonFrog();
-			case "Regrow":
-				return new Regrow();
-			case "Robot Assassin":
-				return new RobotAssassin();
-			case "Search the Darkness":
-				return new SearchTheDarkness();
-			case "Sinkhole":
-				return new Sinkhole();
-			case "Channel the Depths":
-				return new ChannelTheDepths();
-			case "Sparkwave":
-				return new Sparkwave();
+			
+			case "Beastmaster":
+				return new Beastmaster();
+			case "Colossal Junk Chucker":
+				return new ColossalJunkChucker();
+			case "Corporate Shredder":
+				return new CorporateShredder();
 			case "Sycamore":
 				return new Sycamore();
-			case "Tempo Drain":
-				return new TempoDrain();
-			case "The Rack":
-				return new TheRack();
-			case "Thought Scour":
-				return new ThoughtScour();
-			case "Timetwister":
-				return new Timetwister();
-			case "Waifu":
-				return new Waifu();
-			case "Wicked Robot":
-				return new WickedRobot();
-			case "Zap":
-				return new Zap();
-			case "Zap and Tap":
-				return new ZapAndTap();
-			case "Zapstarter":
-				return new Zapstarter();
-			case "Zap Magnifier":
-				return new ZapMagnifier();
-			case "Corrupted Blood":
-				return new CorruptedBlood();
-			case "Pigeon":
-				return new Pigeon();
-			case "Holy Grail":
-				return new HolyGrail();
-			case "Cable":
-				return new Cable();
+			case "Spire of Industry":
+				return new SpireOfIndustry();
+			case "Tasty Bread":
+				return new TastyBread();
+			case "Tarmogoyf":
+				return new Tarmogoyf();
+			case "Blue Bolt":
+				return new BlueBolt();
+			case "Leech":
+				return new Leech();
+			case "Ignite":
+				return new Ignite();
+			case "Crusader":
+				return new Crusader();
+			case "Time Mage":
+				return new TimeMage();
+			case "Dark Zap":
+				return new DarkZap();
+			case "Woodcutter":
+				return new Woodcutter();
+			case "Forest Shrine":
+				return new ForestShrine();
+			case "Zombie":
+				return new Zombie();
+			case "Excise":
+				return new Excise();
+			case "Ice Wizard":
+				return new IceWizard();
+			case "Fire Wizard":
+				return new FireWizard();
+			case "Pirate":
+				return new Pirate();
+			case "Feisty Sorceress":
+				return new FeistySorceress();
+			case "Devotion Bolt":
+				return new DevotionBolt();
+			case "Doomsday Device":
+				return new DoomsdayDevice();
+			case "Tax Man":
+				return new TaxMan();
+			case "Royal Robot":
+				return new RoyalRobot();
+			case "Body Swap":
+				return new BodySwap();
+			case "Hive":
+				return new Hive();
+			case "Worker Bee":
+				return new WorkerBee();
+			case "Killer Bee":
+				return new KillerBee();
+			case "Sage of Resurgence":
+				return new SageOfResurgence();
+			case "Accumulated Knowledge":
+				return new AccumulatedKnowledge();
+			case "Lab Assistant":
+				return new LabAssistant();
+			case "Beast":
+				return new Beast();
+			case "Charged Laser":
+				return new ChargedLaser();
+			case "Doctor":
+				return new Doctor();
+			case "Dark Contract":
+				return new DarkContract();
+			case "Dark Pact":
+				return new DarkPact();
+			case "Handy Robot":
+				return new HandyRobot();
+			case "Mindflay":
+				return new Mindflay();
+			case "Eternal Flame":
+				return new EternalFlame();
+			case "Walking Woods":
+				return new WalkingWoods();
+			case "Alchemy":
+				return new Alchemy();
+			case "Ghost":
+				return new Ghost();
+			case "Drain Life":
+				return new DrainLife();
+			case "Fairy":
+				return new Fairy();
+			case "Flame Rift":
+				return new FlameRift();
+			case "Frenzy":
+				return new Frenzy();
+			case "Fry":
+				return new Fry();
+			case "Harass":
+				return new Harass();
+			case "Herdcaller":
+				return new Herdcaller();
+			case "Spite":
+				return new Spite();
+			case "Lightning Bolt":
+				return new LightningBolt();
+			case "Mushrooms":
+				return new Mushrooms();
+			case "Recover":
+				return new Recover();
+			case "Worker Ant":
+				return new WorkerAnt();
+			case "Salve":
+				return new Salve();
+			case "Sanctify":
+				return new Sanctify();
+			case "Ancestral Recall":
+				return new AncestralRecall();
+			case "Tax":
+				return new Tax();
+			case "Giant Clam":
+				return new GiantClam();
+			case "Torrent":
+				return new Torrent();
+			case "Confidant":
+				return new Confidant();
+			case "Gesper":
+				return new Gesper();
+			case "Mass Grave":
+				return new MassGrave();
+			case "Storyteller":
+				return new Storyteller();
+
 			case "Ice":
 				return new Ice();
 			default:
+				System.out.println(string);
+				System.exit(0);
 				return new ErrorMessage(string);
 			}
 		}

@@ -2,11 +2,15 @@ package extraData;
 
 import game.Player;
 
-public abstract class Card implements Cloneable {
+public abstract class Card implements Cloneable, Comparable {
 
 	protected String name;
 	int counters;
+	int priority;
+
 	String type = "";
+	String subtype = "";
+	String color = "";
 
 	public void onentry(Player self, Player opponent) {
 
@@ -37,6 +41,22 @@ public abstract class Card implements Cloneable {
 
 	public void setType(String s) {
 		type = s;
+	}
+	
+	public String getSubtype() {
+		return subtype;
+	}
+
+	public void setSubtype(String s) {
+		subtype = s;
+	}
+	
+	public void setColor(String string) {
+		color = string;
+	}
+
+	public String getColor() {
+		return color;
 	}
 
 	public void addCounter() {
@@ -74,10 +94,35 @@ public abstract class Card implements Cloneable {
 	public Card clone() throws CloneNotSupportedException {
 		return (Card) super.clone();
 	}
+	
+
+	public void shuffleBackIntoDeck(Player self) {
+		if (self.grave.remove(this)) {
+			self.getDeck().add(this);
+		}
+	}
 
 	public void rfgThis(Player self) {
 		if (self.grave.remove(this)) {
 			self.rfg.add(this);
 		}
+	}
+	
+	public int getPriority() {
+		return priority;
+	}
+
+	public void setPriority(int priority) {
+		this.priority = priority;
+	}
+	
+	public int compareTo(Object arg0) {
+		if(this.getPriority() < ((Card) arg0).getPriority()) {
+			return -1;
+		}
+		if(this.getPriority() > ((Card) arg0).getPriority()) {
+			return 1;
+		}
+		return 0;
 	}
 }

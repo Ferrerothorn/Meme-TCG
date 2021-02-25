@@ -8,11 +8,13 @@ public class DarkKnight extends Card {
 	public DarkKnight() {
 		this.name = "Dark Knight";
 		this.setType("Hero");
+		this.setColor("Black");
+		this.setPriority(10);
 	}
 
 	@Override
 	public void onentry(Player self, Player opponent) {
-		int damage = (30 - self.lifeTotal);
+		int damage = (20 - self.lifeTotal);
 		int damageModifier = 3;
 		if (self.containsClass(self.grave, "Hero")) {
 			damageModifier = 2;

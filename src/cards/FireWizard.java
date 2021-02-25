@@ -8,6 +8,8 @@ public class FireWizard extends Card {
 	public FireWizard() {
 		this.name = "Fire Wizard";
 		this.setType("Hero");
+		this.setColor("Red");
+		this.setPriority(6);
 	}
 
 	@Override

@@ -9,6 +9,8 @@ public class Ignite extends Card {
 	public Ignite() {
 		this.name = "Ignite";
 		this.setType("Spell");
+		this.setColor("Red");
+		this.setPriority(7);
 	}
 	
 	@Override

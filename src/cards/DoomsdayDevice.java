@@ -7,7 +7,9 @@ public class DoomsdayDevice extends Card {
 
 	public DoomsdayDevice() {
 		this.name = "Doomsday Device";
-		this.setType("Mech");
+		this.setType("Creature");
+		this.setColor("Red");
+		this.setPriority(2);
 	}
 
 	@Override

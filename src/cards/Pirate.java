@@ -7,16 +7,19 @@ public class Pirate extends Card {
 
 	public Pirate() {
 		this.name = "Pirate";
+		this.setColor("Black");
 		this.setType("Hero");
+		this.setPriority(5);
 	}
 
 	@Override
 	public void onentry(Player self, Player opponent) {
-		opponent.lifeTotal -= 2;
-
+		opponent.lifeTotal -= 1;
+		opponent.randomDiscard();
+		
 		if (self.getHand().size() > 0) {
 			if (self.containsClass(self.getHand(), "Hero")) {
-				opponent.randomDiscard();
+				opponent.lifeTotal -= 1;
 				opponent.randomDiscard();
 			}
 		}

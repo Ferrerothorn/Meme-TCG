@@ -11,9 +11,8 @@ public class Water extends Card {
 
 	@Override
 	public void onentry(Player self, Player opponent) {
-		self.lifeTotal++;
-		self.rfg.add(this);
-		self.grave.add(this);
+		self.draw();
+		this.rfgThis(self);
 	}
 
 	@Override

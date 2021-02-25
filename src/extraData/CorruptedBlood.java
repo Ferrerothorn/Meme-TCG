@@ -9,6 +9,7 @@ public class CorruptedBlood extends Card {
 	public CorruptedBlood() {
 		this.name = "Corrupted Blood";
 		this.setType("Junk");
+		this.setPriority(99);
 	}
 
 	@Override

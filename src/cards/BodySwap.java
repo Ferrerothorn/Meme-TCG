@@ -8,6 +8,8 @@ public class BodySwap extends Card {
 	public BodySwap() {
 		this.name = "Body Swap";
 		this.setType("Spell");
+		this.setColor("Blue");
+		this.setPriority(8);
 	}
 
 	@Override
@@ -16,7 +18,6 @@ public class BodySwap extends Card {
 			int temp = self.lifeTotal;
 			self.lifeTotal = opponent.lifeTotal;
 			opponent.lifeTotal = temp;
-		}
-		self.draw();
+		} 
 	}
 }

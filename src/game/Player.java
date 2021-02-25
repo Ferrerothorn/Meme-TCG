@@ -20,7 +20,7 @@ public class Player {
 	public int playsPerTurn = 2;
 	private boolean graveAbilitiesOn = true;
 	public int losses = 0;
-	static boolean debug = false;
+	static boolean debug = true;
 
 	public boolean getGraveAbilities() {
 		return graveAbilitiesOn;
@@ -80,6 +80,14 @@ public class Player {
 		}
 	}
 
+	public void shuffleBackIn() {
+		if (hand.size() > 0) {
+			Collections.sort(hand);
+			deck.add(hand.remove(hand.size()-1));
+			deck.shuffle();
+		}
+	}
+
 	public void millX(int x) {
 		for (int i = 0; i < x; i++) {
 			if (deck.size() > 0) {
@@ -105,7 +113,7 @@ public class Player {
 
 	public void makePlay(Player opponent, Boolean debug) {
 		if (hand.size() > 0) {
-			Collections.shuffle(hand);
+			Collections.sort(hand);
 			Card c = hand.remove(0);
 			grave.add(c);
 			c.onentry(this, opponent);
@@ -141,7 +149,7 @@ public class Player {
 		for (Card c : this.getDeck()) {
 			c.setCounters(0);
 		}
-		this.lifeTotal = 30;
+		this.lifeTotal = 20;
 		Collections.shuffle(this.getDeck());
 	}
 
@@ -159,10 +167,30 @@ public class Player {
 		return lifeTotal;
 	}
 
-	public int cardCount(ArrayList<Card> grave2, String string) {
+	public int cardCount(ArrayList<Card> pile, String string) {
 		int i = 0;
-		for (Card cs : grave2) {
+		for (Card cs : pile) {
 			if (cs.getName().equals(string)) {
+				i++;
+			}
+		}
+		return i;
+	}
+
+	public int colorCount(ArrayList<Card> pile, String string) {
+		int i = 0;
+		for (Card cs : pile) {
+			if (cs.getColor().equals(string)) {
+				i++;
+			}
+		}
+		return i;
+	}
+
+	public int typeCount(ArrayList<Card> pile, String string) {
+		int i = 0;
+		for (Card cs : pile) {
+			if (cs.getType().equals(string)) {
 				i++;
 			}
 		}
@@ -230,7 +258,7 @@ public class Player {
 		return false;
 	}
 
-	public int containsXCardsFromClass(ArrayList<Card> pile, String string) {
+	public int containsXCardsWithType(ArrayList<Card> pile, String string) {
 		int i = 0;
 		for (Card c : pile) {
 			if (c.getType().equals(string)) {
@@ -238,5 +266,59 @@ public class Player {
 			}
 		}
 		return i;
+	}
+
+	public boolean handContainsCardsWithType(String string) {
+		boolean contains = false;
+		for (Card c : hand) {
+			if (c.getType().equals(string)) {
+				contains = true;
+				break;
+			}
+		}
+		return contains;
+	}
+
+	public void discardAll() {
+		while (this.getHand().size() > 0) {
+			this.randomDiscard();
+		}
+	}
+
+	public void randomRFG() {
+		if (hand.size() > 0) {
+			Collections.shuffle(hand);
+			rfg.add(hand.remove(0));
+		}
+	}
+
+	public void drawX(int i) {
+		for (int count = 0; count < i; count++) {
+			draw();
+		}
+	}
+
+	public int handSize() {
+		return hand.size();
+	}
+
+	public int deckSize() {
+		return deck.size();
+	}
+
+	public void removeAllCopies(String excise, ArrayList<Card> pile) {
+		ArrayList<Card> temp = new ArrayList<Card>();
+		for (Card c : pile) {
+			if (c.getName().equals(excise)) {
+				temp.add(c);
+			}
+		}
+		rfg.addAll(temp);
+		pile.removeAll(temp);
+	}
+
+	public void recur(Card card) {
+		hand.add(card);
+		grave.remove(card);
 	}
 }

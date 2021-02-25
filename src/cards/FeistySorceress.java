@@ -7,7 +7,9 @@ public class FeistySorceress extends Card {
 
 	public FeistySorceress() {
 		this.name = "Feisty Sorceress";
-		this.setType("Spell");
+		this.setColor("Black");
+		this.setType("Creature");
+		this.setPriority(7);
 	}
 
 	@Override
@@ -31,7 +33,7 @@ public class FeistySorceress extends Card {
 			opponent.randomDiscard();
 		case 6:
 			opponent.discardAll();
-			opponent.movePile(opponent.grave, opponent.rfg);
+			opponent.movePile(opponent.rfg, opponent.grave);
 			rfgThis(self);
 			break;
 		}

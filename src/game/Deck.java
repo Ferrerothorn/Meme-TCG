@@ -79,4 +79,14 @@ public class Deck {
 		cards.removeAll(junk);
 	}
 
+	public int cardCount(ArrayList<Card> pile, String string) {
+		int i = 0;
+		for (Card cs : pile) {
+			if (cs.getName().equals(string)) {
+				i++;
+			}
+		}
+		return i;
+	}
+	
 }
